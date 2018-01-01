@@ -227,6 +227,16 @@ class DocsPress_Settings {
                     }
 
                 }).change();
+
+                $('input[name="docspress_archive[show_articles]"]:checkbox').on( 'change', function() {
+
+                    if ( $(this).is(':checked' ) ) {
+                        $('tr.articles_number').show();
+                    } else {
+                        $('tr.articles_number').hide();
+                    }
+
+                }).change();
             });
         </script>
         <?php
