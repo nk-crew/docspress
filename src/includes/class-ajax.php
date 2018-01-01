@@ -14,8 +14,6 @@ class DocsPress_Ajax {
      * Bind actions
      */
     function __construct() {
-        $this->post_type_object = get_post_type_object( 'docs' );
-
         add_action( 'wp_ajax_docspress_create_doc', array( $this, 'create_doc' ) );
         add_action( 'wp_ajax_docspress_clone_doc', array( $this, 'clone_doc' ) );
         add_action( 'wp_ajax_docspress_remove_doc', array( $this, 'remove_doc' ) );
@@ -26,6 +24,18 @@ class DocsPress_Ajax {
         // feedback
         add_action( 'wp_ajax_docspress_ajax_feedback', array( $this, 'handle_feedback' ) );
         add_action( 'wp_ajax_nopriv_docspress_ajax_feedback', array( $this, 'handle_feedback' ) );
+    }
+
+    /**
+     * Get post type object with caps.
+     *
+     * @return object
+     */
+    public function get_post_type_object() {
+        if ( $this->post_type_object ) {
+            return $this->post_type_object;
+        }
+        return $this->post_type_object = get_post_type_object( 'docs' );
     }
 
     /**
@@ -41,7 +51,7 @@ class DocsPress_Ajax {
         $parent = isset( $_POST['parent'] ) ? absint( $_POST['parent'] ) : 0;
         $order  = isset( $_POST['order'] ) ? absint( $_POST['order'] ) : 0;
 
-        if ( ! current_user_can( $this->post_type_object->cap->publish_posts ) ) {
+        if ( ! current_user_can( $this->get_post_type_object()->cap->publish_posts ) ) {
             $status = 'pending';
         }
 
@@ -66,8 +76,8 @@ class DocsPress_Ajax {
                 'name'   => $post->post_name,
                 'status' => $status,
                 'caps'   => array(
-                    'edit'   => current_user_can( $this->post_type_object->cap->edit_post, $post_id ),
-                    'delete' => current_user_can( $this->post_type_object->cap->delete_post, $post_id )
+                    'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $post_id ),
+                    'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $post_id )
                 )
             ),
             'child' => array()
@@ -115,8 +125,8 @@ class DocsPress_Ajax {
                     'name'   => $clone_from_post->post_name,
                     'status' => 'publish',
                     'caps'   => array(
-                        'edit'   => current_user_can( $this->post_type_object->cap->edit_post, $new_post_id ),
-                        'delete' => current_user_can( $this->post_type_object->cap->delete_post, $new_post_id )
+                        'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $new_post_id ),
+                        'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $new_post_id )
                     )
                 ),
                 'child' => $this->clone_child_docs($clone_from_post->ID, $new_post_id)
@@ -168,8 +178,8 @@ class DocsPress_Ajax {
                     'name'   => $clone_from_post->post_name,
                     'status' => $clone_from_post->post_status,
                     'caps'   => array(
-                        'edit'   => current_user_can( $this->post_type_object->cap->edit_post, $post_id ),
-                        'delete' => current_user_can( $this->post_type_object->cap->delete_post, $post_id )
+                        'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $post_id ),
+                        'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $post_id )
                     )
                 ),
                 'child' => $this->clone_child_docs($clone_from_post->ID, $post_id)
@@ -349,8 +359,8 @@ class DocsPress_Ajax {
                         'status' => $doc->post_status,
                         'order'  => $doc->menu_order,
                         'caps'   => array(
-                            'edit'   => current_user_can( $this->post_type_object->cap->edit_post, $doc->ID ),
-                            'delete' => current_user_can( $this->post_type_object->cap->delete_post, $doc->ID )
+                            'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $doc->ID ),
+                            'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $doc->ID )
                         )
                     ),
                     'child' => $child
