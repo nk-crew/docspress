@@ -1,0 +1,413 @@
+#docspress-app {
+    overflow: hidden;
+}
+
+.no-docspress {
+    text-align: center;
+    padding: 60px;
+    color: #777;
+
+    &.not-loaded {
+        display: none;
+    }
+
+    &:before {
+        content: "\f322";
+        display: block;
+        font-family: Dashicons;
+        font-size: 50px;
+        padding-bottom: 30px;
+        color: #ccc;
+    }
+}
+
+.docspress {
+    margin: 20px 0;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin-right: -30px;
+    margin-bottom: -30px;
+
+    &.not-loaded {
+        display: none;
+    }
+
+    &,
+    * {
+        box-sizing: border-box;
+    }
+}
+
+.docspress-item {
+    flex: 1;
+    max-width: calc(25% - 30px);
+    min-width: calc(25% - 30px);
+    position: relative;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
+    background: #fff;
+    margin-right: 30px;
+    margin-bottom: 30px;
+
+    @media screen and (max-width: 1400px) {
+        max-width: calc(33.33% - 30px);
+        min-width: calc(33.33% - 30px);
+    }
+    @media screen and (max-width: 940px) {
+        max-width: calc(50% - 30px);
+        min-width: calc(50% - 30px);
+    }
+    @media screen and (max-width: 600px) {
+        max-width: calc(100% - 30px);
+        min-width: calc(100% - 30px);
+    }
+
+    &.ui-sortable-placeholder {
+        border: 2px dashed #ccc;
+        visibility: visible !important;
+        background-color: transparent;
+    }
+
+    h3 {
+        border-bottom: 1px solid #eee;
+        font-size: 14px;
+        padding: 8px 12px;
+        margin: 0;
+        line-height: 1.4;
+        a {
+            text-decoration: none;
+        }
+
+        .docspress-row-actions {
+            float: right;
+        }
+    }
+
+    &:hover {
+        h3 {
+            .docspress-row-actions {
+                visibility: visible;
+            }
+        }
+    }
+
+    .docspress-add-section-btn {
+        display: block;
+        text-align: center;
+        padding: 7px 10px;
+        background-color: #f7f7f7;
+        border: 1px solid #eee;
+    }
+    .docspress-actions {
+        padding: 10px 0;
+        border-top: 1px solid #eee;
+        background-color: #f7f7f7;
+        text-align: center;
+
+        .button .dashicons {
+            vertical-align: middle;
+        }
+    }
+
+    .docspress-item-inner {
+        padding: 15px;
+        height: 320px;
+        overflow: auto;
+
+        li {
+            min-height: 34px;
+        }
+
+        li.article {
+            min-height: 20px;
+        }
+
+        ul {
+            &.sections {
+                padding: 0;
+                list-style: none;
+                & > li {
+                    margin-bottom: 10px;
+                    &.ui-sortable-placeholder {
+                        border: 1px dashed #ccc;
+                        visibility: visible !important;
+                    }
+                }
+                .section-title {
+                    display: block;
+                    padding: 7px 10px;
+                    background-color: #f7f7f7;
+                    border: 1px solid #eee;
+                    cursor: pointer;
+                }
+            }
+            &.articles {
+                padding: 0;
+                margin: 10px 0 10px 15px;
+                list-style: none;
+                border-left: 1px solid #eee;
+                &.collapsed {
+                    display: none;
+                }
+                li {
+                    &.article {
+                        padding: 5px 0;
+                        &:hover {
+                            .docspress-row-actions {
+                                visibility: visible;
+                            }
+                        }
+                    }
+                    &::before {
+                        content: ' ';
+                        border-top: 1px solid #eee;
+                        color: #eee;
+                        vertical-align: middle;
+                        height: 0;
+                        width: 15px;
+                        display: inline-block;
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+        a {
+            text-decoration: none;
+            width: auto;
+        }
+    }
+
+}
+
+.docspress-row-actions {
+    visibility: hidden;
+    color: #999;
+
+    a {
+        color: #999;
+    }
+
+    .dashicons {
+        height: 18px;
+        width: 18px;
+        font-size: 18px;
+    }
+
+    .dashicons:hover {
+        color: #555;
+    }
+}
+
+.doc-status {
+    background-color: #eee;
+    font-size: 11px;
+    margin-left: 5px;
+    color: #999;
+    padding: 1px 3px;
+    border-radius: 3px;
+}
+
+ul.sections {
+    .section-title {
+        .count {
+            background-color: #ddd;
+            border-radius: 50%;
+            color: #999;
+            padding: 0px;
+            width: 18px;
+            height: 18px;
+            display: inline-block;
+            text-align: center;
+            font-size: 10px;
+        }
+
+        &:hover {
+            .docspress-row-actions {
+                visibility: visible;
+            }
+        }
+    }
+
+    .actions {
+        float: right;
+    }
+}
+
+.docspress-btn-remove {
+    cursor: pointer;
+}
+
+/**
+ * SweetAlert
+ */
+.sweet-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.docspress-swal {
+    width: 400px;
+    margin-left: -220px;
+    padding: 20px;
+    border-radius: 0;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+
+    @media (max-width: 540px) {
+        width: auto;
+        margin-left: 0;
+    }
+
+    h2 {
+        color: #23282d;
+        font-size: 23px;
+        font-weight: 400;
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    input {
+        border-radius: 0;
+        padding: 3px 8px;
+        font-size: 1.7em;
+        line-height: 100%;
+        height: 1.7em;
+        outline: 0;
+        margin: 0 0 3px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+
+        &:focus {
+            border-color: #5b9dd9;
+            box-shadow: 0 0 2px rgba(30,140,190,.8);
+        }
+    }
+
+    .sa-button-container {
+        margin: -20px;
+        margin-top: 20px;
+        padding: 10px 0;
+        border-top: 1px solid #eee;
+        background-color: #f7f7f7;
+    }
+
+    .sa-icon {
+        margin-top: 0;
+        margin-bottom: 0;
+        transform: scale(0.6);
+    }
+
+    .la-ball-fall {
+        margin-top: -5px;
+    }
+    .la-ball-fall > div {
+        width: 6px;
+        height: 6px;
+        margin: 3px;
+    }
+
+    button {
+        display: inline-block;
+        text-decoration: none;
+        cursor: pointer;
+        color: #555;
+        background: #f7f7f7;
+        box-shadow: 0 1px 0 #ccc !important;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 13px;
+        line-height: 26px;
+        height: 28px;
+        margin: 0;
+        padding: 0 10px 1px;
+
+        &:hover {
+            background: #fafafa;
+            border-color: #999;
+            color: #23282d;
+        }
+
+        &:active {
+            background: #eee;
+            border-color: #999;
+            box-shadow: inset 0 2px 5px -3px rgba(0,0,0,.5) !important;
+            transform: translateY(1px);
+        }
+        &:focus,
+        &.cancel:focus {
+            border-color: #5b9dd9;
+            box-shadow: 0 0 3px rgba(0,115,170,.8) !important;
+        }
+
+        &.cancel {
+            background: #f7f7f7;
+
+            &:hover {
+                background: #fafafa;
+                border-color: #999;
+                color: #23282d;
+            }
+            &:active {
+                background: #eee;
+                border-color: #999;
+                box-shadow: inset 0 2px 5px -3px rgba(0,0,0,.5) !important;
+            }
+        }
+
+        &.confirm {
+            background: #0085ba !important;
+            border-color: #0073aa #006799 #006799 !important;
+            box-shadow: 0 1px 0 #006799 !important;
+            color: #fff !important;
+            text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799 !important;
+
+            &:hover {
+                background: #008ec2 !important;
+                border-color: #006799 !important;
+                color: #fff !important;
+            }
+            &:focus {
+                border-color: #006799 !important;
+                box-shadow: 0 1px 0 #0073aa, 0 0 2px 1px #33b3db !important;
+            }
+            &:active {
+                background: #0073aa !important;
+                border-color: #006799 !important;
+                box-shadow: inset 0 2px 0 #006799 !important;
+            }
+            &[disabled] {
+                color: transparent !important;
+                text-shadow: none !important;
+            }
+        }
+    }
+}
+
+/**
+ * Progress Bar
+ */
+.docspress-export-progress {
+    position: relative;
+    height: 12px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: -20px;
+    margin-top: 30px;
+    background-color: #f7f7f7;
+    box-shadow: inset 0 1px 1px 0 #eee;
+}
+.docspress-export-progress-bar {
+    position: absolute;
+    margin: 0;
+    width: 0;
+    height: 100%;
+    background: #0073ab;
+    background-size: 20px 20px;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    animation: docspress-export-animate-progress 5s linear infinite;
+    transition: .5s width ease-in-out;
+}
+@keyframes docspress-export-animate-progress {
+    0% { background-position: 0 0;  }
+    100% { background-position: 260px 0;  }
+}

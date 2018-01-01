@@ -1,0 +1,636 @@
+// Variables
+$color_main: #069dfd;
+$color_text_main: #575757;
+$color_text_secondary: #a7a7a7;
+
+$color_border: #eee;
+$color_border_lighten: #f9f9f9;
+$color_border_darken: #e7e7e7;
+
+$color_button: #363636;
+
+$preloader_color: rgba($color_text_main, 0.3);
+$preloader_color_inner: $color_text_main;
+$preloader_size: 30px;
+$preloader_size_inner: $preloader_size * 0.35;
+$preloader_weight: 3px;
+
+
+/**
+ * Buttons
+ */
+.docspress-btn {
+    display: inline-block;
+    font-size: 0.8em;
+    padding: 8px 20px;
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 2px;
+    color: $color_button;
+    border: 1px solid $color_border_darken;
+    background-color: #fff;
+    transition: .1s;
+
+    &,
+    &:hover,
+    &.hover,
+    &:active,
+    &.active,
+    &:focus {
+        text-decoration: none;
+    }
+    &:hover,
+    &.hover {
+        background-color: lighten($color_button, 10%);
+        border-color: lighten($color_button, 10%);
+        color: #fff;
+    }
+    &:active,
+    &.active,
+    &:focus {
+        background-color: lighten($color_button, 8%);
+        border-color: lighten($color_button, 8%);
+        color: #fff;
+    }
+
+    .badge {
+        color: #fff;
+        background-color: darken($color_border_darken, 10%);
+        border-radius: 7px;
+        padding: 0 4px;
+        min-width: 14px;
+        height: 14px;
+        font-size: 9px;
+        text-align: center;
+        margin-left: 5px;
+        margin-right: -5px;
+        line-height: 1.6;
+        float: right;
+    }
+
+    .icon {
+        position: relative;
+        font-family: monospace;
+        top: -2px;
+    }
+}
+.docspress-btn-md {
+    font-size: .85em;
+    padding: 10px 25px;
+}
+.docspress-btn-lg {
+    font-size: .9em;
+    padding: 12px 30px;
+}
+
+
+/**
+ * Main Styles
+ */
+body.single.single-docs .content-area {
+    width: 100%;
+}
+
+.docspress-sr-only {
+    clip: rect(1px, 1px, 1px, 1px);
+    overflow: hidden;
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+}
+
+/**
+ * Single Docs
+ */
+.docspress-single {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+        border-right: 1px solid $color_border;
+        border-bottom: 1px solid $color_border;
+        margin-right: -1px;
+        margin-bottom: -1px;
+    }
+
+    &.hentry {
+        padding-top: 0;
+        box-shadow: none;
+        border: 1px solid $color_border_darken;
+    }
+
+    /**
+     * Single Doc Sidebar
+     */
+    .docspress-single-sidebar {
+        position: relative;
+        flex: 1;
+        min-width: 250px;
+        background-color: $color_border_lighten;
+        padding: 40px 0;
+
+        h3.widget-title {
+            font-weight: bold;
+            margin: 0;
+            padding: 40px 30px;
+
+            + .docspress-nav-list {
+                padding-top: 0;
+                margin-top: -10px;
+            }
+        }
+
+        .docspress-nav-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.85em;
+            color: $color_text_secondary;
+
+            li {
+
+                a {
+                    color: inherit;
+                    display: block;
+                    padding: 5px 20px;
+                    text-decoration: none;
+
+                    &:hover {
+                        color: $color_main;
+                    }
+                }
+
+                ul.children {
+                    list-style: none;
+                    margin-left: 30px;
+                    padding: 0;
+                    padding-bottom: 10px;
+                    display: none;
+                }
+            }
+
+            &.docspress-nav-list-show-childs li ul.children {
+                display: block;
+            }
+
+            > li {
+                border-left: 2px solid transparent;
+
+                > a {
+                    padding-left: 30px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                }
+            }
+
+            > li li.current_page_item > a,
+            li.current_page_item > a {
+                color: $color_main;
+                font-weight: bold;
+            }
+
+            > li.current_page_parent,
+            > li.current_page_item,
+            > li.current_page_ancestor {
+                border-left-color: $color_main;
+
+                ul.children {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    /**
+     * Single Doc Content
+     */
+    .docspress-single-content {
+        position: relative;
+        flex: 3;
+        min-width: 400px;
+        padding: 40px;
+        padding-bottom: 0;
+
+        .entry-header,
+        .entry-content {
+            padding: 0;
+        }
+
+        .entry-content {
+            width: 100% !important;
+            float: none !important;
+            display: block;
+            margin-bottom: 40px;
+        }
+
+        .entry-footer {
+            display: block;
+            margin-bottom: 40px;
+            float: none;
+            width: 100%;
+            text-align: right;
+            padding: 0;
+            background-color: transparent;
+
+            time {
+                font-size: 0.9em;
+                font-weight: normal;
+                font-style: italic;
+                color: $color_text_secondary;
+            }
+        }
+    }
+
+    /**
+     * Single Doc Comments
+     */
+    .comments-area {
+        margin-top: 0;
+        margin-left: -39px;
+        margin-right: -39px;
+        padding: 40px;
+        border: none;
+        box-shadow: none;
+        border-top: 1px solid $color_border;
+    }
+
+    @media screen and (max-width: 800px) {
+        .docspress-single-sidebar,
+        .docspress-single-content {
+            max-width: 100%;
+            min-width: 100%;
+        }
+    }
+
+    // ajax loading
+    &.docspress-single-ajax-loading {
+        .docspress-single-sidebar > *,
+        .docspress-single-content > * {
+            opacity: 0.15;
+        }
+        .docspress-single-content > .docspress-preloader {
+            opacity: 1;
+        }
+    }
+}
+
+/**
+ * Single Doc Breadcrumbs
+ */
+.docspress-single-breadcrumbs {
+    font-size: 0.75em;
+    list-style: none;
+    margin-left: -39px;
+    margin-right: -39px;
+    margin-bottom: 30px;
+    margin-top: -40px;
+    padding-left: 39px;
+    padding-right: 39px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $color_border;
+    color: $color_text_secondary;
+
+    li {
+        display: inline;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .delimiter {
+        opacity: 0.5;
+    }
+
+    .delimiter:last-child {
+        display: none;
+    }
+
+    a {
+        color: inherit;
+    }
+    a:hover,
+    a:focus,
+    a:active {
+        color: $color_main;
+    }
+}
+
+/**
+ * Single Doc Adjacent Navigation
+ */
+.docspress-single-adjacent-nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 25px 39px;
+    margin: 0 -39px;
+    border-top: 1px solid $color_border;
+
+    > * {
+        flex: 1;
+    }
+
+    .nav-previous {
+        text-align: left;
+    }
+
+    .nav-next {
+        text-align: right;
+    }
+}
+
+/**
+ * Single Doc Feedback
+ */
+.docspress-single-feedback {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 15px 29px;
+    margin: 0 -39px;
+    border-top: 1px solid $color_border;
+    background-color: $color_border_lighten;
+
+    > * {
+        flex: 1;
+        padding: 10px;
+    }
+
+    .docspress-single-feedback-vote {
+        flex: none;
+        text-align: right;
+    }
+
+    &.docspress-single-feedback-loading > * {
+        opacity: 0.15;
+    }
+    &.docspress-single-feedback-loading > .docspress-preloader {
+        opacity: 1;
+    }
+
+    @media screen and (max-width: 768px) {
+        > *,
+        .docspress-single-feedback-vote {
+            flex: 0 0 100%;
+            text-align: center;
+        }
+    }
+}
+
+/**
+ * Single Doc Articles
+ */
+.docspress-single-articles {
+    ul {
+        padding-left: 0;
+        margin-left: 0;
+        list-style: none;
+
+        ul {
+            margin-left: 16px;
+        }
+
+        li {
+            font-size: 0.85em;
+
+            > a {
+                position: relative;
+                display: block;
+                padding: 2px 0;
+                padding-left: 15px;
+                transition: .1s;
+
+                &:before {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -2px;
+                    left: 0;
+                    width: 4px;
+                    height: 4px;
+                    border-radius: 2px;
+                    background-color: currentColor;
+                }
+
+                &:hover {
+                    color: $color_main;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Docs Archive
+ */
+.docspress-archive {
+    // Content on the Docs Archive page
+    .docspress-archive-description + & {
+        margin-top: 30px;
+    }
+
+    // Doc items list
+    .docspress-archive-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        width: 100%;
+
+        > .docspress-archive-list-item {
+            flex: 1 0 50%;
+            min-width: 300px;
+            margin: 0;
+            margin-right: -1px;
+            margin-bottom: -1px;
+            position: relative;
+            border: 1px solid $color_border;
+
+            a {
+                text-decoration: none;
+                transition: .1s;
+            }
+
+            > ul {
+                list-style: none;
+                margin: 0;
+                padding: 16px 20px;
+
+                a:hover {
+                    color: $color_main;
+                }
+
+                li {
+                    position: relative;
+                    font-size: 0.85em;
+
+                    > a {
+                        display: block;
+                        padding: 2px 0;
+                        padding-left: 15px;
+
+                        &:before {
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            top: 50%;
+                            margin-top: -2px;
+                            left: 0;
+                            width: 4px;
+                            height: 4px;
+                            border-radius: 2px;
+                            background-color: currentColor;
+                        }
+                    }
+
+                    &.more a:before {
+                        content: none;
+                    }
+                    &.more a {
+                        color: $color_text_secondary;
+                    }
+                    &.more a:hover {
+                        color: $color_text_main;
+                    }
+                }
+            }
+
+            .docspress-archive-list-item-title {
+                display: block;
+                border-bottom: 1px solid $color_border;
+                background-color: $color_border_lighten;
+                padding: 16px 20px;
+                margin: 0;
+                line-height: 1.4;
+
+                &:before,
+                &:after {
+                    content: '';
+                    display: block;
+                    clear: both;
+                }
+
+                img {
+                    width: 45px;
+                    height: auto;
+                    float: left;
+                    margin-right: 15px;
+                    border-radius: 4px;
+                }
+
+                span,
+                strong {
+                    position: relative;
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                span {
+                    font-size: 0.7em;
+                    top: 6px;
+                    margin-top: 2px;
+                    opacity: 0;
+                    transition: .1s color, .2s;
+                }
+
+                strong {
+                    font-size: 1em;
+                    top: -10px;
+                    transition: .1s color, .2s;
+                }
+
+                &:hover {
+                    span {
+                        top: 0;
+                        opacity: 1;
+                    }
+                    strong {
+                        top: -2px;
+                        color: $color_main;
+                    }
+                }
+            }
+
+            // inner lists
+            .docspress-archive-list-item {
+                padding: 15px;
+                min-height: 60px;
+                margin-left: 20px;
+                list-style-type: disc;
+
+                li {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Preloader block
+ */
+.docspress-preloader {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 350px;
+    opacity: 1;
+
+    > span {
+        display: block;
+        position: relative;
+        width: $preloader_size;
+        height: $preloader_size;
+        border-radius: 50%;
+        box-shadow: inset 0 0 0 $preloader_weight $preloader_color;
+
+        > span {
+            position: absolute;
+            display: block;
+            width: $preloader_size_inner;
+            height: $preloader_size_inner;
+            overflow: hidden;
+            transform-origin: $preloader_size / 2 $preloader_size / 2;
+            animation: docspress-spinner 0.7s infinite linear;
+
+            &:after {
+                content: '';
+                display: block;
+                width: $preloader_size;
+                height: $preloader_size;
+                border-radius: 50%;
+                box-shadow: inset 0 0 0 $preloader_weight $preloader_color_inner;
+            }
+        }
+    }
+
+    @keyframes docspress-spinner {
+        100% { transform: rotate(360deg) }
+    }
+}
+
+
+/**
+ * Fixes for default WP themes
+ */
+.docspress-single-sidebar .docspress-nav-list a,
+.docspress-single .docspress-single-articles a,
+.docspress-archive .docspress-archive-list a {
+    border-bottom: none;
+}
