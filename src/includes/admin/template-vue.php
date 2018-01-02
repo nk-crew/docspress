@@ -9,6 +9,7 @@
     <ul class="docspress not-loaded" v-sortable>
         <li class="docspress-item" v-for="(doc, index) in docs" :data-id="doc.post.id">
             <h3>
+                <img v-if="doc.post.thumb" :src="doc.post.thumb" :alt="doc.post.title" width="20" height="20">
                 <a v-if="doc.post.caps.edit" target="_blank" :href="editurl + doc.post.id">{{ doc.post.title }}<span v-if="doc.post.status != 'publish'" class="doc-status">{{ doc.post.status }}</span></a>
                 <span v-else>{{ doc.post.title }}<span v-if="doc.post.status != 'publish'" class="doc-status">{{ doc.post.status }}</span></span>
 

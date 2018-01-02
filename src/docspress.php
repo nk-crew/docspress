@@ -227,6 +227,7 @@ class DocsPress {
      */
     public function add_image_sizes() {
         // custom image sizes.
+        add_image_size( 'docspress_archive_sm', 20, 20, true );
         add_image_size( 'docspress_archive', 40, 40, true );
         add_filter( 'image_size_names_choose', array( $this, 'image_size_names_choose' ) );
     }
@@ -241,6 +242,7 @@ class DocsPress {
     public function image_size_names_choose( $sizes ) {
         return array_merge(
             $sizes, array(
+                'docspress_archive_sm' => esc_html__( 'Archive Thumbnail Small (DocsPress)', DOCSPRESS_DOMAIN ),
                 'docspress_archive' => esc_html__( 'Archive Thumbnail (DocsPress)', DOCSPRESS_DOMAIN ),
             )
         );

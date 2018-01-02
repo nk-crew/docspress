@@ -76,6 +76,15 @@
         padding: 8px 12px;
         margin: 0;
         line-height: 1.4;
+
+        img {
+            float: left;
+            margin-right: 10px;
+            border-radius: 3px;
+            height: 20px;
+            width: auto;
+        }
+
         a {
             text-decoration: none;
         }
