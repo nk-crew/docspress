@@ -19,7 +19,7 @@ $articles_count = count($articles);
 ?>
 
 <a href="<?php the_permalink(); ?>" class="docspress-archive-list-item-title">
-    <?php the_post_thumbnail( 'thumbnail' ); ?>
+    <?php the_post_thumbnail( array( 40, 40 ) ); ?>
     <span>
         <span><?php printf( _n( '%s Article', '%s Articles', $articles_count, DOCSPRESS_DOMAIN ), $articles_count ); ?></span>
         <strong><?php the_title(); ?></strong>

@@ -137,6 +137,8 @@ class DocsPress {
 
         $this->maybe_setup();
 
+        $this->add_image_sizes();
+
         // load textdomain.
         load_plugin_textdomain( DOCSPRESS_DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
 
@@ -218,6 +220,30 @@ class DocsPress {
 
             delete_option( 'docspress_setup' );
         }
+    }
+
+    /**
+     * Add image sizes.
+     */
+    public function add_image_sizes() {
+        // custom image sizes.
+        add_image_size( 'docspress_archive', 40, 40, true );
+        add_filter( 'image_size_names_choose', array( $this, 'image_size_names_choose' ) );
+    }
+
+    /**
+     * Custom image sizes
+     *
+     * @param array $sizes - registered image sizes.
+     *
+     * @return array
+     */
+    public function image_size_names_choose( $sizes ) {
+        return array_merge(
+            $sizes, array(
+                'docspress_archive' => esc_html__( 'Archive Thumbnail (DocsPress)', DOCSPRESS_DOMAIN ),
+            )
+        );
     }
 
     /**
