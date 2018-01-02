@@ -447,7 +447,7 @@ body.single.single-docs .content-area {
         width: 100%;
 
         > .docspress-archive-list-item {
-            flex: 1 0 50%;
+            flex: 1 0 25%;
             min-width: 300px;
             margin: 0;
             margin-right: -1px;
@@ -505,10 +505,12 @@ body.single.single-docs .content-area {
             }
 
             .docspress-archive-list-item-title {
-                display: block;
+                display: flex;
+                align-items: center;
                 border-bottom: 1px solid $color_border;
                 background-color: $color_border_lighten;
                 padding: 16px 20px;
+                min-height: 73px;
                 margin: 0;
                 line-height: 1.4;
 
@@ -520,43 +522,54 @@ body.single.single-docs .content-area {
                 }
 
                 img {
-                    width: 45px;
+                    width: 40px;
                     height: auto;
                     float: left;
                     margin-right: 15px;
                     border-radius: 4px;
+
+                    & + span {
+                        max-width: calc(100% - 55px); // 40 + 15
+                    }
                 }
 
-                span,
-                strong {
+                > span {
                     position: relative;
-                    display: block;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                }
+                    max-width: 100%;
+                    flex: 1;
 
-                span {
-                    font-size: 0.7em;
-                    top: 6px;
-                    margin-top: 2px;
-                    opacity: 0;
-                    transition: .1s color, .2s;
-                }
+                    span,
+                    strong {
+                        position: relative;
+                        display: block;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        width: 100%;
+                    }
 
-                strong {
-                    font-size: 1em;
-                    top: -10px;
-                    transition: .1s color, .2s;
-                }
-
-                &:hover {
                     span {
+                        position: absolute;
+                        font-size: 0.7em;
+                        top: 50%;
+                        opacity: 0;
+                        transform: translateY(-50%);
+                        transition: .1s color, .2s;
+                    }
+
+                    strong {
                         top: 0;
+                        font-size: 1em;
+                        transition: .1s color, .2s;
+                    }
+                }
+                &:hover > span {
+                    span {
+                        margin-top: -10px;
                         opacity: 1;
                     }
                     strong {
-                        top: -2px;
+                        top: 8px;
                         color: $color_main;
                     }
                 }
