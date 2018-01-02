@@ -14,6 +14,8 @@ Online Products Documentation.
 
 Online documentation manager for your multiple products. Create and manage your documentations in WordPress admin panel.
 
+See **Online Demo** here - [https://demo.nkdev.info/#docspress](https://demo.nkdev.info/#docspress)
+
 
 = Features =
 * Multiple products support
@@ -42,12 +44,10 @@ The manual installation method involves downloading our DocsPress plugin and upl
 
 == Screenshots ==
 
-1. Insert shortcode in default editor
-2. Shortcode maker p.1
-3. Shortcode maker p.2
-4. Shortcode maker video
-5. Shortcode maker styles tab
-6. Extended Visual Composer ROW options
+1. Documentations Archive
+2. Documentation
+3. Documentations Admin
+4. Documentations Admin Classic UI
 
 
 
