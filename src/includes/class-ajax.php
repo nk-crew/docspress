@@ -74,6 +74,7 @@ class DocsPress_Ajax {
                 'id'     => $post_id,
                 'title'  => $title,
                 'name'   => $post->post_name,
+                'thumb'  => get_the_post_thumbnail_url( $post, 'docspress_archive_sm' ),
                 'status' => $status,
                 'caps'   => array(
                     'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $post_id ),
@@ -104,6 +105,8 @@ class DocsPress_Ajax {
                 wp_send_json_error();
             }
 
+            $clone_post_meta = get_post_custom($clone_from_post->ID);
+
             $new_post_id = wp_insert_post( array(
                 'post_title'  => $title,
                 'post_type'   => 'docs',
@@ -111,11 +114,21 @@ class DocsPress_Ajax {
                 'post_content' => $clone_from_post->post_content,
                 'post_content_filtered' => $clone_from_post->post_content_filtered,
                 'post_excerpt' => $clone_from_post->post_excerpt,
-                'post_author' => get_current_user_id()
+                'post_author' => get_current_user_id(),
+                'comment_status' => $clone_from_post->comment_status,
+                'ping_status'    => $clone_from_post->ping_status,
+                'to_ping'        => $clone_from_post->to_ping,
             ) );
 
             if (is_wp_error($new_post_id)) {
                 wp_send_json_error();
+            }
+
+            // Copy post metadata
+            foreach ( $clone_post_meta as $key => $values) {
+                foreach ($values as $value) {
+                    add_post_meta( $new_post_id, $key, $value );
+                }
             }
 
             $result = array(
@@ -123,6 +136,7 @@ class DocsPress_Ajax {
                     'id'     => $new_post_id,
                     'title'  => $title,
                     'name'   => $clone_from_post->post_name,
+                    'thumb'  => get_the_post_thumbnail_url( $new_post_id, 'docspress_archive_sm' ),
                     'status' => 'publish',
                     'caps'   => array(
                         'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $new_post_id ),
@@ -154,7 +168,9 @@ class DocsPress_Ajax {
                 wp_send_json_error();
             }
 
-            $post_id = wp_insert_post( array(
+            $clone_post_meta = get_post_custom($clone_from_post->ID);
+
+            $new_post_id = wp_insert_post( array(
                 'post_title'  => $clone_from_post->post_title,
                 'post_type'   => $clone_from_post->post_type,
                 'post_status' => $clone_from_post->post_status,
@@ -163,26 +179,37 @@ class DocsPress_Ajax {
                 'post_excerpt' => $clone_from_post->post_excerpt,
                 'post_author' => get_current_user_id(),
                 'post_parent' => $clone_to,
-                'menu_order' => $clone_from_post->menu_order
+                'menu_order' => $clone_from_post->menu_order,
+                'comment_status' => $clone_from_post->comment_status,
+                'ping_status'    => $clone_from_post->ping_status,
+                'to_ping'        => $clone_from_post->to_ping,
             ) );
 
-            if (is_wp_error($post_id)) {
+            if (is_wp_error($new_post_id)) {
                 wp_send_json_error();
+            }
+
+            // Copy post metadata
+            foreach ( $clone_post_meta as $key => $values) {
+                foreach ($values as $value) {
+                    add_post_meta( $new_post_id, $key, $value );
+                }
             }
 
             // add new subitems
             $result[] = array(
                 'post' => array(
-                    'id'     => $post_id,
+                    'id'     => $new_post_id,
                     'title'  => $clone_from_post->post_title,
                     'name'   => $clone_from_post->post_name,
+                    'thumb'  => get_the_post_thumbnail_url( $new_post_id, 'docspress_archive_sm' ),
                     'status' => $clone_from_post->post_status,
                     'caps'   => array(
-                        'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $post_id ),
-                        'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $post_id )
+                        'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $new_post_id ),
+                        'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $new_post_id )
                     )
                 ),
-                'child' => $this->clone_child_docs($clone_from_post->ID, $post_id)
+                'child' => $this->clone_child_docs($clone_from_post->ID, $new_post_id)
             );
         endwhile;
         wp_reset_postdata();
@@ -357,6 +384,7 @@ class DocsPress_Ajax {
                         'title'  => $doc->post_title,
                         'name'   => $doc->post_name,
                         'status' => $doc->post_status,
+                        'thumb'  => get_the_post_thumbnail_url( $doc, 'docspress_archive_sm' ),
                         'order'  => $doc->menu_order,
                         'caps'   => array(
                             'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $doc->ID ),
