@@ -69,8 +69,12 @@ class DocsPress_Template_Loader {
 
         if ( is_singular( 'docs' ) ) {
             $default_file = 'single.php';
+
+            docspress()->is_single = true;
         } else if ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) {
             $default_file = 'archive.php';
+
+            docspress()->is_archive = true;
 
             // Add query for page docs
             global $wp_query;

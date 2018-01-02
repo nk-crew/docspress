@@ -93,6 +93,20 @@ class DocsPress {
     public $post_type = 'docs';
 
     /**
+     * Current Page - is Docs Archive. Will be changed from Template Loader class
+     *
+     * @var $post_type
+     */
+    public $is_archive = false;
+
+    /**
+     * Current Page - is Docs Single. Will be changed from Template Loader class
+     *
+     * @var $post_type
+     */
+    public $is_single = false;
+
+    /**
      * Main Instance
      * Ensures only one instance of this class exists in memory at any one time.
      */
@@ -347,6 +361,24 @@ class DocsPress {
         if ( $template ) {
             load_template( $template, false );
         }
+    }
+
+    /**
+     * Is Archive
+     *
+     * @return bool
+     */
+    public function is_archive () {
+        return $this->is_archive;
+    }
+
+    /**
+     * Is Single
+     *
+     * @return bool
+     */
+    public function is_single () {
+        return $this->is_single;
     }
 
     /**
