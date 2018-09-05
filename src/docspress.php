@@ -119,10 +119,10 @@ class DocsPress {
     }
 
     function plugin_init() {
-        $data = get_file_data(__FILE__, [
+        $data = get_file_data(__FILE__, array(
             'Name' => 'Name',
             'Version' => 'Version',
-        ], 'plugin');
+        ), 'plugin');
 
         $this->plugin_name = $data['Name'];
         $this->plugin_version = $data['Version'];
