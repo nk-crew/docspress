@@ -1,13 +1,13 @@
 // Variables
 $color_main: #069dfd;
-$color_text_main: #575757;
+$color_text_main: #47484a;
 $color_text_secondary: #a7a7a7;
 
 $color_border: #eee;
 $color_border_lighten: #f9f9f9;
 $color_border_darken: #e7e7e7;
 
-$color_button: #363636;
+$color_button: #2f3035;
 
 $preloader_color: rgba($color_text_main, 0.3);
 $preloader_color_inner: $color_text_main;
@@ -113,17 +113,9 @@ body.single.single-docs .content-area {
     display: flex;
     flex-wrap: wrap;
 
-    > * {
-        border-right: 1px solid $color_border;
-        border-bottom: 1px solid $color_border;
-        margin-right: -1px;
-        margin-bottom: -1px;
-    }
-
     &.hentry {
         padding-top: 0;
         box-shadow: none;
-        border: 1px solid $color_border_darken;
     }
 
     /**
@@ -133,8 +125,8 @@ body.single.single-docs .content-area {
         position: relative;
         flex: 1;
         min-width: 250px;
-        background-color: $color_border_lighten;
-        padding: 40px 0;
+        border-right: 1px solid $color_border;
+        padding-bottom: 40px;
 
         h3.widget-title {
             font-weight: bold;
@@ -152,14 +144,47 @@ body.single.single-docs .content-area {
             margin: 0;
             padding: 0;
             font-size: 0.85em;
-            color: $color_text_secondary;
+            color: $color_text_main;
+
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+
+            body.admin-bar & {
+                top: calc(20px + 32px);
+                max-height: calc(100vh - 40px - 32px);
+        
+                @media screen and (max-width: 782px) {
+                    top: calc(20px + 42px);
+                    max-height: calc(100vh - 40px - 42px);
+                }
+                @media screen and (max-width: 600px) {
+                    top: 20px;
+                    max-height: calc(100vh - 40px);
+                }
+            }
+
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: #47484a;
+                border-radius: 3px;
+            }
+            &::-webkit-scrollbar-track {
+                background: #eee;
+            }
 
             li {
 
                 a {
                     color: inherit;
                     display: block;
-                    padding: 5px 20px;
+                    padding: 3px 20px;
+                    padding-left: 0;
+                    font-weight: 600;
                     text-decoration: none;
 
                     &:hover {
@@ -169,10 +194,14 @@ body.single.single-docs .content-area {
 
                 ul.children {
                     list-style: none;
-                    margin-left: 30px;
+                    margin-left: 15px;
                     padding: 0;
                     padding-bottom: 10px;
                     display: none;
+
+                    a {
+                        font-weight: 400;
+                    }
                 }
             }
 
@@ -181,12 +210,9 @@ body.single.single-docs .content-area {
             }
 
             > li {
-                border-left: 2px solid transparent;
-
                 > a {
-                    padding-left: 30px;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
+                    padding-top: 7px;
+                    padding-bottom: 7px;
                 }
             }
 
@@ -199,7 +225,7 @@ body.single.single-docs .content-area {
             > li.current_page_parent,
             > li.current_page_item,
             > li.current_page_ancestor {
-                border-left-color: $color_main;
+                box-shadow: 1px 0 $color_main;
 
                 ul.children {
                     display: block;
@@ -238,6 +264,12 @@ body.single.single-docs .content-area {
             text-align: right;
             padding: 0;
             background-color: transparent;
+
+            // fix for some themes
+            body:not(.search-results) & {
+                float: none;
+                width: 100%;
+            }
 
             time {
                 font-size: 0.9em;
@@ -289,23 +321,26 @@ body.single.single-docs .content-area {
     list-style: none;
     margin-left: -39px;
     margin-right: -39px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     margin-top: -40px;
     padding-left: 39px;
     padding-right: 39px;
     padding-top: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid $color_border;
-    color: $color_text_secondary;
+    color: $color_text_main;
 
     li {
         display: inline;
         margin-left: 5px;
         margin-right: 5px;
+
+        &:last-of-type {
+            color: $color_text_secondary;
+        }
     }
 
     .delimiter {
-        opacity: 0.5;
+        opacity: 0.2;
     }
 
     .delimiter:last-child {
@@ -356,7 +391,6 @@ body.single.single-docs .content-area {
     padding: 15px 29px;
     margin: 0 -39px;
     border-top: 1px solid $color_border;
-    background-color: $color_border_lighten;
 
     > * {
         flex: 1;
