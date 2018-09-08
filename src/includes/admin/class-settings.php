@@ -101,21 +101,6 @@ class DocsPress_Settings {
                     'default' => 'on',
                 ),
                 array(
-                    'name'    => 'ajax',
-                    'label'   => __( 'AJAX loading', '@@text_domain' ),
-                    'type'    => 'checkbox',
-                    'default' => 'on',
-                ),
-                array(
-                    'name'    => 'ajax_custom_js',
-                    'label'   => __( 'AJAX custom JS', '@@text_domain' ),
-                    'desc'    => __( 'Run custom JS after document loaded via AJAX', '@@text_domain' ),
-                    'type'    => 'textarea',
-                    'size'    => 'large',
-                    'default' => "/*\n * New page content loaded via ajax you can get in variable 'new_page'\n * Example: console.log(new_page);\n */",
-                ),
-
-                array(
                     'name'    => 'sidebar',
                     'label'   => __( 'Sidebar', '@@text_domain' ),
                     'type'    => 'html',
@@ -133,6 +118,21 @@ class DocsPress_Settings {
                     'desc'    => __( 'Show in the title of parent link the number of childs', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
+                ),
+
+                array(
+                    'name'    => 'ajax',
+                    'label'   => __( 'AJAX loading', '@@text_domain' ),
+                    'type'    => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
+                    'name'    => 'ajax_custom_js',
+                    'label'   => __( 'AJAX custom JS', '@@text_domain' ),
+                    'desc'    => __( 'Run custom JS after document loaded via AJAX', '@@text_domain' ),
+                    'type'    => 'textarea',
+                    'size'    => 'large',
+                    'default' => "/*\n * New page content loaded via ajax you can get in variable 'new_page'\n * Example: console.log(new_page);\n */",
                 ),
             ),
             'docspress_archive' => array(
