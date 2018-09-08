@@ -81,7 +81,7 @@ class DocsPress_Ajax {
             array(
                 'post' => array(
                     'id'     => $post_id,
-                    'title'  => $title,
+                    'title'  => stripslashes( $title ),
                     'name'   => $post->post_name,
                     'thumb'  => get_the_post_thumbnail_url( $post, 'docspress_archive_sm' ),
                     'status' => $status,
