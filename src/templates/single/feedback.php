@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/docspress/single/feedback.php.
  *
  * @author  nK
- * @package DocsPress/Templates
+ * @package @@plugin_name/Templates
  * @version 1.0.0
  */
 
@@ -23,27 +23,30 @@ if ( ! docspress()->get_option( 'show_feedback_buttons', 'docspress_single', tru
     $positive = (int) get_post_meta( get_the_ID(), 'positive', true );
     $negative = (int) get_post_meta( get_the_ID(), 'negative', true );
 
-    $positive_title = $positive ? sprintf( _n( '%d person found this useful', '%d persons found this useful', $positive, DOCSPRESS_DOMAIN ), number_format_i18n( $positive ) ) : __( 'No votes yet', DOCSPRESS_DOMAIN );
-    $negative_title = $negative ? sprintf( _n( '%d person found this not useful', '%d persons found this not useful', $negative, DOCSPRESS_DOMAIN ), number_format_i18n( $negative ) ) : __( 'No votes yet', DOCSPRESS_DOMAIN );
+    // translators: %s - likes number.
+    $positive_title = $positive ? sprintf( _n( '%d person found this useful', '%d persons found this useful', $positive, '@@text_domain' ), number_format_i18n( $positive ) ) : __( 'No votes yet', '@@text_domain' );
+
+    // translators: %s - dislikes number.
+    $negative_title = $negative ? sprintf( _n( '%d person found this not useful', '%d persons found this not useful', $negative, '@@text_domain' ), number_format_i18n( $negative ) ) : __( 'No votes yet', '@@text_domain' );
     ?>
 
     <div>
-        <?php _e( 'Was this helpful to you?', DOCSPRESS_DOMAIN ); ?>
+        <?php echo esc_html__( 'Was this helpful to you?', '@@text_domain' ); ?>
     </div>
 
     <div class="docspress-single-feedback-vote">
         <a href="#" class="docspress-btn" data-id="<?php the_ID(); ?>" data-type="positive" title="<?php echo esc_attr( $positive_title ); ?>">
-            <?php _e( 'Yes', DOCSPRESS_DOMAIN ); ?>
+            <?php echo esc_html__( 'Yes', '@@text_domain' ); ?>
 
             <?php if ( $positive ) { ?>
-                <span class="badge"><?php echo number_format_i18n( $positive ); ?></span>
+                <span class="badge"><?php echo esc_html( number_format_i18n( $positive ) ); ?></span>
             <?php } ?>
         </a>
         <a href="#" class="docspress-btn" data-id="<?php the_ID(); ?>" data-type="negative" title="<?php echo esc_attr( $negative_title ); ?>">
-            <?php _e( 'No', DOCSPRESS_DOMAIN ); ?>
+            <?php echo esc_html__( 'No', '@@text_domain' ); ?>
 
             <?php if ( $negative ) { ?>
-                <span class="badge"><?php echo number_format_i18n( $negative ); ?></span>
+                <span class="badge"><?php echo esc_html( number_format_i18n( $negative ) ); ?></span>
             <?php } ?>
         </a>
     </div>

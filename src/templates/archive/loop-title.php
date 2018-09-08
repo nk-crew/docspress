@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/docspress/archive/loop-title.php.
  *
  * @author  nK
- * @package DocsPress/Templates
+ * @package @@plugin_name/Templates
  * @version 1.0.0
  */
 
@@ -13,15 +13,25 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$articles = get_pages( array( 'child_of' => get_the_ID(), 'post_type' => 'docs'));
-$articles_count = count($articles);
+$articles = get_pages(
+    array(
+        'child_of' => get_the_ID(),
+        'post_type' => 'docs',
+    )
+);
+$articles_count = count( $articles );
 
 ?>
 
 <a href="<?php the_permalink(); ?>" class="docspress-archive-list-item-title">
     <?php the_post_thumbnail( 'docspress_archive' ); ?>
     <span>
-        <span><?php printf( _n( '%s Article', '%s Articles', $articles_count, DOCSPRESS_DOMAIN ), $articles_count ); ?></span>
+        <span>
+            <?php
+            // translators: %s articles count.
+            printf( esc_html( _n( '%s Article', '%s Articles', $articles_count, '@@text_domain' ) ), esc_html( $articles_count ) );
+            ?>
+        </span>
         <strong><?php the_title(); ?></strong>
     </span>
 </a>

@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/docspress/archive.php.
  *
  * @author  nK
- * @package DocsPress/Templates
+ * @package @@plugin_name/Templates
  * @version 1.0.0
  */
 
@@ -27,11 +27,11 @@ docspress()->get_template_part( 'global/wrap-start' );
             <ul class="docspress-archive-list">
                 <?php
                 if ( have_posts() ) :
-                    while ( have_posts() ) : the_post();
+                    while ( have_posts() ) :
+                        the_post();
                         ?>
                         <li class="docspress-archive-list-item">
                             <?php docspress()->get_template_part( 'archive/loop-title' ); ?>
-
                             <?php docspress()->get_template_part( 'archive/loop-articles' ); ?>
                         </li>
                         <?php
@@ -42,10 +42,12 @@ docspress()->get_template_part( 'global/wrap-start' );
         </div>
 
         <?php
-            wp_link_pages( array(
-                'before' => '<div class="page-links">' . __( 'Pages:', DOCSPRESS_DOMAIN ),
-                'after'  => '</div>',
-            ) );
+            wp_link_pages(
+                array(
+                    'before' => '<div class="page-links">' . __( 'Pages:', '@@text_domain' ),
+                    'after'  => '</div>',
+                )
+            );
         ?>
     </div>
 </article>

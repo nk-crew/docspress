@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/docspress/global/wrap-end.php.
  *
  * @author  nK
- * @package DocsPress/Templates
+ * @package @@plugin_name/Templates
  * @version 1.0.0
  */
 

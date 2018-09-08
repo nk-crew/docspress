@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/docspress/single.php.
  *
  * @author  nK
- * @package DocsPress/Templates
+ * @package @@plugin_name/Templates
  * @version 1.0.0
  */
 
@@ -15,9 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 docspress()->get_template_part( 'global/wrap-start' );
 
-while ( have_posts() ) : the_post(); ?>
+while ( have_posts() ) :
+    the_post(); ?>
 
-    <article id="post-<?php the_ID(); ?>" <?php post_class( 'docspress-single' . (docspress()->get_option( 'ajax', 'docspress_single', true ) ? ' docspress-single-ajax' : '') ); ?>>
+    <article id="post-<?php the_ID(); ?>" <?php post_class( 'docspress-single' . ( docspress()->get_option( 'ajax', 'docspress_single', true ) ? ' docspress-single-ajax' : '' ) ); ?>>
 
         <?php docspress()->get_template_part( 'single/sidebar' ); ?>
 
@@ -32,10 +33,12 @@ while ( have_posts() ) : the_post(); ?>
                 <?php
                 the_content();
 
-                wp_link_pages( array(
-                    'before' => '<div class="page-links">' . esc_html__( 'Pages:', DOCSPRESS_DOMAIN ),
-                    'after'  => '</div>',
-                ) );
+                wp_link_pages(
+                    array(
+                        'before' => '<div class="page-links">' . esc_html__( 'Pages:', '@@text_domain' ),
+                        'after'  => '</div>',
+                    )
+                );
 
                 docspress()->get_template_part( 'single/content-articles' );
                 ?>

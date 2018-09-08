@@ -5,7 +5,7 @@
  * This template can be overridden by copying it to yourtheme/docspress/archive/loop-articles.php.
  *
  * @author  nK
- * @package DocsPress/Templates
+ * @package @@plugin_name/Templates
  * @version 1.0.0
  */
 
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $show = docspress()->get_option( 'show_articles', 'docspress_archive', true );
 $articles_number = docspress()->get_option( 'articles_number', 'docspress_archive', 3 );
 
-if ( $articles_number == -1 ) {
+if ( -1 === $articles_number ) {
     $articles_number = 9999;
 }
 
@@ -24,12 +24,17 @@ if ( ! $show || $articles_number < 1 ) {
     return;
 }
 
-$top_articles = new WP_Query( array(
-    'post_type'      => 'docs',
-    'posts_per_page' => -1,
-    'post_parent'    => get_the_ID(),
-    'orderby'        => array( 'menu_order' => 'ASC', 'date' => 'DESC' ),
-) );
+$top_articles = new WP_Query(
+    array(
+        'post_type'      => 'docs',
+        'posts_per_page' => -1, // phpcs:ignore
+        'post_parent'    => get_the_ID(),
+        'orderby'        => array(
+            'menu_order' => 'ASC',
+            'date' => 'DESC',
+        ),
+    )
+);
 $parent_link = get_permalink();
 
 $count = 0;
@@ -37,8 +42,10 @@ $count = 0;
 if ( $top_articles->have_posts() ) : ?>
 
     <ul>
-        <?php while ( $top_articles->have_posts() ) : $top_articles->the_post();
-            if ($count >= $articles_number) {
+        <?php
+        while ( $top_articles->have_posts() ) :
+            $top_articles->the_post();
+            if ( $count >= $articles_number ) {
                 break;
             }
             $count++;
@@ -49,8 +56,16 @@ if ( $top_articles->have_posts() ) : ?>
         <?php endwhile; ?>
 
         <?php if ( $top_articles->post_count > $articles_number ) : ?>
-            <li class="more"><a href="<?php echo esc_url( $parent_link ); ?>"><?php printf( esc_html__( '+%s More', DOCSPRESS_DOMAIN ), intval( $top_articles->post_count ) - $articles_number ); ?></a></li>
+            <li class="more">
+                <a href="<?php echo esc_url( $parent_link ); ?>">
+                    <?php
+                    // translators: %s articles count.
+                    printf( esc_html__( '+%s More', '@@text_domain' ), intval( $top_articles->post_count ) - $articles_number );
+                    ?>
+                </a>
+            </li>
         <?php endif; ?>
     </ul>
 
-<?php endif; wp_reset_postdata(); ?>
+<?php endif;
+wp_reset_postdata(); ?>

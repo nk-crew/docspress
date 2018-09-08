@@ -1,6 +1,20 @@
-<div class="wrap" id="docspress-app">
+<?php
+/**
+ * Vue template.
+ *
+ * @package @@plugin_name
+ */
 
-    <h1><?php _e( 'Documentations', DOCSPRESS_DOMAIN ); ?> <a class="page-title-action" href="#" v-on:click.prevent="addDoc"><?php _e( 'Add Doc', DOCSPRESS_DOMAIN ); ?></a></h1>
+?>
+<div class="wrap" id="docspress-app">
+    <h1>
+        <?php
+        echo esc_html__( 'Documentations', '@@text_domain' );
+        ?>
+        <a class="page-title-action" href="#" v-on:click.prevent="addDoc">
+            <?php echo esc_html__( 'Add Doc', '@@text_domain' ); ?>
+        </a>
+    </h1>
 
     <!-- <pre>{{ $data | json }}</pre> -->
 
@@ -14,8 +28,8 @@
                 <span v-else>{{ doc.post.title }}<span v-if="doc.post.status != 'publish'" class="doc-status">{{ doc.post.status }}</span></span>
 
                 <span class="docspress-row-actions">
-                    <a target="_blank" :href="viewurl + doc.post.id" title="<?php esc_attr_e( 'Preview the doc', DOCSPRESS_DOMAIN ); ?>"><span class="dashicons dashicons-external"></span></a>
-                    <span v-if="doc.post.caps.delete" class="docspress-btn-remove" v-on:click="removeDoc(index, docs)" title="<?php esc_attr_e( 'Delete this doc', DOCSPRESS_DOMAIN ); ?>"><span class="dashicons dashicons-trash"></span></span>
+                    <a target="_blank" :href="viewurl + doc.post.id" title="<?php esc_attr_e( 'Preview the doc', '@@text_domain' ); ?>"><span class="dashicons dashicons-external"></span></a>
+                    <span v-if="doc.post.caps.delete" class="docspress-btn-remove" v-on:click="removeDoc(index, docs)" title="<?php esc_attr_e( 'Delete this doc', '@@text_domain' ); ?>"><span class="dashicons dashicons-trash"></span></span>
                 </span>
             </h3>
 
@@ -27,9 +41,9 @@
                             <span v-else>{{ section.post.title }}<span v-if="section.post.status != 'publish'" class="doc-status">{{ section.post.status }}</span> <span v-if="section.child.length > 0" class="count">{{ section.child.length }}</span></span>
 
                             <span class="actions docspress-row-actions">
-                                <a target="_blank" :href="viewurl + section.post.id" title="<?php esc_attr_e( 'Preview the section', DOCSPRESS_DOMAIN ); ?>"><span class="dashicons dashicons-external"></span></a>
-                                <span class="docspress-btn-remove" v-if="section.post.caps.delete" v-on:click="removeSection(index, doc.child)" title="<?php esc_attr_e( 'Delete this section', DOCSPRESS_DOMAIN ); ?>"><span class="dashicons dashicons-trash"></span></span>
-                                <span class="add-article" v-on:click="addArticle(section,$event)" title="<?php esc_attr_e( 'Add a new article', DOCSPRESS_DOMAIN ); ?>"><span class="dashicons dashicons-plus-alt"></span></span>
+                                <a target="_blank" :href="viewurl + section.post.id" title="<?php esc_attr_e( 'Preview the section', '@@text_domain' ); ?>"><span class="dashicons dashicons-external"></span></a>
+                                <span class="docspress-btn-remove" v-if="section.post.caps.delete" v-on:click="removeSection(index, doc.child)" title="<?php esc_attr_e( 'Delete this section', '@@text_domain' ); ?>"><span class="dashicons dashicons-trash"></span></span>
+                                <span class="add-article" v-on:click="addArticle(section,$event)" title="<?php esc_attr_e( 'Add a new article', '@@text_domain' ); ?>"><span class="dashicons dashicons-plus-alt"></span></span>
                             </span>
                         </span>
 
@@ -39,8 +53,8 @@
                                 <span v-else>{{ article.post.title }}</span>
 
                                 <span class="actions docspress-row-actions">
-                                    <a target="_blank" :href="viewurl + article.post.id" title="<?php esc_attr_e( 'Preview the article', DOCSPRESS_DOMAIN ); ?>"><span class="dashicons dashicons-external"></span></a>
-                                    <span class="docspress-btn-remove" v-if="article.post.caps.delete" v-on:click="removeArticle(index, section.child)" title="<?php esc_attr_e( 'Delete this article', DOCSPRESS_DOMAIN ); ?>"><span class="dashicons dashicons-trash"></span></span>
+                                    <a target="_blank" :href="viewurl + article.post.id" title="<?php esc_attr_e( 'Preview the article', '@@text_domain' ); ?>"><span class="dashicons dashicons-external"></span></a>
+                                    <span class="docspress-btn-remove" v-if="article.post.caps.delete" v-on:click="removeArticle(index, section.child)" title="<?php esc_attr_e( 'Delete this article', '@@text_domain' ); ?>"><span class="dashicons dashicons-trash"></span></span>
                                 </span>
                             </li>
                         </ul>
@@ -50,14 +64,17 @@
             </div>
 
             <div class="docspress-actions">
-                <a class="button" href="#" v-on:click.prevent="cloneDoc(doc)"><?php _e( 'Clone', DOCSPRESS_DOMAIN ); ?></a>
-                <a class="button" href="#" v-on:click.prevent="exportDoc(doc)"><?php _e( 'Export as HTML', DOCSPRESS_DOMAIN ); ?></a>
+                <a class="button" href="#" v-on:click.prevent="cloneDoc(doc)"><?php echo esc_html__( 'Clone', '@@text_domain' ); ?></a>
+                <a class="button" href="#" v-on:click.prevent="exportDoc(doc)"><?php echo esc_html__( 'Export as HTML', '@@text_domain' ); ?></a>
             </div>
         </li>
     </ul>
 
     <div class="no-docspress not-loaded" v-show="!docs.length">
-        <?php printf( __( 'No documentations has been found. Perhaps %s?', DOCSPRESS_DOMAIN ), '<a href="#" v-on:click.prevent="addDoc">' . __( 'create one', DOCSPRESS_DOMAIN ) . '</a>' ); ?>
+        <?php
+        // translators: %s - link.
+        printf( esc_html__( 'No documentations has been found. Perhaps %s?', '@@text_domain' ), '<a href="#" v-on:click.prevent="addDoc">' . esc_html__( 'create one', '@@text_domain' ) . '</a>' );
+        ?>
     </div>
 
 </div>

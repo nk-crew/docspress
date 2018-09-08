@@ -1,41 +1,42 @@
 <?php
+/**
+ * Settings.
+ *
+ * @package @@plugin_name
+ */
 
 /**
  * Settings Class
- *
- * @since 1.1
  */
 class DocsPress_Settings {
-
+    /**
+     * Construct
+     */
     public function __construct() {
         $this->settings_api = new DocsPress_Settings_API();
 
-        add_action( 'admin_init', array($this, 'admin_init') );
-        add_action( 'admin_menu', array($this, 'admin_menu') );
+        add_action( 'admin_init', array( $this, 'admin_init' ) );
+        add_action( 'admin_menu', array( $this, 'admin_menu' ) );
     }
 
     /**
      * Initialize the settings
-     *
-     * @return void
      */
-    function admin_init() {
+    public function admin_init() {
 
-        //set the settings
+        // set the settings.
         $this->settings_api->set_sections( $this->get_settings_sections() );
         $this->settings_api->set_fields( $this->get_settings_fields() );
 
-        //initialize settings
+        // initialize settings.
         $this->settings_api->admin_init();
     }
 
     /**
      * Register the admin settings menu
-     *
-     * @return void
      */
-    function admin_menu() {
-        add_submenu_page( DOCSPRESS_DOMAIN, __( 'DocsPress Settings', DOCSPRESS_DOMAIN ), __( 'Settings', DOCSPRESS_DOMAIN ), 'manage_options', 'docspress-settings', array( $this, 'plugin_page' ) );
+    public function admin_menu() {
+        add_submenu_page( '@@text_domain', __( 'DocsPress Settings', '@@text_domain' ), __( 'Settings', '@@text_domain' ), 'manage_options', 'docspress-settings', array( $this, 'plugin_page' ) );
     }
 
     /**
@@ -43,23 +44,23 @@ class DocsPress_Settings {
      *
      * @return array
      */
-    function get_settings_sections() {
+    public function get_settings_sections() {
         $sections = array(
             array(
                 'id'    => 'docspress_settings',
-                'title' => __( 'General', DOCSPRESS_DOMAIN )
+                'title' => __( 'General', '@@text_domain' ),
             ),
             array(
                 'id'    => 'docspress_single',
-                'title' => __( 'Single Document', DOCSPRESS_DOMAIN )
+                'title' => __( 'Single Document', '@@text_domain' ),
             ),
             array(
                 'id'    => 'docspress_archive',
-                'title' => __( 'Archive', DOCSPRESS_DOMAIN )
+                'title' => __( 'Archive', '@@text_domain' ),
             ),
             array(
                 'id'    => 'docspress_export',
-                'title' => __( 'Export', DOCSPRESS_DOMAIN )
+                'title' => __( 'Export', '@@text_domain' ),
             ),
         );
 
@@ -71,7 +72,7 @@ class DocsPress_Settings {
      *
      * @return array settings fields
      */
-    function get_settings_fields() {
+    public function get_settings_fields() {
         include_once dirname( __FILE__ ) . '/../class-export.php';
         $export_class = new DocsPress_Export();
 
@@ -79,95 +80,95 @@ class DocsPress_Settings {
             'docspress_settings' => array(
                 array(
                     'name'    => 'docs_page_id',
-                    'label'   => __( 'Documentation Archive Page', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Page to show documentations list', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Documentation Archive Page', '@@text_domain' ),
+                    'desc'    => __( 'Page to show documentations list', '@@text_domain' ),
                     'type'    => 'select',
-                    'options' => $this->get_pages()
+                    'options' => $this->get_pages(),
                 ),
             ),
             'docspress_single' => array(
                 array(
                     'name'    => 'show_feedback_buttons',
-                    'label'   => __( 'Show Feedback Buttons', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Helpful feedback', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Show Feedback Buttons', '@@text_domain' ),
+                    'desc'    => __( 'Helpful feedback', '@@text_domain' ),
                     'type'    => 'checkbox',
-                    'default' => 'on'
+                    'default' => 'on',
                 ),
                 array(
                     'name'    => 'ajax',
-                    'label'   => __( 'AJAX Loading', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'AJAX Loading', '@@text_domain' ),
                     'type'    => 'checkbox',
-                    'default' => 'on'
+                    'default' => 'on',
                 ),
                 array(
                     'name'    => 'ajax_custom_js',
-                    'label'   => __( 'AJAX Custom JS', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Run custom JS after document loaded via AJAX', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'AJAX Custom JS', '@@text_domain' ),
+                    'desc'    => __( 'Run custom JS after document loaded via AJAX', '@@text_domain' ),
                     'type'    => 'textarea',
                     'size'    => 'large',
-                    'default' => "/*\n * New page content loaded via ajax you can get in variable 'new_page'\n * Example: console.log(new_page);\n */"
+                    'default' => "/*\n * New page content loaded via ajax you can get in variable 'new_page'\n * Example: console.log(new_page);\n */",
                 ),
 
                 array(
                     'name'    => 'sidebar',
-                    'label'   => __( 'Sidebar', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Sidebar', '@@text_domain' ),
                     'type'    => 'html',
                 ),
                 array(
                     'name'    => 'sidebar_show_nav_childs',
-                    'label'   => __( 'Show Child Links', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Always show child navigation links (by default showed only for active)', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Show Child Links', '@@text_domain' ),
+                    'desc'    => __( 'Always show child navigation links (by default showed only for active)', '@@text_domain' ),
                     'type'    => 'checkbox',
-                    'default' => 'off'
+                    'default' => 'off',
                 ),
                 array(
                     'name'    => 'sidebar_show_nav_number_of_childs',
-                    'label'   => __( 'Show Number of Childs', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Show in the title of parent link the number of childs', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Show Number of Childs', '@@text_domain' ),
+                    'desc'    => __( 'Show in the title of parent link the number of childs', '@@text_domain' ),
                     'type'    => 'checkbox',
-                    'default' => 'on'
+                    'default' => 'on',
                 ),
             ),
             'docspress_archive' => array(
                 array(
                     'name'    => 'show_articles',
-                    'label'   => __( 'Show Articles', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Top level articles list', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Show Articles', '@@text_domain' ),
+                    'desc'    => __( 'Top level articles list', '@@text_domain' ),
                     'type'    => 'checkbox',
-                    'default' => 'on'
+                    'default' => 'on',
                 ),
                 array(
                     'name'    => 'articles_number',
-                    'label'   => __( 'Number of Articles', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Type -1 to show all available articles', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Number of Articles', '@@text_domain' ),
+                    'desc'    => __( 'Type -1 to show all available articles', '@@text_domain' ),
                     'type'    => 'number',
-                    'default' => 3
+                    'default' => 3,
                 ),
             ),
             'docspress_export' => array(
                 array(
                     'name'    => 'custom_css',
-                    'label'   => __( 'Custom CSS', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Added in exported HTML files', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Custom CSS', '@@text_domain' ),
+                    'desc'    => __( 'Added in exported HTML files', '@@text_domain' ),
                     'type'    => 'textarea',
                     'size'    => 'large',
-                    'default' => $export_class->custom_css
+                    'default' => $export_class->custom_css,
                 ),
                 array(
                     'name'    => 'custom_js',
-                    'label'   => __( 'Custom JS', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Added in exported HTML files', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Custom JS', '@@text_domain' ),
+                    'desc'    => __( 'Added in exported HTML files', '@@text_domain' ),
                     'type'    => 'textarea',
                     'size'    => 'large',
-                    'default' => $export_class->custom_js
+                    'default' => $export_class->custom_js,
                 ),
                 array(
                     'name'    => 'clean_html',
-                    'label'   => __( 'Clean HTML RegExp', DOCSPRESS_DOMAIN ),
-                    'desc'    => __( 'Each regexp on new line (change it only if you understand what you do)', DOCSPRESS_DOMAIN ),
+                    'label'   => __( 'Clean HTML RegExp', '@@text_domain' ),
+                    'desc'    => __( 'Each regexp on new line (change it only if you understand what you do)', '@@text_domain' ),
                     'type'    => 'textarea',
                     'size'    => 'large',
-                    'default' => str_replace('\'', "\\'", $export_class->clean_html_regexp)
+                    'default' => str_replace( '\'', "\\'", $export_class->clean_html_regexp ),
                 ),
             ),
         );
@@ -180,7 +181,7 @@ class DocsPress_Settings {
      *
      * @return void
      */
-    function plugin_page() {
+    public function plugin_page() {
         echo '<div class="wrap">';
 
         $this->settings_api->show_navigation();
@@ -195,15 +196,17 @@ class DocsPress_Settings {
      *
      * @return array page names with key value pairs
      */
-    function get_pages() {
-        $pages_options = array( '' => __( '&mdash; Select Page &mdash;', DOCSPRESS_DOMAIN ) );
-        $pages = get_pages( array(
-            'numberposts'  => -1
-        ) );
+    public function get_pages() {
+        $pages_options = array( '' => __( '&mdash; Select Page &mdash;', '@@text_domain' ) );
+        $pages = get_pages(
+            array(
+                'numberposts' => -1, // phpcs:ignore
+            )
+        );
 
         if ( $pages ) {
-            foreach ($pages as $page) {
-                $pages_options[$page->ID] = $page->post_title;
+            foreach ( $pages as $page ) {
+                $pages_options[ $page->ID ] = $page->post_title;
             }
         }
         return $pages_options;

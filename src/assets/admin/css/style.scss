@@ -3,32 +3,32 @@
 }
 
 .no-docspress {
-    text-align: center;
     padding: 60px;
     color: #777;
+    text-align: center;
 
     &.not-loaded {
         display: none;
     }
 
-    &:before {
+    &::before {
         content: "\f322";
         display: block;
-        font-family: Dashicons;
-        font-size: 50px;
         padding-bottom: 30px;
+        font-family: Dashicons; // stylelint-disable-line
+        font-size: 50px;
         color: #ccc;
     }
 }
 
 .docspress {
-    margin: 20px 0;
-    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
-    list-style: none;
+    margin: 20px 0;
     margin-right: -30px;
     margin-bottom: -30px;
+    overflow: hidden;
+    list-style: none;
 
     &.not-loaded {
         display: none;
@@ -41,48 +41,48 @@
 }
 
 .docspress-item {
-    flex: 1;
-    max-width: calc(25% - 30px);
-    min-width: calc(25% - 30px);
     position: relative;
-    border: 1px solid #e5e5e5;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.04);
-    background: #fff;
+    flex: 1;
+    min-width: calc(25% - 30px);
+    max-width: calc(25% - 30px);
     margin-right: 30px;
     margin-bottom: 30px;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 
     @media screen and (max-width: 1400px) {
-        max-width: calc(33.33% - 30px);
         min-width: calc(33.33% - 30px);
+        max-width: calc(33.33% - 30px);
     }
     @media screen and (max-width: 940px) {
-        max-width: calc(50% - 30px);
         min-width: calc(50% - 30px);
+        max-width: calc(50% - 30px);
     }
     @media screen and (max-width: 600px) {
-        max-width: calc(100% - 30px);
         min-width: calc(100% - 30px);
+        max-width: calc(100% - 30px);
     }
 
     &.ui-sortable-placeholder {
-        border: 2px dashed #ccc;
-        visibility: visible !important;
+        visibility: visible !important; // stylelint-disable-line
         background-color: transparent;
+        border: 2px dashed #ccc;
     }
 
     h3 {
-        border-bottom: 1px solid #eee;
-        font-size: 14px;
         padding: 8px 12px;
         margin: 0;
+        font-size: 14px;
         line-height: 1.4;
+        border-bottom: 1px solid #eee;
 
         img {
             float: left;
+            width: auto;
+            height: 20px;
             margin-right: 10px;
             border-radius: 3px;
-            height: 20px;
-            width: auto;
         }
 
         a {
@@ -104,16 +104,16 @@
 
     .docspress-add-section-btn {
         display: block;
-        text-align: center;
         padding: 7px 10px;
+        text-align: center;
         background-color: #f7f7f7;
         border: 1px solid #eee;
     }
     .docspress-actions {
         padding: 10px 0;
-        border-top: 1px solid #eee;
-        background-color: #f7f7f7;
         text-align: center;
+        background-color: #f7f7f7;
+        border-top: 1px solid #eee;
 
         .button .dashicons {
             vertical-align: middle;
@@ -121,8 +121,8 @@
     }
 
     .docspress-item-inner {
-        padding: 15px;
         height: 320px;
+        padding: 15px;
         overflow: auto;
 
         li {
@@ -140,16 +140,16 @@
                 & > li {
                     margin-bottom: 10px;
                     &.ui-sortable-placeholder {
+                        visibility: visible !important; // stylelint-disable-line
                         border: 1px dashed #ccc;
-                        visibility: visible !important;
                     }
                 }
                 .section-title {
                     display: block;
                     padding: 7px 10px;
+                    cursor: pointer;
                     background-color: #f7f7f7;
                     border: 1px solid #eee;
-                    cursor: pointer;
                 }
             }
             &.articles {
@@ -170,37 +170,37 @@
                         }
                     }
                     &::before {
-                        content: ' ';
-                        border-top: 1px solid #eee;
+                        content: " ";
+                        display: inline-block;
+                        width: 15px;
+                        height: 0;
+                        margin-right: 5px;
                         color: #eee;
                         vertical-align: middle;
-                        height: 0;
-                        width: 15px;
-                        display: inline-block;
-                        margin-right: 5px;
+                        border-top: 1px solid #eee;
                     }
                 }
             }
         }
         a {
-            text-decoration: none;
             width: auto;
+            text-decoration: none;
         }
     }
 
 }
 
 .docspress-row-actions {
-    visibility: hidden;
     color: #999;
+    visibility: hidden;
 
     a {
         color: #999;
     }
 
     .dashicons {
-        height: 18px;
         width: 18px;
+        height: 18px;
         font-size: 18px;
     }
 
@@ -210,26 +210,26 @@
 }
 
 .doc-status {
-    background-color: #eee;
-    font-size: 11px;
-    margin-left: 5px;
-    color: #999;
     padding: 1px 3px;
+    margin-left: 5px;
+    font-size: 11px;
+    color: #999;
+    background-color: #eee;
     border-radius: 3px;
 }
 
 ul.sections {
     .section-title {
         .count {
-            background-color: #ddd;
-            border-radius: 50%;
-            color: #999;
-            padding: 0px;
+            display: inline-block;
             width: 18px;
             height: 18px;
-            display: inline-block;
-            text-align: center;
+            padding: 0;
             font-size: 10px;
+            color: #999;
+            text-align: center;
+            background-color: #ddd;
+            border-radius: 50%;
         }
 
         &:hover {
@@ -252,15 +252,15 @@ ul.sections {
  * SweetAlert
  */
 .sweet-overlay {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, .7);
 }
 .docspress-swal {
     width: 400px;
-    margin-left: -220px;
     padding: 20px;
-    border-radius: 0;
+    margin-left: -220px;
     border: 1px solid #e5e5e5;
-    box-shadow: 0 1px 1px rgba(0,0,0,.04);
+    border-radius: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 
     @media (max-width: 540px) {
         width: auto;
@@ -268,42 +268,42 @@ ul.sections {
     }
 
     h2 {
-        color: #23282d;
-        font-size: 23px;
-        font-weight: 400;
         margin-top: 0;
         margin-bottom: 15px;
+        font-size: 23px;
+        font-weight: 400;
+        color: #23282d;
     }
 
     input {
-        border-radius: 0;
+        height: 1.7em;
         padding: 3px 8px;
+        margin: 0 0 3px;
         font-size: 1.7em;
         line-height: 100%;
-        height: 1.7em;
-        outline: 0;
-        margin: 0 0 3px;
         background-color: #fff;
         border: 1px solid #ddd;
+        border-radius: 0;
+        outline: 0;
 
         &:focus {
             border-color: #5b9dd9;
-            box-shadow: 0 0 2px rgba(30,140,190,.8);
+            box-shadow: 0 0 2px rgba(30, 140, 190, .8);
         }
     }
 
     .sa-button-container {
+        padding: 10px 0;
         margin: -20px;
         margin-top: 20px;
-        padding: 10px 0;
-        border-top: 1px solid #eee;
         background-color: #f7f7f7;
+        border-top: 1px solid #eee;
     }
 
     .sa-icon {
         margin-top: 0;
         margin-bottom: 0;
-        transform: scale(0.6);
+        transform: scale(.6);
     }
 
     .la-ball-fall {
@@ -317,76 +317,76 @@ ul.sections {
 
     button {
         display: inline-block;
-        text-decoration: none;
-        cursor: pointer;
-        color: #555;
-        background: #f7f7f7;
-        box-shadow: 0 1px 0 #ccc !important;
-        border: 1px solid #ccc;
-        border-radius: 3px;
+        height: 28px;
+        padding: 0 10px 1px;
+        margin: 0;
         font-size: 13px;
         line-height: 26px;
-        height: 28px;
-        margin: 0;
-        padding: 0 10px 1px;
+        color: #555;
+        text-decoration: none;
+        cursor: pointer;
+        background: #f7f7f7;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-shadow: 0 1px 0 #ccc !important; // stylelint-disable-line
 
         &:hover {
+            color: #23282d;
             background: #fafafa;
             border-color: #999;
-            color: #23282d;
         }
 
         &:active {
             background: #eee;
             border-color: #999;
-            box-shadow: inset 0 2px 5px -3px rgba(0,0,0,.5) !important;
+            box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, .5) !important; // stylelint-disable-line
             transform: translateY(1px);
         }
         &:focus,
         &.cancel:focus {
             border-color: #5b9dd9;
-            box-shadow: 0 0 3px rgba(0,115,170,.8) !important;
+            box-shadow: 0 0 3px rgba(0, 115, 170, .8) !important; // stylelint-disable-line
         }
 
         &.cancel {
             background: #f7f7f7;
 
             &:hover {
+                color: #23282d;
                 background: #fafafa;
                 border-color: #999;
-                color: #23282d;
             }
             &:active {
                 background: #eee;
                 border-color: #999;
-                box-shadow: inset 0 2px 5px -3px rgba(0,0,0,.5) !important;
+                box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, .5) !important; // stylelint-disable-line
             }
         }
 
         &.confirm {
-            background: #0085ba !important;
-            border-color: #0073aa #006799 #006799 !important;
-            box-shadow: 0 1px 0 #006799 !important;
-            color: #fff !important;
-            text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799 !important;
+            color: #fff !important; // stylelint-disable-line
+            text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799 !important; // stylelint-disable-line
+            background: #0085ba !important; // stylelint-disable-line
+            border-color: #0073aa #006799 #006799 !important; // stylelint-disable-line
+            box-shadow: 0 1px 0 #006799 !important; // stylelint-disable-line
 
             &:hover {
-                background: #008ec2 !important;
-                border-color: #006799 !important;
-                color: #fff !important;
+                color: #fff !important; // stylelint-disable-line
+                background: #008ec2 !important; // stylelint-disable-line
+                border-color: #006799 !important; // stylelint-disable-line
             }
             &:focus {
-                border-color: #006799 !important;
-                box-shadow: 0 1px 0 #0073aa, 0 0 2px 1px #33b3db !important;
+                border-color: #006799 !important; // stylelint-disable-line
+                box-shadow: 0 1px 0 #0073aa, 0 0 2px 1px #33b3db !important; // stylelint-disable-line
             }
             &:active {
-                background: #0073aa !important;
-                border-color: #006799 !important;
-                box-shadow: inset 0 2px 0 #006799 !important;
+                background: #0073aa !important; // stylelint-disable-line
+                border-color: #006799 !important; // stylelint-disable-line
+                box-shadow: inset 0 2px 0 #006799 !important; // stylelint-disable-line
             }
             &[disabled] {
-                color: transparent !important;
-                text-shadow: none !important;
+                color: transparent !important; // stylelint-disable-line
+                text-shadow: none !important; // stylelint-disable-line
             }
         }
     }
@@ -398,25 +398,29 @@ ul.sections {
 .docspress-export-progress {
     position: relative;
     height: 12px;
-    margin-left: -20px;
+    margin-top: 30px;
     margin-right: -20px;
     margin-bottom: -20px;
-    margin-top: 30px;
+    margin-left: -20px;
     background-color: #f7f7f7;
     box-shadow: inset 0 1px 1px 0 #eee;
 }
 .docspress-export-progress-bar {
     position: absolute;
-    margin: 0;
     width: 0;
     height: 100%;
+    margin: 0;
     background: #0073ab;
-    background-size: 20px 20px;
     background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-    animation: docspress-export-animate-progress 5s linear infinite;
+    background-size: 20px 20px;
     transition: .5s width ease-in-out;
+    animation: docspress-export-animate-progress 5s linear infinite;
 }
 @keyframes docspress-export-animate-progress {
-    0% { background-position: 0 0;  }
-    100% { background-position: 260px 0;  }
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 260px 0;
+    }
 }

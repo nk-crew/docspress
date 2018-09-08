@@ -1,4 +1,9 @@
 <?php
+/**
+ * Template loader.
+ *
+ * @package @@plugin_name
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -7,13 +12,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Template Loader
  *
- * @class 		DocsPress_Template_Loader
- * @package		docspress
+ * @class       DocsPress_Template_Loader
+ * @package     docspress
  */
 class DocsPress_Template_Loader {
     /**
      * Docs archive page ID
-     * @var
+     *
+     * @var int
      */
     private static $docs_archive_id = 0;
 
@@ -21,7 +27,7 @@ class DocsPress_Template_Loader {
      * Hook in methods.
      */
     public static function init() {
-        self::$docs_archive_id = docspress()->get_option( 'docs_page_id','docspress_settings', false );
+        self::$docs_archive_id = docspress()->get_option( 'docs_page_id', 'docspress_settings', false );
 
         add_filter( 'template_include', array( __CLASS__, 'template_loader' ) );
     }
@@ -31,10 +37,10 @@ class DocsPress_Template_Loader {
      *
      * Handles template usage so that we can use our own templates instead of the themes.
      *
-     * Templates are in the 'templates' folder. esports looks for theme.
-     * overrides in /theme/esports/ by default.
+     * Templates are in the 'templates' folder. docspress looks for theme.
+     * overrides in /theme/docspress/ by default.
      *
-     * @param mixed $template
+     * @param string $template - template name.
      * @return string
      */
     public static function template_loader( $template ) {
@@ -42,7 +48,9 @@ class DocsPress_Template_Loader {
             return $template;
         }
 
-        if ( $default_file = self::get_template_loader_default_file() ) {
+        $default_file = self::get_template_loader_default_file();
+
+        if ( $default_file ) {
             /**
              * Filter hook to choose which files to find before DocsPress does it's own logic.
              *
@@ -76,15 +84,18 @@ class DocsPress_Template_Loader {
 
             docspress()->is_archive = true;
 
-            // Add query for page docs
+            // Add query for page docs.
             global $wp_query;
             $args = array(
                 'post_type'      => 'docs',
-                'posts_per_page' => -1,
+                'posts_per_page' => -1, // phpcs:ignore
                 'post_parent'    => 0,
-                'orderby'        => array( 'menu_order' => 'ASC', 'date' => 'DESC' ),
+                'orderby'        => array(
+                    'menu_order' => 'ASC',
+                    'date' => 'DESC',
+                ),
             );
-            $wp_query = new WP_Query($args);
+            $wp_query = new WP_Query( $args ); // phpcs:ignore
         }
 
         return $default_file;
