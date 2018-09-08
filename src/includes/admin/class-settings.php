@@ -101,6 +101,12 @@ class DocsPress_Settings {
                     'default' => 'on',
                 ),
                 array(
+                    'name'    => 'show_anchor_links',
+                    'label'   => __( 'Show anchor links on headings in content', '@@text_domain' ),
+                    'type'    => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
                     'name'    => 'sidebar',
                     'label'   => __( 'Sidebar', '@@text_domain' ),
                     'type'    => 'html',

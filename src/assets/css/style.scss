@@ -281,6 +281,21 @@ body.single.single-docs .content-area {
     }
 
     /**
+     * Single Doc Anchors
+     */
+    .anchorjs-link {
+        transition: .15s opacity ease-in-out;
+
+        &,
+        &:hover,
+        &:focus,
+        &:active {
+            text-decoration: none;
+            box-shadow: none;
+        }
+    }
+
+    /**
      * Single Doc Comments
      */
     .comments-area {

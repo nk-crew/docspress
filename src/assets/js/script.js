@@ -12,12 +12,28 @@ class DocsPress {
         self.$preloader = $( '<div class="docspress-preloader"><span><span></span></span></div>' );
         self.$singleAjax = $( '.docspress-single-ajax' );
 
+        self.initAnchors();
         self.initFeedbacks();
         self.initAjax();
     }
 
     stripHash( href ) {
         return href.replace( /#.*/, '' );
+    }
+
+    initAnchors() {
+        const anchors = window.AnchorJS ? new window.AnchorJS() : false;
+
+        if ( ! anchors ) {
+            return;
+        }
+
+        anchors.options = {
+            placement: 'left',
+            visible: 'hover',
+            icon: '#',
+        };
+        anchors.add( '.docspress-single-content .entry-content h2, .docspress-single-content .entry-content h3, .docspress-single-content .entry-content h4' );
     }
 
     initFeedbacks() {

@@ -291,7 +291,14 @@ class DocsPress {
      */
     public function enqueue_scripts() {
         wp_enqueue_style( 'docspress', docspress()->plugin_url . 'assets/css/style.min.css', array(), docspress()->plugin_version );
-        wp_enqueue_script( 'docspress', docspress()->plugin_url . 'assets/js/script.min.js', array( 'jquery' ), docspress()->plugin_version, true );
+
+        $deps = array( 'jquery' );
+        if ( docspress()->get_option( 'show_anchor_links', 'docspress_single', true ) ) {
+            wp_enqueue_script( 'anchor-js', docspress()->plugin_url . 'assets/vendor/anchor/anchor.min.js', array(), '4.1.1', true );
+            $deps[] = 'anchor-js';
+        }
+
+        wp_enqueue_script( 'docspress', docspress()->plugin_url . 'assets/js/script.min.js', $deps, docspress()->plugin_version, true );
         wp_localize_script(
             'docspress', 'docspress_vars', array(
                 'ajaxurl' => admin_url( 'admin-ajax.php' ),
