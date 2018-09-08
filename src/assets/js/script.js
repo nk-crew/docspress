@@ -1,96 +1,114 @@
 const $ = window.jQuery;
 
-let pendingAjax = false;
-const $preloader = $( '<div class="docspress-preloader"><span><span></span></span></div>' );
-
-function stripHash( href ) {
-    return href.replace( /#.*/, '' );
-}
-
-const docspress = {
-    initialize: function() {
+class DocsPress {
+    constructor() {
         const self = this;
-        const $body = $( 'body' );
 
-        $body.on( 'click', '.docspress-single-feedback a', self.feedback );
+        self.cache = {};
+        self.pendingAjax = false;
+        self.$body = $( 'body' );
+        self.$window = $( window );
+        self.$document = $( document );
+        self.$preloader = $( '<div class="docspress-preloader"><span><span></span></span></div>' );
+        self.$singleAjax = $( '.docspress-single-ajax' );
 
-        // ajax
-        const $ajax = $( '.docspress-single-ajax' );
-        if ( $ajax.length ) {
-            // save current page data
-            self.setCache( window.location.href, {
-                href: window.location.href,
-                title: document.title,
-                doc: $ajax.html(),
-                html: document.documentElement.outerHTML,
-            } );
+        self.initFeedbacks();
+        self.initAjax();
+    }
 
-            // click on links
-            $ajax.on( 'click', '.docspress-nav-list a, .docspress-single-breadcrumbs a, .docspress-single-articles a, .docspress-single-adjacent-nav a', function( e ) {
-                self.onDocLinksClick( e );
-            } );
+    stripHash( href ) {
+        return href.replace( /#.*/, '' );
+    }
 
-            // on state change
-            $( window ).on( 'popstate', function( e ) {
-                self.renderDoc( e.target.location.href );
-            } );
-        }
-    },
+    initFeedbacks() {
+        const self = this;
 
-    feedback: function( e ) {
-        e.preventDefault();
+        // feedback links click
+        self.$body.on( 'click', '.docspress-single-feedback a', function( e ) {
+            self.onFeedbackClick( e, this );
+        } );
+    }
 
-        // return if any request is in process already
-        if ( pendingAjax ) {
+    initAjax() {
+        const self = this;
+
+        if ( ! self.$singleAjax.length ) {
             return;
         }
 
-        pendingAjax = true;
+        // save current page data
+        self.setCache( window.location.href, {
+            href: window.location.href,
+            title: document.title,
+            doc: self.$singleAjax.html(),
+            html: document.documentElement.outerHTML,
+        } );
 
-        const self = $( this );
-        const wrap = self.closest( '.docspress-single-feedback' ).addClass( 'docspress-single-feedback-loading' );
+        // click on links
+        self.$singleAjax.on( 'click', '.docspress-nav-list a, .docspress-single-breadcrumbs a, .docspress-single-articles a, .docspress-single-adjacent-nav a', function( e ) {
+            self.onDocLinksClick( e );
+        } );
+
+        // on state change
+        self.$window.on( 'popstate', function( e ) {
+            self.renderDoc( e.target.location.href );
+        } );
+    }
+
+    onFeedbackClick( e, $item ) {
+        e.preventDefault();
+        const self = this;
+
+        // return if any request is in process already
+        if ( self.pendingAjax ) {
+            return;
+        }
+
+        self.pendingAjax = true;
+
+        const wrap = $item.closest( '.docspress-single-feedback' ).addClass( 'docspress-single-feedback-loading' );
         const data = {
-            post_id: self.data( 'id' ),
-            type: self.data( 'type' ),
+            post_id: $item.data( 'id' ),
+            type: $item.data( 'type' ),
             action: 'docspress_ajax_feedback',
             _wpnonce: docspress_vars.nonce, // eslint-disable-line
         };
 
-        wrap.append( $preloader.clone() );
+        wrap.append( self.$preloader.clone() );
 
         // eslint-disable-next-line
         $.post( docspress_vars.ajaxurl, data, function( resp ) {
             wrap.html( '<div>' + resp.data + '</div>' ).removeClass( 'docspress-single-feedback-loading' );
-            pendingAjax = false;
+            self.pendingAjax = false;
         } );
-    },
+    }
 
     // cache ajax pages
-    cache: {},
-    setCache: function setCache( key, data ) {
+    setCache( key, data ) {
         key = key || false;
         data = data || false;
         if ( ! key || ! data || this.cache[ key ] ) {
             return;
         }
         this.cache[ key ] = data;
-    },
-    getCache: function getCache( key ) {
+    }
+
+    getCache( key ) {
         key = key || false;
         if ( ! key || ! this.cache[ key ] ) {
             return false;
         }
         return this.cache[ key ];
-    },
+    }
 
-    renderDoc: function renderDoc( href ) {
+    renderDoc( href ) {
         const cached = this.getCache( href );
-        $( '.docspress-single-ajax' ).html( cached.doc );
+        this.$singleAjax.html( cached.doc );
         $( 'title' ).text( cached.title );
-        $( document ).trigger( 'docspress_ajax_loaded', cached );
-    },
+        this.$document.trigger( 'docspress_ajax_loaded', cached );
+    }
 
-    onDocLinksClick: function onDocLinksClick( e ) {
+    onDocLinksClick( e ) {
         const link = e.currentTarget;
 
         // Middle click, cmd click, and ctrl click should open
@@ -105,7 +123,7 @@ const docspress = {
         }
 
         // Ignore case when a hash is being tacked on the current URL
-        if ( link.href.indexOf( '#' ) > -1 && stripHash( link.href ) === stripHash( window.location.href ) ) {
+        if ( link.href.indexOf( '#' ) > -1 && this.stripHash( link.href ) === this.stripHash( window.location.href ) ) {
             return;
         }
 
@@ -122,14 +140,14 @@ const docspress = {
         e.preventDefault();
 
         this.loadDocPage( link.href );
-    },
+    }
 
-    loadDocPage: function loadDocPage( href ) {
+    loadDocPage( href ) {
         const self = this;
         href = href || false;
 
         // stop when the same urls
-        if ( ! href || stripHash( href ) === stripHash( window.location.href ) ) {
+        if ( ! href || self.stripHash( href ) === self.stripHash( window.location.href ) ) {
             return;
         }
 
@@ -151,8 +169,8 @@ const docspress = {
         }
 
         // new ajax request
-        const $ajaxBlock = $( '.docspress-single-ajax' ).addClass( 'docspress-single-ajax-loading' );
-        $ajaxBlock.find( '.docspress-single-content' ).append( $preloader.clone() );
+        const $ajaxBlock = self.$singleAjax.addClass( 'docspress-single-ajax-loading' );
+        $ajaxBlock.find( '.docspress-single-content' ).append( self.$preloader.clone() );
 
         self.xhr = $.ajax( {
             url: href,
@@ -202,9 +220,9 @@ const docspress = {
                 $ajaxBlock.removeClass( 'docspress-single-ajax-loading' );
             },
         } );
-    },
-};
+    }
+}
 
 $( function() {
-    docspress.initialize();
+    new DocsPress();
 } );
