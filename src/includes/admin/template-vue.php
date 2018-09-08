@@ -49,13 +49,26 @@
 
                         <ul class="articles collapsed connectedSortable" v-if="section.child" v-sortable>
                             <li class="article" v-for="(article, index) in section.child" :data-id="article.post.id">
-                                <a v-if="article.post.caps.edit" target="_blank" :href="editurl + article.post.id">{{ article.post.title }}<span v-if="article.post.status != 'publish'" class="doc-status">{{ article.post.status }}</span></a>
+                                <a v-if="article.post.caps.edit" target="_blank" :href="editurl + article.post.id">{{ article.post.title }}<span v-if="article.post.status != 'publish'" class="doc-status">{{ article.post.status }}</span> <span v-if="article.child.length > 0" class="count">{{ article.child.length }}</span></a>
                                 <span v-else>{{ article.post.title }}</span>
 
                                 <span class="actions docspress-row-actions">
                                     <a target="_blank" :href="viewurl + article.post.id" title="<?php esc_attr_e( 'Preview the article', '@@text_domain' ); ?>"><span class="dashicons dashicons-external"></span></a>
                                     <span class="docspress-btn-remove" v-if="article.post.caps.delete" v-on:click="removeArticle(index, section.child)" title="<?php esc_attr_e( 'Delete this article', '@@text_domain' ); ?>"><span class="dashicons dashicons-trash"></span></span>
+                                    <span class="add-article" v-on:click="addArticle(article, $event)" title="<?php esc_attr_e( 'Add a new article', '@@text_domain' ); ?>"><span class="dashicons dashicons-plus-alt"></span></span>
                                 </span>
+
+                                <ul class="articles connectedSortable" v-if="article.child" v-sortable>
+                                    <li class="article" v-for="(article_child, index) in article.child" :data-id="article_child.post.id">
+                                        <a v-if="article_child.post.caps.edit" target="_blank" :href="editurl + article_child.post.id">{{ article_child.post.title }}<span v-if="article_child.post.status != 'publish'" class="doc-status">{{ article_child.post.status }}</span></a>
+                                        <span v-else>{{ article_child.post.title }}</span>
+
+                                        <span class="actions docspress-row-actions">
+                                            <a target="_blank" :href="viewurl + article_child.post.id" title="<?php esc_attr_e( 'Preview the article', '@@text_domain' ); ?>"><span class="dashicons dashicons-external"></span></a>
+                                            <span class="docspress-btn-remove" v-if="article_child.post.caps.delete" v-on:click="removeArticle(index, article.child)" title="<?php esc_attr_e( 'Delete this article', '@@text_domain' ); ?>"><span class="dashicons dashicons-trash"></span></span>
+                                        </span>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </li>

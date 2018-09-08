@@ -219,19 +219,19 @@
 }
 
 ul.sections {
-    .section-title {
-        .count {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            padding: 0;
-            font-size: 10px;
-            color: #999;
-            text-align: center;
-            background-color: #ddd;
-            border-radius: 50%;
-        }
+    .count {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        padding: 0;
+        font-size: 10px;
+        color: #999;
+        text-align: center;
+        background-color: #ddd;
+        border-radius: 50%;
+    }
 
+    .section-title {
         &:hover {
             .docspress-row-actions {
                 visibility: visible;
