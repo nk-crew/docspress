@@ -95,6 +95,34 @@ class DocsPress_Template_Loader {
                     'date' => 'DESC',
                 ),
             );
+
+            // prepare args for search page.
+            if ( ! is_admin() && is_search() ) {
+                $default_file = 'search.php';
+
+                unset( $args['posts_per_page'] );
+                unset( $args['post_parent'] );
+
+                $args['s'] = get_search_query();
+
+                $parent = isset( $_GET['child_of'] ) ? sanitize_text_field( wp_unslash( $_GET['child_of'] ) ) : false;
+                $parent = intval( $parent );
+
+                // we need to get all docs IDs and the use it in WP_Query as we need get also all childrens.
+                if ( $parent ) {
+                    $post__in      = array( $parent => $parent );
+                    $children_docs = get_pages( array(
+                        'child_of'  => $parent,
+                        'post_type' => 'docs',
+                        'depth'     => -1,
+                    ) );
+                    if ( $children_docs ) {
+                        $post__in = array_merge( $post__in, wp_list_pluck( $children_docs, 'ID' ) );
+                    }
+                    $args['post__in'] = $post__in;
+                }
+            }
+
             $wp_query = new WP_Query( $args ); // phpcs:ignore
         }
 

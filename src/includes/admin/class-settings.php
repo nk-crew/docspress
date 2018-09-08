@@ -112,6 +112,12 @@ class DocsPress_Settings {
                     'type'    => 'html',
                 ),
                 array(
+                    'name'    => 'sidebar_show_search',
+                    'label'   => __( 'Show search', '@@text_domain' ),
+                    'type'    => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
                     'name'    => 'sidebar_show_nav_childs',
                     'label'   => __( 'Show child links', '@@text_domain' ),
                     'desc'    => __( 'Always show child navigation links (by default showed only for active)', '@@text_domain' ),

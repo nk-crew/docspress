@@ -6,12 +6,14 @@ class DocsPress {
 
         self.cache = {};
         self.pendingAjax = false;
+        self.xhrAjaxSearch = false;
         self.$body = $( 'body' );
         self.$window = $( window );
         self.$document = $( document );
         self.$preloader = $( '<div class="docspress-preloader"><span><span></span></span></div>' );
         self.$singleAjax = $( '.docspress-single-ajax' );
 
+        self.initSearch();
         self.initAnchors();
         self.initFeedbacks();
         self.initAjax();
@@ -19,6 +21,49 @@ class DocsPress {
 
     stripHash( href ) {
         return href.replace( /#.*/, '' );
+    }
+
+    initSearch() {
+        const self = this;
+        let timeout = false;
+
+        self.$document.on( 'submit', '.docspress-search-form', function( e ) {
+            e.preventDefault();
+            self.prepareSearchResults( $( this ) );
+        } );
+        self.$document.on( 'input', '.docspress-search-form', function( e ) {
+            e.preventDefault();
+
+            clearTimeout( timeout );
+            timeout = setTimeout( () => {
+                self.prepareSearchResults( $( this ) );
+            }, 500 );
+        } );
+    }
+
+    prepareSearchResults( $form ) {
+        const self = this;
+
+        // abort if any request is in process already
+        if ( self.xhrAjaxSearch ) {
+            self.xhrAjaxSearch.abort();
+        }
+
+        self.xhrAjaxSearch = $.ajax( {
+            type: 'GET',
+            url: $form.attr( 'action' ),
+            data: $form.serialize(),
+            success( data ) {
+                const $data = $( data );
+                const result = $data.find( '.docspress-search-list' ).get( 0 ).outerHTML;
+                $form.next( '.docspress-search-form-result' ).html( result );
+                self.xhrAjaxSearch = false;
+            },
+            error( e ) {
+                console.log(e); // eslint-disable-line
+                self.xhrAjaxSearch = false;
+            },
+        } );
     }
 
     initAnchors() {
@@ -61,7 +106,7 @@ class DocsPress {
         } );
 
         // click on links
-        self.$singleAjax.on( 'click', '.docspress-nav-list a, .docspress-single-breadcrumbs a, .docspress-single-articles a, .docspress-single-adjacent-nav a', function( e ) {
+        self.$singleAjax.on( 'click', '.docspress-nav-list a, .docspress-single-breadcrumbs a, .docspress-single-articles a, .docspress-single-adjacent-nav a, .docspress-search-form-result a', function( e ) {
             self.onDocLinksClick( e );
         } );
 
