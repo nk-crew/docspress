@@ -42,6 +42,16 @@ In the search field type `DocsPress` and click Search Plugins. Once you’ve fou
 
 The manual installation method involves downloading our DocsPress plugin and uploading it to your webserver via your favourite FTP application. The WordPress codex contains [instructions on how to do this here](https://codex.wordpress.org/Managing_Plugins#Manual_Plugin_Installation).
 
+## Frequently Asked Questions ##
+
+### Initialize JS after AJAX page loaded ####
+
+If you need to initialize some JS after ajax loaded, you may use **DocsPress > Settings > Single Doc > AJAX custom JS** section or use predefined custom event `docspress_ajax_loaded`:
+
+    jQuery( document ).on( 'docspress_ajax_loaded', function() {
+        // your code here.
+    } );
+
 ## Screenshots ##
 
 1. Documentations Archive
