@@ -693,6 +693,65 @@ body.single.single-docs .content-area {
 /**
  * Fixes for default WP themes
  */
+.docspress_theme_twentyseventeen {
+    float: none !important; // stylelint-disable-line
+    width: 100% !important; // stylelint-disable-line
+    max-width: 700px;
+    padding-right: 2em;
+    padding-left: 2em;
+    margin-right: auto;
+    margin-left: auto;
+
+    @media screen and (min-width: 48em) {
+        max-width: 1000px;
+        padding-right: 3em;
+        padding-left: 3em;
+    }
+}
+
+.docspress_theme_twentysixteen {
+    .site-main {
+        margin-right: 7.6923%;
+        margin-left: 7.6923%;
+
+        @media screen and (min-width: 56.875em) {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .entry-header,
+        .post-thumbnail,
+        .entry-content,
+        .entry-summary,
+        .entry-footer,
+        .comments-area,
+        .image-navigation,
+        .post-navigation,
+        .page-header,
+        .page-content,
+        .content-bottom-widgets {
+            margin: 0;
+        }
+    }
+}
+
+.docspress_theme_twentyfifteen {
+    .docspress-single-content,
+    .docspress-single-sidebar {
+        padding: 7%;
+
+        @media screen and (min-width: 38.75em) {
+            padding: 6%;
+        }
+        @media screen and (min-width: 59.6875em) {
+            padding: 5%;
+        }
+    }
+    .docspress-single-breadcrumbs {
+        margin-top: 0;
+    }
+}
+
 .docspress-single-sidebar .docspress-nav-list a,
 .docspress-single .docspress-single-articles a,
 .docspress-archive .docspress-archive-list a {
