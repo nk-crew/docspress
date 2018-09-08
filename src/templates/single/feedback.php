@@ -16,18 +16,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! docspress()->get_option( 'show_feedback_buttons', 'docspress_single', true ) ) {
     return;
 }
+
+$show_counts = docspress()->get_option( 'show_feedback_buttons_likes', 'docspress_single', true );
+
 ?>
 
 <div class="docspress-single-feedback">
     <?php
-    $positive = (int) get_post_meta( get_the_ID(), 'positive', true );
-    $negative = (int) get_post_meta( get_the_ID(), 'negative', true );
+    $positive = 0;
+    $negative = 0;
+    $positive_title = '';
+    $negative_title = '';
 
-    // translators: %s - likes number.
-    $positive_title = $positive ? sprintf( _n( '%d person found this useful', '%d persons found this useful', $positive, '@@text_domain' ), number_format_i18n( $positive ) ) : __( 'No votes yet', '@@text_domain' );
+    if ( $show_counts ) {
+        $positive = (int) get_post_meta( get_the_ID(), 'positive', true );
+        $negative = (int) get_post_meta( get_the_ID(), 'negative', true );
 
-    // translators: %s - dislikes number.
-    $negative_title = $negative ? sprintf( _n( '%d person found this not useful', '%d persons found this not useful', $negative, '@@text_domain' ), number_format_i18n( $negative ) ) : __( 'No votes yet', '@@text_domain' );
+        // translators: %s - likes number.
+        $positive_title = $positive ? sprintf( _n( '%d person found this useful', '%d persons found this useful', $positive, '@@text_domain' ), number_format_i18n( $positive ) ) : __( 'No votes yet', '@@text_domain' );
+
+        // translators: %s - dislikes number.
+        $negative_title = $negative ? sprintf( _n( '%d person found this not useful', '%d persons found this not useful', $negative, '@@text_domain' ), number_format_i18n( $negative ) ) : __( 'No votes yet', '@@text_domain' );
+    }
     ?>
 
     <div>

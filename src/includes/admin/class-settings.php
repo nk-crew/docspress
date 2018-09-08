@@ -95,6 +95,12 @@ class DocsPress_Settings {
                     'default' => 'on',
                 ),
                 array(
+                    'name'    => 'show_feedback_buttons_likes',
+                    'desc'    => __( 'Show likes/dislikes count', '@@text_domain' ),
+                    'type'    => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
                     'name'    => 'ajax',
                     'label'   => __( 'AJAX loading', '@@text_domain' ),
                     'type'    => 'checkbox',
