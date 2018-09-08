@@ -80,7 +80,7 @@ class DocsPress_Settings {
             'docspress_settings' => array(
                 array(
                     'name'    => 'docs_page_id',
-                    'label'   => __( 'Documentation Archive Page', '@@text_domain' ),
+                    'label'   => __( 'Documentation archive page', '@@text_domain' ),
                     'desc'    => __( 'Page to show documentations list', '@@text_domain' ),
                     'type'    => 'select',
                     'options' => $this->get_pages(),
@@ -89,20 +89,20 @@ class DocsPress_Settings {
             'docspress_single' => array(
                 array(
                     'name'    => 'show_feedback_buttons',
-                    'label'   => __( 'Show Feedback Buttons', '@@text_domain' ),
+                    'label'   => __( 'Show feedback buttons', '@@text_domain' ),
                     'desc'    => __( 'Helpful feedback', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
                 array(
                     'name'    => 'ajax',
-                    'label'   => __( 'AJAX Loading', '@@text_domain' ),
+                    'label'   => __( 'AJAX loading', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
                 array(
                     'name'    => 'ajax_custom_js',
-                    'label'   => __( 'AJAX Custom JS', '@@text_domain' ),
+                    'label'   => __( 'AJAX custom JS', '@@text_domain' ),
                     'desc'    => __( 'Run custom JS after document loaded via AJAX', '@@text_domain' ),
                     'type'    => 'textarea',
                     'size'    => 'large',
@@ -116,14 +116,14 @@ class DocsPress_Settings {
                 ),
                 array(
                     'name'    => 'sidebar_show_nav_childs',
-                    'label'   => __( 'Show Child Links', '@@text_domain' ),
+                    'label'   => __( 'Show child links', '@@text_domain' ),
                     'desc'    => __( 'Always show child navigation links (by default showed only for active)', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'off',
                 ),
                 array(
                     'name'    => 'sidebar_show_nav_number_of_childs',
-                    'label'   => __( 'Show Number of Childs', '@@text_domain' ),
+                    'label'   => __( 'Show number of childs', '@@text_domain' ),
                     'desc'    => __( 'Show in the title of parent link the number of childs', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
@@ -132,14 +132,14 @@ class DocsPress_Settings {
             'docspress_archive' => array(
                 array(
                     'name'    => 'show_articles',
-                    'label'   => __( 'Show Articles', '@@text_domain' ),
+                    'label'   => __( 'Show articles', '@@text_domain' ),
                     'desc'    => __( 'Top level articles list', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
                 array(
                     'name'    => 'articles_number',
-                    'label'   => __( 'Number of Articles', '@@text_domain' ),
+                    'label'   => __( 'Number of articles', '@@text_domain' ),
                     'desc'    => __( 'Type -1 to show all available articles', '@@text_domain' ),
                     'type'    => 'number',
                     'default' => 3,
