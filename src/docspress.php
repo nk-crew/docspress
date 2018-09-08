@@ -322,6 +322,7 @@ class DocsPress {
      */
     public function register_post_type() {
         $docspress_archive_id = docspress()->get_option( 'docs_page_id', 'docspress_settings', false );
+        $docs_page = $docspress_archive_id ? get_post( $docspress_archive_id ) : false;
 
         $labels = array(
             'name'                => _x( 'DocsPress', 'Post Type General Name', '@@text_domain' ),
@@ -339,7 +340,7 @@ class DocsPress {
             'not_found_in_trash'  => __( 'Not found in Trash', '@@text_domain' ),
         );
         $rewrite = array(
-            'slug'                => 'docs',
+            'slug'                => $docs_page ? get_post_field( 'post_name', $docs_page ) : 'docs',
             'with_front'          => false,
             'pages'               => true,
             'feeds'               => true,
@@ -356,7 +357,7 @@ class DocsPress {
             'menu_position'       => 5,
             'menu_icon'           => 'dashicons-media-document',
             'can_export'          => true,
-            'has_archive'         => $docspress_archive_id && get_post( $docspress_archive_id ) ? urldecode( get_page_uri( $docspress_archive_id ) ) : 'docs',
+            'has_archive'         => $docs_page ? urldecode( get_page_uri( $docspress_archive_id ) ) : 'docs',
             'exclude_from_search' => false,
             'publicly_queryable'  => true,
             'show_in_rest'        => true,
