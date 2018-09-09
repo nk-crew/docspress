@@ -344,6 +344,7 @@ body.single.single-docs .content-area {
     .docspress-search-field {
         padding: 10px;
         font-size: inherit;
+        background: none;
         border: none;
         border-bottom: 1px solid $color_border;
         border-radius: 0;
@@ -784,6 +785,12 @@ body.single.single-docs .content-area {
     .docspress-single-content .entry-footer {
         border: none;
     }
+
+    .docspress-single-content .docspress-single-articles a,
+    .docspress-archive-list > .docspress-archive-list-item a,
+    .docspress-archive-list > .docspress-archive-list-item .docspress-archive-list-item-title img {
+        box-shadow: none;
+    }
 }
 
 .docspress_theme_twentysixteen {
@@ -810,11 +817,20 @@ body.single.single-docs .content-area {
             margin: 0;
         }
     }
+    .docspress-single-content .docspress-single-articles a,
+    .docspress-archive-list > .docspress-archive-list-item a,
+    .docspress-archive-list > .docspress-archive-list-item .docspress-archive-list-item-title img {
+        box-shadow: none;
+    }
+    .docspress-single-content .docspress-single-articles a:not(:hover),
+    .docspress-archive-list > .docspress-archive-list-item a:not(:hover) {
+        color: inherit;
+    }
 }
 
 .docspress_theme_twentyfifteen {
     .docspress-single-content,
-    .docspress-single-sidebar {
+    .docspress-single-sidebar-wrap {
         padding: 7%;
 
         @media screen and (min-width: 38.75em) {
