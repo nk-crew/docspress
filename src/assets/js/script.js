@@ -49,6 +49,12 @@ class DocsPress {
             self.xhrAjaxSearch.abort();
         }
 
+        // if empty search field.
+        if ( ! $form.find( '.docspress-search-field' ).val() ) {
+            $form.next( '.docspress-search-form-result' ).html( '' );
+            return;
+        }
+
         self.xhrAjaxSearch = $.ajax( {
             type: 'GET',
             url: $form.attr( 'action' ),
