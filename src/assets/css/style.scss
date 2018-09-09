@@ -374,10 +374,17 @@ body.single.single-docs .content-area {
         background: none;
     }
 
+    .docspress-search-list {
+        padding: 0;
+        margin: 0;
+        list-style: 0;
+    }
+
     .docspress-search-list-item > a {
         display: block;
         padding: 10px;
         font-size: .85em;
+        color: inherit;
         border-bottom: 1px solid $color_border;
         transition: .15s color ease-in-out;
 
