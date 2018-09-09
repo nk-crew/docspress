@@ -518,7 +518,7 @@ class DocsPress {
 
         if ( $docs_page_id ) {
             $result[] = array(
-                'label'    => __( 'Docs', '@@text_domain' ),
+                'label'    => get_the_title( $docs_page_id ) ? : __( 'Docs', '@@text_domain' ),
                 'url'      => get_permalink( $docs_page_id ),
             );
         }
