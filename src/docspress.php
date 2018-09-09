@@ -231,10 +231,19 @@ class DocsPress {
      * Maybe run setup code and rewrite rules.
      */
     public function maybe_setup() {
-        if ( get_option( 'docspress_setup', false ) === 'pending' ) {
+        $docspress_archive_id = docspress()->get_option( 'docs_page_id', 'docspress_settings', false );
+        $docs_page            = $docspress_archive_id ? get_post( $docspress_archive_id ) : false;
+        $slug                 = $docs_page ? get_post_field( 'post_name', $docs_page ) : 'docs';
+
+        if (
+            get_option( 'docspress_setup', false ) === 'pending' ||
+            get_option( 'docspress_current_slug', 'docs' ) !== $slug
+        ) {
+            add_action( 'init', 'flush_rewrite_rules', 11, 0 );
             add_action( 'admin_init', 'flush_rewrite_rules', 11, 0 );
 
             delete_option( 'docspress_setup' );
+            update_option( 'docspress_current_slug', $slug );
         }
     }
 
