@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 $show = docspress()->get_option( 'show_articles', 'docspress_archive', true );
-$articles_number = docspress()->get_option( 'articles_number', 'docspress_archive', 3 );
+$articles_number = intval( docspress()->get_option( 'articles_number', 'docspress_archive', 3 ) );
 
 if ( -1 === $articles_number ) {
     $articles_number = 9999;
