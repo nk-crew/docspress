@@ -13,6 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+$show_parents = docspress()->get_option( 'sidebar_show_nav_parents', 'docspress_single', false );
+
 ?>
 
 <div class="docspress-single-sidebar">
@@ -21,7 +23,9 @@ if ( ! defined( 'ABSPATH' ) ) {
             <form role="search" method="get" class="docspress-search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
                 <input type="search" class="docspress-search-field" placeholder="<?php echo esc_attr__( 'Type to search', '@@text_domain' ); ?>" value="<?php echo get_search_query(); ?>" name="s" autocomplete="off">
                 <input type="hidden" name="post_type" value="docs">
-                <input type="hidden" name="child_of" value="<?php echo esc_attr( docspress()->get_current_doc_id() ); ?>">
+                <?php if ( ! $show_parents ) : ?>
+                    <input type="hidden" name="child_of" value="<?php echo esc_attr( docspress()->get_current_doc_id() ); ?>">
+                <?php endif; ?>
             </form>
             <div class="docspress-search-form-result"></div>
         <?php endif; ?>
@@ -31,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
             array(
                 'title_li'  => '',
                 'order'     => 'menu_order',
-                'child_of'  => docspress()->get_current_doc_id(),
+                'child_of'  => $show_parents ? 0 : docspress()->get_current_doc_id(),
                 'echo'      => false,
                 'post_type' => 'docs',
                 'walker'    => new DocsPress_Walker_Docs(),

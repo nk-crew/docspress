@@ -118,6 +118,12 @@ class DocsPress_Settings {
                     'default' => 'on',
                 ),
                 array(
+                    'name'    => 'sidebar_show_nav_parents',
+                    'label'   => __( 'Show parent links', '@@text_domain' ),
+                    'type'    => 'checkbox',
+                    'default' => 'off',
+                ),
+                array(
                     'name'    => 'sidebar_show_nav_childs',
                     'label'   => __( 'Show child links', '@@text_domain' ),
                     'desc'    => __( 'Always show child navigation links (by default showed only for active)', '@@text_domain' ),
