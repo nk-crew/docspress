@@ -170,8 +170,18 @@ class DocsPress {
 
     renderDoc( href ) {
         const cached = this.getCache( href );
+
+        // replace content.
         this.$singleAjax.html( cached.doc );
         $( 'title' ).text( cached.title );
+        $( '.wp-admin-bar-edit .ab-item' ).attr( 'href', href );
+
+        // scroll to top of doc.
+        const top = $( '.docspress-single' )[ 0 ].getBoundingClientRect().top;
+        if ( top < 0 ) {
+            this.$document.scrollTop( this.$document.scrollTop() + top );
+        }
+
         this.$document.trigger( 'docspress_ajax_loaded', cached );
     }
 
