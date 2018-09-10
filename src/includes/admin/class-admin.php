@@ -116,8 +116,30 @@ class DocsPress_Admin {
      * @return void
      */
     public function admin_menu() {
-        add_menu_page( __( 'DocsPress', '@@text_domain' ), __( 'DocsPress', '@@text_domain' ), 'publish_posts', '@@text_domain', array( $this, 'page_index' ), 'dashicons-media-document', $this->get_menu_position() );
-        add_submenu_page( '@@text_domain', __( 'Documentations', '@@text_domain' ), __( 'Documentations', '@@text_domain' ), 'publish_posts', '@@text_domain', array( $this, 'page_index' ) );
+        add_menu_page(
+            __( 'DocsPress', '@@text_domain' ),
+            __( 'DocsPress', '@@text_domain' ),
+            'publish_posts',
+            '@@text_domain',
+            array( $this, 'page_index' ),
+            'dashicons-media-document',
+            $this->get_menu_position()
+        );
+        add_submenu_page(
+            '@@text_domain',
+            __( 'Documentations', '@@text_domain' ),
+            __( 'Documentations', '@@text_domain' ),
+            'publish_posts',
+            '@@text_domain',
+            array( $this, 'page_index' )
+        );
+        add_submenu_page(
+            '@@text_domain',
+            __( 'Categories', '@@text_domain' ),
+            __( 'Categories', '@@text_domain' ),
+            'publish_posts',
+            'edit-tags.php?taxonomy=docs_category&post_type=docs'
+        );
     }
 
     /**

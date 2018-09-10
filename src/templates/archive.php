@@ -26,9 +26,27 @@ docspress()->get_template_part( 'global/wrap-start' );
         <div class="docspress-archive">
             <ul class="docspress-archive-list">
                 <?php
+                $current_term = false;
+
                 if ( have_posts() ) :
                     while ( have_posts() ) :
                         the_post();
+
+                        $terms = wp_get_post_terms( get_the_ID(), 'docs_category' );
+                        if (
+                            $terms &&
+                            ! empty( $terms ) &&
+                            isset( $terms[0]->name ) &&
+                            $current_term !== $terms[0]->name
+                        ) {
+                            $current_term = $terms[0]->name;
+                            ?>
+                            <li class="docspress-archive-list-category">
+                                <?php echo esc_html( $terms[0]->name ); ?>
+                            </li>
+                            <?php
+                        }
+
                         ?>
                         <li class="docspress-archive-list-item">
                             <?php docspress()->get_template_part( 'archive/loop-title' ); ?>

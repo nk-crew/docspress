@@ -36,7 +36,14 @@ class DocsPress_Settings {
      * Register the admin settings menu
      */
     public function admin_menu() {
-        add_submenu_page( '@@text_domain', __( 'DocsPress Settings', '@@text_domain' ), __( 'Settings', '@@text_domain' ), 'manage_options', 'docspress-settings', array( $this, 'plugin_page' ) );
+        add_submenu_page(
+            '@@text_domain',
+            __( 'DocsPress Settings', '@@text_domain' ),
+            __( 'Settings', '@@text_domain' ),
+            'manage_options',
+            'docspress-settings',
+            array( $this, 'plugin_page' )
+        );
     }
 
     /**

@@ -123,6 +123,55 @@ class DocsPress_Template_Loader {
                 }
             }
 
+            // make order by term.
+            if ( 'archive.php' === $default_file ) {
+                $categories = get_terms( array(
+                    'taxonomy'   => 'docs_category',
+                    'hide_empty' => false,
+                ) );
+
+                // we need to make query and loop over items and sort it by term.
+                if ( ! empty( $categories ) ) {
+                    $docs_by_cat = array(
+                        0 => array(),
+                    );
+
+                    // get all available terms in array.
+                    foreach ( $categories as $cat ) {
+                        $docs_by_cat[ $cat->slug ] = array();
+                    }
+
+                    // get parent docs.
+                    $parent_docs = get_pages( array(
+                        'post_type' => 'docs',
+                        'parent'    => 0,
+                    ) );
+                    if ( $parent_docs ) {
+                        // set all doc IDs to array by terms.
+                        foreach ( $parent_docs as $doc ) {
+                            $term = get_the_terms( $doc, 'docs_category' );
+
+                            if ( $term && ! empty( $term ) ) {
+                                $term = $term[0]->slug;
+                            } else {
+                                $term = 0;
+                            }
+
+                            $docs_by_cat[ $term ][] = $doc->ID;
+                        }
+
+                        // add posts IDs in post__in.
+                        if ( count( $docs_by_cat ) >= 2 ) {
+                            $args['post__in'] = array();
+                            foreach ( $docs_by_cat as $docs ) {
+                                $args['post__in'] = array_merge( $args['post__in'], $docs );
+                            }
+                            $args['orderby'] = 'post__in';
+                        }
+                    }
+                }
+            }
+
             $wp_query = new WP_Query( $args ); // phpcs:ignore
         }
 

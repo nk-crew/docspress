@@ -383,6 +383,23 @@ class DocsPress {
         );
 
         register_post_type( $this->post_type, $args );
+
+        register_taxonomy(
+            'docs_category', $this->post_type, array(
+                'label'  => esc_html__( 'Docs Categories', '@@text_domain' ),
+                'labels' => array(
+                    'menu_name' => esc_html__( 'Categories', '@@text_domain' ),
+                ),
+                'rewrite' => array(
+                    'slug' => 'docs-category',
+                ),
+                'hierarchical'       => false,
+                'publicly_queryable' => false,
+                'show_in_nav_menus'  => false,
+                'show_in_rest'       => true,
+                'show_admin_column'  => true,
+            )
+        );
     }
 
     /**

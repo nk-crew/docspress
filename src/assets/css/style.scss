@@ -574,6 +574,17 @@ body.single.single-docs .content-area {
         margin: 0;
         list-style: none;
 
+        .docspress-archive-list-category {
+            flex: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        li + .docspress-archive-list-category {
+            margin-top: 20px;
+        }
+
         > .docspress-archive-list-item {
             position: relative;
             flex: 1 0 25%;
