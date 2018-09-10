@@ -340,6 +340,7 @@ body.single.single-docs .content-area {
     font-size: .85em;
 
     .docspress-search-field {
+        width: 100%;
         padding: 10px;
         font-size: inherit;
         background: none;
@@ -385,6 +386,7 @@ body.single.single-docs .content-area {
         padding: 10px;
         font-size: .85em;
         color: inherit;
+        text-decoration: none;
         border-bottom: 1px solid $color_border;
         transition: .15s color ease-in-out;
 
