@@ -41,7 +41,9 @@ class DocsPress_Export {
      * @var string
      */
     public $custom_css =
-    '.docspress-single-feedback {
+    '.docspress-single-feedback,
+.docspress-search-form,
+.docspress-search-form-result {
     display: none;
 }
 body {
