@@ -18,6 +18,7 @@ Online documentation manager for your multiple products. Create, host and manage
 ### Links ###
 
 * [Live Demo](https://demo.nkdev.info/#docspress)
+* [GitHub](https://github.com/nk-o/docspress)
 
 ## Features ##
 
