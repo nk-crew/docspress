@@ -1,7 +1,6 @@
-# Visual Portfolio - layouts visual editor with Gutenberg support
+# DocsPress - online documentation engine
 
-- Site https://wp.nkdev.info/free-visual-portfolio/
-- WordPress Plugin https://wordpress.org/plugins/visual-portfolio/
+- WordPress Plugin https://wordpress.org/plugins/docspress/
 
 ## Development
 
