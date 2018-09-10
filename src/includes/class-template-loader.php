@@ -143,8 +143,9 @@ class DocsPress_Template_Loader {
 
                     // get parent docs.
                     $parent_docs = get_pages( array(
-                        'post_type' => 'docs',
-                        'parent'    => 0,
+                        'post_type'   => 'docs',
+                        'parent'      => 0,
+                        'sort_column' => 'menu_order',
                     ) );
                     if ( $parent_docs ) {
                         // set all doc IDs to array by terms.
