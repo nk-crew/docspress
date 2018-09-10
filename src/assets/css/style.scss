@@ -596,8 +596,20 @@ body.single.single-docs .content-area {
 
         > .docspress-archive-list-item {
             position: relative;
-            flex: 1 0 25%;
-            min-width: 300px;
+            flex: 1 0 33.33%;
+            min-width: 33.33%;
+            max-width: 33.33%;
+
+            @media screen and (max-width: 991px) {
+                flex: 1 0 50%;
+                min-width: 50%;
+                max-width: 50%;
+            }
+            @media screen and (max-width: 576px) {
+                flex: 1 0 100%;
+                min-width: 100%;
+                max-width: 100%;
+            }
 
             a {
                 text-decoration: none;
