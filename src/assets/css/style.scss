@@ -642,6 +642,11 @@ body.single.single-docs .content-area {
                 background-color: $color_border_lighten;
                 border-bottom: 1px solid $color_border;
 
+                h2 {
+                    padding: 0;
+                    margin: 0;
+                }
+
                 &::before,
                 &::after {
                     content: "";
@@ -666,6 +671,7 @@ body.single.single-docs .content-area {
                     flex: 1;
                     max-width: 100%;
 
+                    h2,
                     span,
                     strong {
                         position: relative;
@@ -685,7 +691,7 @@ body.single.single-docs .content-area {
                         transform: translateY(-50%);
                     }
 
-                    strong {
+                    h2 {
                         top: 0;
                         font-size: 1em;
                         transition: .1s color, .2s;
@@ -696,7 +702,7 @@ body.single.single-docs .content-area {
                         margin-top: -10px;
                         opacity: 1;
                     }
-                    strong {
+                    h2 {
                         top: 8px;
                         color: $color_main;
                     }

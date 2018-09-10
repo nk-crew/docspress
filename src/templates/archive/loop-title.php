@@ -32,6 +32,6 @@ $articles_count = count( $articles );
             printf( esc_html( _n( '%s Article', '%s Articles', $articles_count, '@@text_domain' ) ), esc_html( $articles_count ) );
             ?>
         </span>
-        <strong><?php the_title(); ?></strong>
+        <h2><?php the_title(); ?></h2>
     </span>
 </a>
