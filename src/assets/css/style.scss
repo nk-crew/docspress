@@ -571,14 +571,21 @@ body.single.single-docs .content-area {
         flex-wrap: wrap;
         width: 100%;
         padding: 0;
-        margin: 0;
+        margin: 0 -15px;
         list-style: none;
+
+        > li {
+            padding: 0 15px;
+            margin: 0;
+            margin-bottom: 10px;
+        }
 
         .docspress-archive-list-category {
             flex: 100%;
             min-width: 100%;
             max-width: 100%;
             margin-bottom: 10px;
+            font-size: 1.2em;
             font-weight: 600;
         }
         li + .docspress-archive-list-category {
@@ -589,10 +596,6 @@ body.single.single-docs .content-area {
             position: relative;
             flex: 1 0 25%;
             min-width: 300px;
-            margin: 0;
-            margin-right: -1px;
-            margin-bottom: -1px;
-            border: 1px solid $color_border;
 
             a {
                 text-decoration: none;
@@ -600,8 +603,8 @@ body.single.single-docs .content-area {
             }
 
             > ul {
-                padding: 16px 20px;
                 margin: 0;
+                color: $color_text_secondary;
                 list-style: none;
 
                 a:hover {
@@ -646,12 +649,10 @@ body.single.single-docs .content-area {
             .docspress-archive-list-item-title {
                 display: flex;
                 align-items: center;
-                min-height: 73px;
-                padding: 16px 20px;
+                min-height: 65px;
+                padding: 15px 0;
                 margin: 0;
                 line-height: 1.4;
-                background-color: $color_border_lighten;
-                border-bottom: 1px solid $color_border;
 
                 h2 {
                     padding: 0;
