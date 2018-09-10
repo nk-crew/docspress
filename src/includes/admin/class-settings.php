@@ -95,6 +95,12 @@ class DocsPress_Settings {
             ),
             'docspress_single' => array(
                 array(
+                    'name'    => 'show_comments',
+                    'label'   => __( 'Show comments', '@@text_domain' ),
+                    'type'    => 'checkbox',
+                    'default' => 'on',
+                ),
+                array(
                     'name'    => 'show_feedback_buttons',
                     'label'   => __( 'Show feedback buttons', '@@text_domain' ),
                     'desc'    => __( 'Helpful feedback', '@@text_domain' ),

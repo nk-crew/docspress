@@ -52,7 +52,9 @@ while ( have_posts() ) :
 
             docspress()->get_template_part( 'single/feedback' );
 
-            docspress()->get_template_part( 'single/comments' );
+            if ( docspress()->get_option( 'show_comments', 'docspress_single', true ) ) {
+                docspress()->get_template_part( 'single/comments' );
+            }
 
             ?>
         </div><!-- .docspress-single-content -->
