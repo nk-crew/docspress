@@ -37,9 +37,9 @@ $keys  = implode( '|', explode( ' ', get_search_query() ) );
                     while ( have_posts() ) :
                         the_post();
                         // highlight search terms in title.
-                        $title = wp_trim_words( get_the_title(), 10, true );
+                        $title = wp_trim_words( get_the_title(), 10 );
                         $title = preg_replace( '/(' . $keys . ')/iu', '<mark>\0</mark>', $title );
-                        $excerpt = wp_trim_words( get_the_excerpt(), 10, true );
+                        $excerpt = wp_trim_words( get_the_excerpt(), 10 );
                         $excerpt = preg_replace( '/(' . $keys . ')/iu', '<mark>\0</mark>', $excerpt );
                         ?>
                         <li class="docspress-search-list-item">
