@@ -92,7 +92,7 @@ class DocsPress {
 
         // feedback links click
         self.$body.on( 'click', '.docspress-single-feedback a', function( e ) {
-            self.onFeedbackClick( e, this );
+            self.onFeedbackClick( e, $( this ) );
         } );
     }
 
