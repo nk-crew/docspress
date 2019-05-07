@@ -66,6 +66,11 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog ##
 
+= 2.0.1 =
+
+* fixed feedback click action js error
+* fixed search result in the end of the excerpt text showed "1"
+
 = 2.0.0 =
 
 * updated overall styles
