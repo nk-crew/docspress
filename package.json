@@ -107,7 +107,6 @@
         "gulp-sass": "^3.2.1",
         "gulp-sort": "^2.0.0",
         "gulp-uglify": "^3.0.0",
-        "gulp-vinyl-zip": "^2.0.0",
         "gulp-wp-pot": "^2.2.0",
         "gulp-zip": "^4.0.0",
         "husky": "^0.14.3",
