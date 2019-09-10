@@ -9,15 +9,15 @@
 * License: GPLv2 or later
 * License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Online Products Documentation.
+Create, host and manage multiple products documentations.
 
 ## Description ##
 
-Online documentation manager for your multiple products. Create, host and manage documentations in your WordPress site.
+Online documentation for your multiple products. Create, host and manage documentations in your WordPress site.
 
 ### Links ###
 
-* [Live Demo](https://demo.nkdev.info/#docspress)
+* [Live Demo](https://nkdev.info/docs)
 * [GitHub](https://github.com/nk-o/docspress)
 
 ## Features ##
