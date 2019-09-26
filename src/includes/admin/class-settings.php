@@ -87,8 +87,8 @@ class DocsPress_Settings {
             'docspress_settings' => array(
                 array(
                     'name'    => 'docs_page_id',
-                    'label'   => __( 'Documentation archive page', '@@text_domain' ),
-                    'desc'    => __( 'Page to show documentations list. <br> If you see the 404 error, please go to Settings > Permalinks and press "Save Changes" button.', '@@text_domain' ),
+                    'label'   => __( 'Documentation Archive Page', '@@text_domain' ),
+                    'desc'    => __( 'Page to display documentations list. <br> If you see the 404 error, please go to Settings > Permalinks and press "Save Changes" button.', '@@text_domain' ),
                     'type'    => 'select',
                     'options' => $this->get_pages(),
                 ),
@@ -96,26 +96,26 @@ class DocsPress_Settings {
             'docspress_single' => array(
                 array(
                     'name'    => 'show_comments',
-                    'label'   => __( 'Show comments', '@@text_domain' ),
+                    'label'   => __( 'Display Comments', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
                 array(
                     'name'    => 'show_feedback_buttons',
-                    'label'   => __( 'Show feedback buttons', '@@text_domain' ),
+                    'label'   => __( 'Display Feedback Buttons', '@@text_domain' ),
                     'desc'    => __( 'Helpful feedback', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
                 array(
                     'name'    => 'show_feedback_buttons_likes',
-                    'desc'    => __( 'Show likes/dislikes count', '@@text_domain' ),
+                    'desc'    => __( 'Display Likes / Dislikes Count', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
                 array(
                     'name'    => 'show_anchor_links',
-                    'label'   => __( 'Show anchor links on headings in content', '@@text_domain' ),
+                    'label'   => __( 'Display Heading Anchors', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
@@ -126,27 +126,27 @@ class DocsPress_Settings {
                 ),
                 array(
                     'name'    => 'sidebar_show_search',
-                    'label'   => __( 'Show search', '@@text_domain' ),
+                    'label'   => __( 'Display Search', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
                 array(
                     'name'    => 'sidebar_show_nav_parents',
-                    'label'   => __( 'Show parent links', '@@text_domain' ),
+                    'label'   => __( 'Display Parent Links', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'off',
                 ),
                 array(
                     'name'    => 'sidebar_show_nav_childs',
-                    'label'   => __( 'Show child links', '@@text_domain' ),
-                    'desc'    => __( 'Always show child navigation links (by default showed only for active)', '@@text_domain' ),
+                    'label'   => __( 'Display Child Links', '@@text_domain' ),
+                    'desc'    => __( 'Always display child navigation links (by default displayed only for active parent doc)', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'off',
                 ),
                 array(
                     'name'    => 'sidebar_show_nav_number_of_childs',
-                    'label'   => __( 'Show number of childs', '@@text_domain' ),
-                    'desc'    => __( 'Show in the title of parent link the number of childs', '@@text_domain' ),
+                    'label'   => __( 'Display Number of Childs', '@@text_domain' ),
+                    'desc'    => __( 'Display in the title of parent link the number of childs', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
@@ -159,7 +159,7 @@ class DocsPress_Settings {
                 ),
                 array(
                     'name'    => 'ajax_custom_js',
-                    'label'   => __( 'AJAX custom JS', '@@text_domain' ),
+                    'label'   => __( 'AJAX Custom JS', '@@text_domain' ),
                     'desc'    => __( 'Run custom JS after document loaded via AJAX', '@@text_domain' ),
                     'type'    => 'textarea',
                     'size'    => 'large',
@@ -169,15 +169,15 @@ class DocsPress_Settings {
             'docspress_archive' => array(
                 array(
                     'name'    => 'show_articles',
-                    'label'   => __( 'Show articles', '@@text_domain' ),
+                    'label'   => __( 'Display Articles', '@@text_domain' ),
                     'desc'    => __( 'Top level articles list', '@@text_domain' ),
                     'type'    => 'checkbox',
                     'default' => 'on',
                 ),
                 array(
                     'name'    => 'articles_number',
-                    'label'   => __( 'Number of articles', '@@text_domain' ),
-                    'desc'    => __( 'Type -1 to show all available articles', '@@text_domain' ),
+                    'label'   => __( 'Number of Articles', '@@text_domain' ),
+                    'desc'    => __( 'Type -1 to display all available articles', '@@text_domain' ),
                     'type'    => 'number',
                     'default' => 3,
                 ),
