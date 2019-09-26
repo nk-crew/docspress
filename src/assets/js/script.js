@@ -182,6 +182,9 @@ class DocsPress {
             this.$document.scrollTop( this.$document.scrollTop() + top );
         }
 
+        // init new anchors.
+        this.initAnchors();
+
         this.$document.trigger( 'docspress_ajax_loaded', cached );
     }
 
