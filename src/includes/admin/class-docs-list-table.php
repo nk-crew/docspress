@@ -20,6 +20,8 @@ class DocsPress_Docs_List_Table {
         add_action( 'load-edit.php', array( $this, 'edit_docs_load' ) );
         add_action( 'load-post.php', array( $this, 'add_meta_box' ) );
 
+        add_action( 'save_post_docs', array( $this, 'save_helpfulness_meta_box' ) );
+
         // load css.
         add_action( 'admin_print_styles-post.php', array( $this, 'helpfulness_css' ) );
         add_action( 'admin_print_styles-edit.php', array( $this, 'helpfulness_css' ) );
@@ -41,8 +43,27 @@ class DocsPress_Docs_List_Table {
         }
         ?>
         <style type="text/css">
-            .docspress-positive { color: green; }
-            .docspress-negative { color: red; text-align: right; }
+            .docspress-helpfulness-form {
+                display: flex;
+                flex-wrap: wrap;
+            }
+            .docspress-helpfulness-form > div {
+                display: flex;
+                flex: 1;
+                align-items: center;
+            }
+            .docspress-helpfulness-form input[type="number"] {
+                width: 45px;
+                margin-left: 10px;
+                text-align: center;
+            }
+            .docspress-helpfulness-form .docspress-positive {
+                color: green;
+            }
+            .docspress-helpfulness-form .docspress-negative {
+                color: red;
+                justify-content: flex-end;
+            }
         </style>
         <?php
     }
@@ -54,20 +75,57 @@ class DocsPress_Docs_List_Table {
         global $post;
 
         ?>
-        <table style="width: 100%;">
-            <tr>
-                <td class="docspress-positive">
-                    <span class="dashicons dashicons-thumbs-up"></span>
-                    <?php echo esc_html( get_post_meta( $post->ID, 'positive', true ) ); ?>
-                </td>
+        <div class="docspress-helpfulness-form">
+            <div class="docspress-positive">
+                <span class="dashicons dashicons-thumbs-up"></span>
+                <input
+                    type="number"
+                    name="positive"
+                    placeholder="0"
+                    value="<?php echo esc_attr( get_post_meta( $post->ID, 'positive', true ) ); ?>"
+                />
+            </div>
 
-                <td class="docspress-negative">
-                    <span class="dashicons dashicons-thumbs-down"></span>
-                    <?php echo esc_html( get_post_meta( $post->ID, 'negative', true ) ); ?>
-                </td>
-            </tr>
-        </table>
+            <div class="docspress-negative">
+                <span class="dashicons dashicons-thumbs-down"></span>
+                <input
+                    type="number"
+                    name="negative"
+                    placeholder="0"
+                    value="<?php echo esc_attr( get_post_meta( $post->ID, 'negative', true ) ); ?>"
+                />
+            </div>
+        </div>
         <?php
+    }
+
+    /**
+     * Save helpfulness meta data.
+     *
+     * @param int $post_id - post id.
+     */
+    public function save_helpfulness_meta_box( $post_id ) {
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return;
+        }
+
+        // Check the user's permissions.
+        if ( ! current_user_can( 'edit_post', $post_id ) ) {
+            return;
+        }
+
+        $fields = [
+            'positive',
+            'negative',
+        ];
+
+        foreach ( $fields as $field ) {
+            // phpcs:ignore
+            if ( array_key_exists( $field, $_POST ) ) {
+                // phpcs:ignore
+                update_post_meta( $post_id, $field, sanitize_text_field( $_POST[ $field ] ) );
+            }
+        }
     }
 
     /**
