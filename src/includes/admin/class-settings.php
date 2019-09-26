@@ -258,23 +258,21 @@ class DocsPress_Settings {
         ?>
         <script type="text/javascript">
             jQuery(function($) {
-                $('input[name="docspress_settings[ajax]"]:checkbox').on( 'change', function() {
+                $('input[name="docspress_single[show_feedback_buttons]"]:checkbox').on( 'change', function() {
 
-                    if ( $(this).is(':checked' ) ) {
-                        $('tr.ajax_custom_js').show();
-                    } else {
-                        $('tr.ajax_custom_js').hide();
-                    }
+                    $('tr.show_feedback_buttons_likes')[ $(this).is(':checked' ) ? 'show' : 'hide' ]();
+
+                }).change();
+
+                $('input[name="docspress_single[ajax]"]:checkbox').on( 'change', function() {
+
+                    $('tr.ajax_custom_js')[ $(this).is(':checked' ) ? 'show' : 'hide' ]();
 
                 }).change();
 
                 $('input[name="docspress_archive[show_articles]"]:checkbox').on( 'change', function() {
 
-                    if ( $(this).is(':checked' ) ) {
-                        $('tr.articles_number').show();
-                    } else {
-                        $('tr.articles_number').hide();
-                    }
+                    $('tr.articles_number')[ $(this).is(':checked' ) ? 'show' : 'hide' ]();
 
                 }).change();
             });
