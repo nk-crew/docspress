@@ -45,6 +45,40 @@ class DocsPress_Ajax {
     }
 
     /**
+     * Get post data to use in Vue.
+     *
+     * @param object $post - post data.
+     *
+     * @return array
+     */
+    public function get_post_data( $post ) {
+        $cat_id = 0;
+        $cat_name = '';
+
+        // get category.
+        $terms = wp_get_post_terms( $post->ID, 'docs_category' );
+        if ( ! empty( $terms ) && isset( $terms[0] ) ) {
+            $cat_id = $terms[0]->term_id;
+            $cat_name = $terms[0]->name;
+        }
+
+        return array(
+            'id'       => $post->ID,
+            'title'    => $post->post_title,
+            'name'     => $post->post_name,
+            'status'   => $post->post_status,
+            'thumb'    => get_the_post_thumbnail_url( $post, 'docspress_archive_sm' ),
+            'order'    => $post->menu_order,
+            'cat_id'   => $cat_id,
+            'cat_name' => $cat_name,
+            'caps'     => array(
+                'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $post->ID ),
+                'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $post->ID ),
+            ),
+        );
+    }
+
+    /**
      * Create a new doc
      *
      * @return void
@@ -79,17 +113,7 @@ class DocsPress_Ajax {
         $post = get_post( $post_id );
         wp_send_json_success(
             array(
-                'post' => array(
-                    'id'     => $post_id,
-                    'title'  => stripslashes( $title ),
-                    'name'   => $post->post_name,
-                    'thumb'  => get_the_post_thumbnail_url( $post, 'docspress_archive_sm' ),
-                    'status' => $status,
-                    'caps'   => array(
-                        'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $post_id ),
-                        'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $post_id ),
-                    ),
-                ),
+                'post' => $this->get_post_data( $post ),
                 'child' => array(),
             )
         );
@@ -147,18 +171,10 @@ class DocsPress_Ajax {
                 }
             }
 
+            $new_post = get_post( $new_post_id );
+
             $result = array(
-                'post' => array(
-                    'id'     => $new_post_id,
-                    'title'  => $title,
-                    'name'   => $clone_from_post->post_name,
-                    'thumb'  => get_the_post_thumbnail_url( $new_post_id, 'docspress_archive_sm' ),
-                    'status' => 'publish',
-                    'caps'   => array(
-                        'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $new_post_id ),
-                        'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $new_post_id ),
-                    ),
-                ),
+                'post' => $this->get_post_data( $new_post ),
                 'child' => $this->clone_child_docs( $clone_from_post->ID, $new_post_id ),
             );
         }
@@ -230,19 +246,11 @@ class DocsPress_Ajax {
                 }
             }
 
+            $new_post = get_post( $new_post_id );
+
             // add new subitems.
             $result[] = array(
-                'post' => array(
-                    'id'     => $new_post_id,
-                    'title'  => $clone_from_post->post_title,
-                    'name'   => $clone_from_post->post_name,
-                    'thumb'  => get_the_post_thumbnail_url( $new_post_id, 'docspress_archive_sm' ),
-                    'status' => $clone_from_post->post_status,
-                    'caps'   => array(
-                        'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $new_post_id ),
-                        'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $new_post_id ),
-                    ),
-                ),
+                'post' => $this->get_post_data( $new_post ),
                 'child' => $this->clone_child_docs( $clone_from_post->ID, $new_post_id ),
             );
         endwhile;
@@ -334,7 +342,7 @@ class DocsPress_Ajax {
         );
 
         $arranged = $this->build_tree( $docs->posts );
-        // usort( $arranged, array( $this, 'sort_callback' ) );.
+
         wp_send_json_success( $arranged );
     }
 
@@ -418,22 +426,21 @@ class DocsPress_Ajax {
             if ( $doc->post_parent == $parent ) {
                 unset( $docs[ $key ] );
 
+                $cat_id = 0;
+                $cat_name = '';
+
+                // get category.
+                $terms = wp_get_post_terms( $doc->ID, 'docs_category' );
+                if ( ! empty( $terms ) && isset( $terms[0] ) ) {
+                    $cat_id = $terms[0]->term_id;
+                    $cat_name = $terms[0]->name;
+                }
+
                 // build tree and sort.
                 $child = $this->build_tree( $docs, $doc->ID );
-                // usort( $child, array( $this, 'sort_callback' ) );.
+
                 $result[] = array(
-                    'post' => array(
-                        'id'     => $doc->ID,
-                        'title'  => $doc->post_title,
-                        'name'   => $doc->post_name,
-                        'status' => $doc->post_status,
-                        'thumb'  => get_the_post_thumbnail_url( $doc, 'docspress_archive_sm' ),
-                        'order'  => $doc->menu_order,
-                        'caps'   => array(
-                            'edit'   => current_user_can( $this->get_post_type_object()->cap->edit_post, $doc->ID ),
-                            'delete' => current_user_can( $this->get_post_type_object()->cap->delete_post, $doc->ID ),
-                        ),
-                    ),
+                    'post' => $this->get_post_data( $doc ),
                     'child' => $child,
                 );
             }

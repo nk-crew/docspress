@@ -44,12 +44,65 @@ Vue.directive( 'sortable', {
     },
 } );
 
+/**
+ * Get categorized docs.
+ *
+ * @param {array} docs docs list.
+ *
+ * @return {object} categorized docs list.
+ */
+function getCategorizedDocs( docs ) {
+    const data = Object.assign( [], docs );
+
+    const categorized = {
+        // eslint-disable-next-line quote-props
+        '0': {
+            name: '',
+            docs: [],
+        },
+    };
+
+    data.forEach( ( doc ) => {
+        if ( ! categorized[ `${ doc.post.cat_id }` ] ) {
+            categorized[ `${ doc.post.cat_id }` ] = {
+                name: doc.post.cat_name,
+                docs: [],
+            };
+        }
+
+        categorized[ doc.post.cat_id ].docs.push( doc );
+    } );
+
+    return categorized;
+}
+
+/**
+ * Remove doc from list by id.
+ *
+ * @param {array} docs docs list.
+ * @param {int} id post ID.
+ *
+ * @return {array} updated docs list.
+ */
+function removeDoc( docs, id ) {
+    for ( let i = 0; i < docs.length; i++ ) {
+        if ( docs[ i ].post.id === id ) {
+            docs.splice( i, 1 );
+        } else if ( docs[ i ].child && docs[ i ].child.length ) {
+            docs[ i ].child = removeDoc( docs[ i ].child, id );
+        }
+    }
+
+    return docs;
+}
+
 new Vue( {
     el: '#docspress-app',
     data: {
         editurl: '',
         viewurl: '',
         docs: [],
+        categorized: [],
     },
 
     mounted() {
@@ -62,12 +115,13 @@ new Vue( {
         $.get( ajaxurl, {
             action: 'docspress_admin_get_docs',
             _wpnonce: adminVars.nonce,
-        }, function( data ) {
+        }, function( { data } ) {
             dom.find( '.docspress' ).removeClass( 'not-loaded' ).addClass( 'loaded' );
             dom.find( '.spinner' ).remove();
             dom.find( '.no-docspress' ).removeClass( 'not-loaded' );
 
-            self.docs = data.data;
+            self.docs = Object.assign( [], data );
+            self.categorized = getCategorizedDocs( data );
         } );
     },
 
@@ -112,6 +166,7 @@ new Vue( {
                     },
                     success: function( res ) {
                         that.docs.unshift( res );
+                        that.categorized = getCategorizedDocs( that.docs );
                         swal.close();
                     },
                     error: that.onError,
@@ -146,9 +201,8 @@ new Vue( {
                         _wpnonce: adminVars.nonce,
                     },
                     success: function( res ) {
-                        // eslint-disable-next-line
-                        console.log( res );
                         that.docs.unshift( res );
+                        that.categorized = getCategorizedDocs( that.docs );
                         swal.close();
                     },
                     error: that.onError,
@@ -360,15 +414,18 @@ new Vue( {
 
         removePost: function( index, items ) {
             const that = this;
+            const postId = items[ index ].post.id;
 
             wp.ajax.send( {
                 data: {
                     action: 'docspress_remove_doc',
-                    id: items[ index ].post.id,
+                    id: postId,
                     _wpnonce: adminVars.nonce,
                 },
                 success: function() {
-                    Vue.delete( items, index );
+                    that.docs = removeDoc( that.docs, postId );
+                    that.categorized = getCategorizedDocs( that.docs );
+
                     swal.close();
                 },
                 error: that.onError,
