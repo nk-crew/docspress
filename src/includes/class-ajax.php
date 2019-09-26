@@ -138,6 +138,10 @@ class DocsPress_Ajax {
 
             // Copy post metadata.
             foreach ( $clone_post_meta as $key => $values ) {
+                if ( 'positive' === $key || 'negative' === $key ) {
+                    continue;
+                }
+
                 foreach ( $values as $value ) {
                     add_post_meta( $new_post_id, $key, $value );
                 }
@@ -217,6 +221,10 @@ class DocsPress_Ajax {
 
             // Copy post metadata.
             foreach ( $clone_post_meta as $key => $values ) {
+                if ( 'positive' === $key || 'negative' === $key ) {
+                    continue;
+                }
+
                 foreach ( $values as $value ) {
                     add_post_meta( $new_post_id, $key, $value );
                 }
