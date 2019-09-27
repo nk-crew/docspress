@@ -66,6 +66,14 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog ##
 
+= 2.1.0 =
+
+* added Suggestion form option (show after user added feedback)
+* added categories in admin docs list
+* added possibility to change helpfullness in post metabox
+* fixed anchors initialization after ajax load
+* prevent cloning helpfulness meta
+
 = 2.0.1 =
 
 * fixed feedback click action js error

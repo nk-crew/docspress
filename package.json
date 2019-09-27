@@ -26,7 +26,7 @@
             "dist": "dist",
             "plugin_name": "docspress",
             "plugin_title": "DocsPress",
-            "plugin_version": "2.0.1"
+            "plugin_version": "2.1.0"
         },
         "template_vars": [
             {
