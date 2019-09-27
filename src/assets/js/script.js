@@ -66,7 +66,8 @@ class DocsPress {
                 self.xhrAjaxSearch = false;
             },
             error( e ) {
-                console.log(e); // eslint-disable-line
+                // eslint-disable-next-line no-console
+                console.log( e );
                 self.xhrAjaxSearch = false;
             },
         } );
@@ -93,6 +94,11 @@ class DocsPress {
         // feedback links click
         self.$body.on( 'click', '.docspress-single-feedback a', function( e ) {
             self.onFeedbackClick( e, $( this ) );
+        } );
+
+        // feedback suggestion form send
+        self.$body.on( 'submit', '.docspress-single-feedback + .docspress-single-feedback-suggestion', function( e ) {
+            self.onFeedbackSuggestionSend( e, $( this ) );
         } );
     }
 
@@ -133,19 +139,68 @@ class DocsPress {
 
         self.pendingAjax = true;
 
-        const wrap = $item.closest( '.docspress-single-feedback' ).addClass( 'docspress-single-feedback-loading' );
+        const $wrap = $item.closest( '.docspress-single-feedback' ).addClass( 'docspress-single-feedback-loading' );
+        const $suggestionForm = $item.closest( '.docspress-single-content' ).find( '.docspress-single-feedback-suggestion' );
+
+        const feedbackType = $item.data( 'type' );
+
         const data = {
             post_id: $item.data( 'id' ),
-            type: $item.data( 'type' ),
+            type: feedbackType,
             action: 'docspress_ajax_feedback',
-            _wpnonce: docspress_vars.nonce, // eslint-disable-line
+            _wpnonce: window.docspress_vars.nonce,
         };
 
-        wrap.append( self.$preloader.clone() );
+        $wrap.append( self.$preloader.clone() );
 
-        // eslint-disable-next-line
-        $.post( docspress_vars.ajaxurl, data, function( resp ) {
-            wrap.html( '<div>' + resp.data + '</div>' ).removeClass( 'docspress-single-feedback-loading' );
+        $.post( window.docspress_vars.ajaxurl, data, function( resp ) {
+            $wrap.html( '<div>' + resp.data + '</div>' );
+
+            if ( resp.success && $suggestionForm.length ) {
+                $suggestionForm.show();
+                $suggestionForm.append( `<input type="hidden" name="feedback_type" value="${ feedbackType }">` );
+            }
+
+            $wrap.removeClass( 'docspress-single-feedback-loading' );
+
+            self.pendingAjax = false;
+        } );
+    }
+
+    onFeedbackSuggestionSend( e, $form ) {
+        e.preventDefault();
+        const self = this;
+
+        // return if any request is in process already
+        if ( self.pendingAjax ) {
+            return;
+        }
+
+        self.pendingAjax = true;
+
+        const $wrap = $form.closest( '.docspress-single-feedback-suggestion' ).addClass( 'docspress-single-feedback-suggestion-loading' );
+        const $button = $form.find( 'button' );
+
+        const formData = $form.serializeArray().reduce( ( obj, item ) => {
+            obj[ item.name ] = item.value;
+            return obj;
+        }, {} );
+
+        const data = {
+            post_id: formData.id,
+            from: formData.from,
+            suggestion: formData.suggestion,
+            feedback_type: formData.feedback_type,
+            action: 'docspress_ajax_feedback_suggestion',
+            _wpnonce: window.docspress_vars.nonce,
+        };
+
+        $wrap.append( self.$preloader.clone() );
+
+        $button.prop( 'disabled', 'disabled' );
+
+        $.post( window.docspress_vars.ajaxurl, data, function( resp ) {
+            $wrap.html( '<div>' + resp.data + '</div>' ).removeClass( 'docspress-single-feedback-suggestion-loading' );
             self.pendingAjax = false;
         } );
     }
@@ -291,7 +346,7 @@ class DocsPress {
             },
             error: function error( msg ) {
                 if ( msg.status !== 0 ) {
-                    // eslint-disable-next-line
+                    // eslint-disable-next-line no-console
                     console.log( 'error', msg );
                 } else {
                     window.location = href;

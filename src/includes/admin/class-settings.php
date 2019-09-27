@@ -114,6 +114,19 @@ class DocsPress_Settings {
                     'default' => 'on',
                 ),
                 array(
+                    'name'    => 'show_feedback_suggestion',
+                    'desc'    => __( 'Display Suggestion Form After Like', '@@text_domain' ),
+                    'type'    => 'checkbox',
+                    'default' => 'off',
+                ),
+                array(
+                    'name'        => 'show_feedback_suggestion_email',
+                    'desc'        => __( 'Suggestion Email', '@@text_domain' ),
+                    'type'        => 'text',
+                    'placeholder' => get_option( 'admin_email' ),
+                    'default'     => '',
+                ),
+                array(
                     'name'    => 'show_anchor_links',
                     'label'   => __( 'Display Heading Anchors', '@@text_domain' ),
                     'type'    => 'checkbox',
@@ -261,6 +274,16 @@ class DocsPress_Settings {
                 $('input[name="docspress_single[show_feedback_buttons]"]:checkbox').on( 'change', function() {
 
                     $('tr.show_feedback_buttons_likes')[ $(this).is(':checked' ) ? 'show' : 'hide' ]();
+
+                }).change();
+
+                $('input[name="docspress_single[show_feedback_suggestion]"]:checkbox, input[name="docspress_single[show_feedback_buttons]"]:checkbox').on( 'change', function() {
+                    const isCheckedFeedback = $('input[name="docspress_single[show_feedback_buttons]"]').is(':checked' );
+                    const isCheckedSuggestion = $('input[name="docspress_single[show_feedback_suggestion]"]').is(':checked' );
+
+                    $('tr.show_feedback_suggestion')[ isCheckedFeedback ? 'show' : 'hide' ]();
+
+                    $('tr.show_feedback_suggestion_email')[ isCheckedFeedback && isCheckedSuggestion ? 'show' : 'hide' ]();
 
                 }).change();
 

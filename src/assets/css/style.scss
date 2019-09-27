@@ -515,6 +515,34 @@ body.single.single-docs .content-area {
 }
 
 /**
+ * Single Doc Feedback Suggestion Form
+ */
+.docspress-single-feedback-suggestion {
+    position: relative;
+    padding: 15px 29px;
+    margin: 0 -39px;
+    border-top: 1px solid $color_border;
+
+    > * {
+        padding: 10px;
+    }
+
+    textarea,
+    input {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    &.docspress-single-feedback-suggestion-loading > * {
+        opacity: .15;
+    }
+    &.docspress-single-feedback-suggestion-loading > .docspress-preloader {
+        opacity: 1;
+    }
+}
+
+/**
  * Single Doc Articles
  */
 .docspress-single-articles {
