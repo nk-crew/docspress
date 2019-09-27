@@ -23,14 +23,19 @@
 
 .docspress {
 
-    .docspress-cat > ul {
-        display: flex;
-        flex-wrap: wrap;
-        margin: 20px 0;
-        margin-right: -30px;
-        margin-bottom: -30px;
-        overflow: hidden;
-        list-style: none;
+    .docspress-cat {
+        > h3 {
+            margin-top: 40px;
+        }
+        > ul {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            margin-right: -30px;
+            margin-bottom: -30px;
+            overflow: hidden;
+            list-style: none;
+        }
     }
 
     &.not-loaded {
