@@ -511,9 +511,11 @@ class DocsPress_Ajax {
         $from = 'From: "' . esc_html( $from ) . "\" <$wp_email>";
         $reply_to = "Reply-To: \"$wp_email\" <$wp_email>";
 
-        $headers = "$from\n";
-        $headers .= 'Content-Type: text/plain; charset="' . get_option( 'blog_charset' ) . "\"\n";
-        $headers .= $reply_to . "\n";
+        $headers = array(
+            "$from\n",
+            'Content-Type: text/plain; charset="' . get_option( 'blog_charset' ) . "\"\n",
+            $reply_to . "\n",
+        );
 
         return wp_mail( $email_to, wp_specialchars_decode( $subject ), $body, $headers );
     }

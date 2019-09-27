@@ -42,12 +42,14 @@ if ( is_user_logged_in() ) {
 <form class="docspress-single-feedback-suggestion" action="" method="post" style="display: none;">
     <h3><?php echo esc_html__( 'How can we improve this documentation?', '@@text_domain' ); ?></h3>
 
-    <textarea name="suggestion" placeholder="<?php echo esc_attr__( 'Your suggestions', '@@text_domain' ); ?>" required></textarea>
+    <div>
+        <textarea name="suggestion" placeholder="<?php echo esc_attr__( 'Your suggestions', '@@text_domain' ); ?>" required></textarea>
 
-    <input name="from" type="text" value="<?php echo esc_attr( $from ); ?>" placeholder="<?php echo esc_attr__( 'Your Name or Email (Optional)', '@@text_domain' ); ?>">
+        <input name="from" type="text" value="<?php echo esc_attr( $from ); ?>" placeholder="<?php echo esc_attr__( 'Your Name or Email (Optional)', '@@text_domain' ); ?>">
 
-    <button class="docspress-btn docspress-btn-md"><?php echo esc_attr__( 'Send', '@@text_domain' ); ?></button>
+        <button class="docspress-btn docspress-btn-md"><?php echo esc_attr__( 'Send', '@@text_domain' ); ?></button>
 
-    <input type="hidden" name="id" value="<?php echo esc_attr( get_the_ID() ); ?>">
-    <input type="hidden" name="action" value="docspress_suggestion">
+        <input type="hidden" name="id" value="<?php echo esc_attr( get_the_ID() ); ?>">
+        <input type="hidden" name="action" value="docspress_suggestion">
+    </div>
 </form>
