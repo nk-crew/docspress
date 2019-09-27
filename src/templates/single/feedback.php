@@ -41,7 +41,7 @@ $show_counts = docspress()->get_option( 'show_feedback_buttons_likes', 'docspres
     ?>
 
     <div>
-        <?php echo esc_html__( 'Was this helpful to you?', '@@text_domain' ); ?>
+        <?php echo esc_html__( 'Was this page helpful?', '@@text_domain' ); ?>
     </div>
 
     <div class="docspress-single-feedback-vote">
