@@ -341,26 +341,28 @@ class DocsPress {
         $docs_page = $docspress_archive_id ? get_post( $docspress_archive_id ) : false;
 
         $labels = array(
-            'name'                => _x( 'DocsPress', 'Post Type General Name', '@@text_domain' ),
-            'singular_name'       => _x( 'Doc', 'Post Type Singular Name', '@@text_domain' ),
-            'menu_name'           => __( 'Documentation', '@@text_domain' ),
-            'parent_item_colon'   => __( 'Parent Doc', '@@text_domain' ),
-            'all_items'           => __( 'All Documentations', '@@text_domain' ),
-            'view_item'           => __( 'View Documentation', '@@text_domain' ),
-            'add_new_item'        => __( 'Add Documentation', '@@text_domain' ),
-            'add_new'             => __( 'Add New', '@@text_domain' ),
-            'edit_item'           => __( 'Edit Documentation', '@@text_domain' ),
-            'update_item'         => __( 'Update Documentation', '@@text_domain' ),
-            'search_items'        => __( 'Search Documentation', '@@text_domain' ),
-            'not_found'           => __( 'Not documentation found', '@@text_domain' ),
-            'not_found_in_trash'  => __( 'Not found in Trash', '@@text_domain' ),
+            'name'               => $docs_page ? get_the_title( $docs_page ) : _x( 'DocsPress', 'Post Type General Name', '@@text_domain' ),
+            'singular_name'      => _x( 'Doc', 'Post Type Singular Name', '@@text_domain' ),
+            'menu_name'          => __( 'Documentation', '@@text_domain' ),
+            'parent_item_colon'  => __( 'Parent Doc', '@@text_domain' ),
+            'all_items'          => __( 'All Documentations', '@@text_domain' ),
+            'view_item'          => __( 'View Documentation', '@@text_domain' ),
+            'add_new_item'       => __( 'Add Documentation', '@@text_domain' ),
+            'add_new'            => __( 'Add New', '@@text_domain' ),
+            'edit_item'          => __( 'Edit Documentation', '@@text_domain' ),
+            'update_item'        => __( 'Update Documentation', '@@text_domain' ),
+            'search_items'       => __( 'Search Documentation', '@@text_domain' ),
+            'not_found'          => __( 'Not documentation found', '@@text_domain' ),
+            'not_found_in_trash' => __( 'Not found in Trash', '@@text_domain' ),
         );
+
         $rewrite = array(
-            'slug'                => $docs_page ? get_post_field( 'post_name', $docs_page ) : 'docs',
-            'with_front'          => false,
-            'pages'               => true,
-            'feeds'               => true,
+            'slug'       => $docs_page ? get_post_field( 'post_name', $docs_page ) : 'docs',
+            'with_front' => false,
+            'pages'      => true,
+            'feeds'      => true,
         );
+
         $args = array(
             'labels'              => $labels,
             'supports'            => array( 'title', 'editor', 'thumbnail', 'revisions', 'page-attributes', 'comments' ),
