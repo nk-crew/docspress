@@ -66,6 +66,10 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.1.2 =
+
+* changed position of anchor link to right (fixes Ghost Kit numbered headings conflict)
+
 = 2.1.1 =
 
 * fixed DocsPress archive page title
