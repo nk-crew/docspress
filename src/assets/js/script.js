@@ -81,7 +81,7 @@ class DocsPress {
         }
 
         anchors.options = {
-            placement: 'left',
+            placement: 'right',
             visible: 'hover',
             icon: '#',
         };
