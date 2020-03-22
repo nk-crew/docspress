@@ -44,34 +44,6 @@ class DocsPress {
     public $plugin_url;
 
     /**
-     * Plugin name
-     *
-     * @var $plugin_name
-     */
-    public $plugin_name;
-
-    /**
-     * Plugin version
-     *
-     * @var $plugin_version
-     */
-    public $plugin_version;
-
-    /**
-     * Plugin slug
-     *
-     * @var $plugin_slug
-     */
-    public $plugin_slug;
-
-    /**
-     * Plugin name sanitized
-     *
-     * @var $plugin_name_sanitized
-     */
-    public $plugin_name_sanitized;
-
-    /**
      * Theme templates directory path
      *
      * @var $theme_dir_path
@@ -122,23 +94,10 @@ class DocsPress {
      * Plugin init.
      */
     public function plugin_init() {
-        $data = get_file_data(
-            __FILE__,
-            array(
-                'Name'    => 'Name',
-                'Version' => 'Version',
-            ),
-            'plugin'
-        );
-
-        $this->plugin_name           = $data['Name'];
-        $this->plugin_version        = $data['Version'];
-        $this->plugin_slug           = plugin_basename( __FILE__, '.php' );
-        $this->plugin_name_sanitized = basename( __FILE__, '.php' );
-        $this->plugin_path           = plugin_dir_path( __FILE__ );
-        $this->plugin_url            = plugin_dir_url( __FILE__ );
-        $this->theme_dir_path        = 'docspress/';
-        $this->template_path         = $this->plugin_path . '/templates/';
+        $this->plugin_path    = plugin_dir_path( __FILE__ );
+        $this->plugin_url     = plugin_dir_url( __FILE__ );
+        $this->theme_dir_path = 'docspress/';
+        $this->template_path  = $this->plugin_path . '/templates/';
 
         $this->include_dependencies();
 
@@ -303,7 +262,7 @@ class DocsPress {
      * @uses wp_enqueue_style
      */
     public function enqueue_scripts() {
-        wp_enqueue_style( 'docspress', docspress()->plugin_url . 'assets/css/style.min.css', array(), docspress()->plugin_version );
+        wp_enqueue_style( 'docspress', docspress()->plugin_url . 'assets/css/style.min.css', array(), '@@plugin_version' );
 
         $deps = array( 'jquery' );
         if ( docspress()->get_option( 'show_anchor_links', 'docspress_single', true ) ) {
@@ -311,7 +270,7 @@ class DocsPress {
             $deps[] = 'anchor-js';
         }
 
-        wp_enqueue_script( 'docspress', docspress()->plugin_url . 'assets/js/script.min.js', $deps, docspress()->plugin_version, true );
+        wp_enqueue_script( 'docspress', docspress()->plugin_url . 'assets/js/script.min.js', $deps, '@@plugin_version', true );
         wp_localize_script(
             'docspress',
             'docspress_vars',

@@ -63,7 +63,7 @@ class DocsPress_Admin {
 
         wp_enqueue_script( 'vuejs', docspress()->plugin_url . 'assets/vendor/vue/vue.min.js', array(), '2.5.13', true );
         wp_enqueue_script( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert/js/sweetalert.min.js', array( 'jquery' ), '1.1.3', true );
-        wp_enqueue_script( 'docspress-admin', docspress()->plugin_url . 'assets/admin/js/script.min.js', array( 'jquery', 'jquery-ui-sortable', 'wp-util' ), docspress()->plugin_version, true );
+        wp_enqueue_script( 'docspress-admin', docspress()->plugin_url . 'assets/admin/js/script.min.js', array( 'jquery', 'jquery-ui-sortable', 'wp-util' ), '@@plugin_version', true );
         wp_localize_script(
             'docspress-admin',
             'docspress_admin_vars',
@@ -100,7 +100,7 @@ class DocsPress_Admin {
         );
 
         wp_enqueue_style( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert/css/sweetalert.css', array(), '1.1.3' );
-        wp_enqueue_style( 'docspress-admin', docspress()->plugin_url . 'assets/admin/css/style.min.css', array(), docspress()->plugin_version );
+        wp_enqueue_style( 'docspress-admin', docspress()->plugin_url . 'assets/admin/css/style.min.css', array(), '@@plugin_version' );
     }
 
     /**
