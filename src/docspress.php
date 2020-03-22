@@ -552,11 +552,6 @@ class DocsPress {
             }
         }
 
-        $result[] = array(
-            'label'    => get_the_title(),
-            'url'      => false,
-        );
-
         return apply_filters( 'docspress_breadcrumbs_array', $result );
     }
 

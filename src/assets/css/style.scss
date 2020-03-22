@@ -429,10 +429,6 @@ body.single.single-docs .content-area {
         display: inline;
         margin-right: 5px;
         margin-left: 5px;
-
-        &:last-of-type {
-            color: $color_text_secondary;
-        }
     }
 
     .delimiter {
