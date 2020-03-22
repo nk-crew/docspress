@@ -262,6 +262,10 @@ class DocsPress {
      * @uses wp_enqueue_style
      */
     public function enqueue_scripts() {
+        if ( ! ( $this->is_archive || $this->is_single ) ) {
+            return;
+        }
+
         wp_enqueue_style( 'docspress', docspress()->plugin_url . 'assets/css/style.min.css', array(), '@@plugin_version' );
 
         $deps = array( 'jquery' );
