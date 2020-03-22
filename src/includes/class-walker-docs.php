@@ -31,7 +31,7 @@ class DocsPress_Walker_Docs extends Walker_Page {
      * @param array   $args - arguments.
      */
     public function start_lvl( &$output, $depth = 0, $args = array() ) {
-        $indent = str_repeat( "\t", $depth );
+        $indent  = str_repeat( "\t", $depth );
         $output .= "\n$indent<ul class='children'>\n";
 
         if ( $args['has_children'] && 0 === $depth ) {
@@ -58,7 +58,7 @@ class DocsPress_Walker_Docs extends Walker_Page {
             self::$parent_item = $page;
         }
 
-        if ( $page->ID == $current_page ) {
+        if ( $page->ID === $current_page ) {
             self::$parent_item_class = 'current_page_item';
         } else {
             self::$parent_item_class = '';
@@ -67,13 +67,13 @@ class DocsPress_Walker_Docs extends Walker_Page {
         // add the number of childrens.
         $show_number_childrens = isset( $args['pages_with_children'][ $page->ID ] ) && docspress()->get_option( 'sidebar_show_nav_number_of_childs', 'docspress_single', true );
         if ( $show_number_childrens ) {
-            $childs = get_pages(
+            $childs             = get_pages(
                 array(
-                    'child_of' => $page->ID,
+                    'child_of'  => $page->ID,
                     'post_type' => $page->post_type,
                 )
             );
-            $count = count( $childs );
+            $count              = count( $childs );
             $args['link_after'] = ( isset( $args['link_after'] ) ? $args['link_after'] : '' ) . ' <sup>[' . $count . ']</sup>';
         }
 

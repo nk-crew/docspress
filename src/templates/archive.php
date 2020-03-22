@@ -26,12 +26,14 @@ docspress()->get_template_part( 'global/wrap-start' );
         <div class="docspress-archive">
             <ul class="docspress-archive-list">
                 <?php
+                // phpcs:ignore
                 $current_term = false;
 
                 if ( have_posts() ) :
                     while ( have_posts() ) :
                         the_post();
 
+                        // phpcs:ignore
                         $terms = wp_get_post_terms( get_the_ID(), 'docs_category' );
                         if (
                             $terms &&
@@ -39,6 +41,7 @@ docspress()->get_template_part( 'global/wrap-start' );
                             isset( $terms[0]->name ) &&
                             $current_term !== $terms[0]->name
                         ) {
+                            // phpcs:ignore
                             $current_term = $terms[0]->name;
                             ?>
                             <li class="docspress-archive-list-category">
@@ -66,7 +69,7 @@ docspress()->get_template_part( 'global/wrap-start' );
                     'after'  => '</div>',
                 )
             );
-        ?>
+            ?>
     </div>
 </article>
 

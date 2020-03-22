@@ -13,11 +13,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// phpcs:ignore
 $breadcrumbs = docspress()->get_breadcrumbs_array();
 ?>
 
 <ul class="docspress-single-breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">
-    <?php foreach ( $breadcrumbs as $k => $crumb ) : ?>
+    <?php foreach ( $breadcrumbs as $k => $crumb ) : // phpcs:ignore ?>
         <?php if ( $k > 0 ) : ?>
             <li class="delimiter"> / </li>
         <?php endif; ?>

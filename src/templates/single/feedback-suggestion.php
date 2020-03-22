@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// phpcs:disable
 $admin_email = docspress()->get_option( 'show_feedback_suggestion_email', 'docspress_single', '' ) ? : get_option( 'admin_email' );
 
 if (
@@ -36,6 +37,7 @@ if ( is_user_logged_in() ) {
         $from .= ( $from ? ' <' : '' ) . $user->user_email . ( $from ? '>' : '' );
     }
 }
+// phpcs:enable
 
 ?>
 

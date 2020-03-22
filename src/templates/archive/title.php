@@ -16,5 +16,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <header class="page-header">
-    <h1 class="page-title"><?php echo docspress()->get_docs_page_title(); // WP XSS OK. ?></h1>
+    <h1 class="page-title">
+        <?php
+        // phpcs:ignore
+        echo docspress()->get_docs_page_title();
+        ?>
+    </h1>
 </header><!-- .page-header -->

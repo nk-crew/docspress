@@ -17,14 +17,15 @@ if ( ! docspress()->get_option( 'show_feedback_buttons', 'docspress_single', tru
     return;
 }
 
+// phpcs:disable
 $show_counts = docspress()->get_option( 'show_feedback_buttons_likes', 'docspress_single', true );
 
 ?>
 
 <div class="docspress-single-feedback">
     <?php
-    $positive = 0;
-    $negative = 0;
+    $positive       = 0;
+    $negative       = 0;
     $positive_title = '';
     $negative_title = '';
 
@@ -38,6 +39,7 @@ $show_counts = docspress()->get_option( 'show_feedback_buttons_likes', 'docspres
         // translators: %s - dislikes number.
         $negative_title = $negative ? sprintf( _n( '%d person found this not useful', '%d persons found this not useful', $negative, '@@text_domain' ), number_format_i18n( $negative ) ) : __( 'No votes yet', '@@text_domain' );
     }
+    // phpcs:enable
     ?>
 
     <div>

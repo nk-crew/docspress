@@ -68,20 +68,20 @@ body {
      */
     public function __construct() {
         if ( function_exists( 'domain_mapping_siteurl' ) ) {
-            $this->wp_site_url = domain_mapping_siteurl( get_current_blog_id() );
+            $this->wp_site_url    = domain_mapping_siteurl( get_current_blog_id() );
             $this->wp_content_url = str_replace( get_original_url( $this->wp_site_url ), $this->wp_site_url, content_url() );
         } else {
-            $this->wp_site_url = site_url();
+            $this->wp_site_url    = site_url();
             $this->wp_content_url = content_url();
         }
         $this->wp_content_name = '/' . wp_basename( WP_CONTENT_DIR );
-        $this->wp_root_url = str_replace( $this->wp_content_name, '', $this->wp_content_url );
-        $this->wp_root_dir = str_replace( $this->wp_content_name, '', WP_CONTENT_DIR );
+        $this->wp_root_url     = str_replace( $this->wp_content_name, '', $this->wp_content_url );
+        $this->wp_root_dir     = str_replace( $this->wp_content_name, '', WP_CONTENT_DIR );
 
-        $export_folder = 'docspress-export';
-        $wp_upload_dir = wp_upload_dir();
+        $export_folder     = 'docspress-export';
+        $wp_upload_dir     = wp_upload_dir();
         $this->export_path = $wp_upload_dir['basedir'] . '/' . $export_folder;
-        $this->export_url = $wp_upload_dir['baseurl'] . '/' . $export_folder;
+        $this->export_url  = $wp_upload_dir['baseurl'] . '/' . $export_folder;
     }
 
     /**
@@ -128,16 +128,18 @@ body {
     }
 
     /**
-     * Run exporter..
+     * Run exporter.
      *
      * @param int $doc_id - documenta ID.
      */
     public function run( $doc_id ) {
         // Turn off PHP output compression.
+        // phpcs:disable
         $previous = error_reporting( error_reporting() ^ E_WARNING );
         ini_set( 'output_buffering', 'off' );
         ini_set( 'zlib.output_compression', false );
         error_reporting( $previous );
+        // phpcs:enable
 
         if ( $GLOBALS['is_nginx'] ) {
             // Setting this header instructs Nginx to disable fastcgi_buffering
@@ -150,7 +152,8 @@ body {
         header( 'Content-Type: text/event-stream' );
 
         // 2KB padding for IE
-        echo ':' . str_repeat( ' ', 2048 ) . "\n\n"; // WP XSS OK.
+        // phpcs:ignore
+        echo ':' . str_repeat( ' ', 2048 ) . "\n\n";
 
         // Time to run the import!
         set_time_limit( 0 );
@@ -174,8 +177,9 @@ body {
 
         // get main doc.
         array_unshift(
-            $docs, array(
-                'id'     => $doc_id,
+            $docs,
+            array(
+                'id'        => $doc_id,
                 'file_name' => 'index.html',
                 'permalink' => get_permalink( $doc_id ),
             )
@@ -189,7 +193,7 @@ body {
 
         // export folder path.
         $export_folder_name = get_post_field( 'post_name', $doc_id );
-        $export_path = trailingslashit( $this->export_path . '/' . $export_folder_name );
+        $export_path        = trailingslashit( $this->export_path . '/' . $export_folder_name );
 
         // remove export folder.
         $this->rimraf_dir( $export_path );
@@ -234,13 +238,13 @@ body {
         if ( preg_match_all( '#<script.*</script>#Usmi', $content, $matches ) ) {
             foreach ( $matches[0] as $tag ) {
                 if ( preg_match( '#<script[^>]*src=("|\')([^>]*)("|\')#Usmi', $tag, $source ) ) {
-                    $url = $this->normalize_url( $source[2] );
+                    $url  = $this->normalize_url( $source[2] );
                     $path = $this->get_path( $url );
 
                     // copy file.
                     if ( $path && ! $this->get_url( $url ) ) {
                         $relative_path = $this->get_assets_relative_path( $path );
-                        $copy_to = $export_path . '/' . $relative_path;
+                        $copy_to       = $export_path . '/' . $relative_path;
 
                         $this->copy_file( $path, $copy_to );
 
@@ -254,13 +258,13 @@ body {
         if ( preg_match_all( '#(<link[^>]*stylesheet[^>]*>)#Usmi', $content, $matches ) ) {
             foreach ( $matches[0] as $tag ) {
                 if ( preg_match( '#<link.*href=("|\')(.*)("|\')#Usmi', $tag, $source ) ) {
-                    $url = $this->normalize_url( $source[2] );
+                    $url  = $this->normalize_url( $source[2] );
                     $path = $this->get_path( $url );
 
                     // copy file.
                     if ( $path && ! $this->get_url( $url ) ) {
                         $relative_path = $this->get_assets_relative_path( $path );
-                        $copy_to = $export_path . '/' . $relative_path;
+                        $copy_to       = $export_path . '/' . $relative_path;
 
                         if ( $this->copy_file( $path, $copy_to ) ) {
                             // find imported images, fonts and other files in css content.
@@ -281,13 +285,13 @@ body {
 
                 // save images.
                 $url_ext = pathinfo( $url, PATHINFO_EXTENSION );
-                if ( in_array( $url_ext, $this->img_extensions ) && ! $this->get_url( $url ) ) {
+                if ( in_array( $url_ext, $this->img_extensions, true ) && ! $this->get_url( $url ) ) {
                     $path = $this->get_path( $url );
 
                     // copy file.
                     if ( $path ) {
                         $relative_path = $this->get_assets_relative_path( $path );
-                        $copy_to = $export_path . '/' . $relative_path;
+                        $copy_to       = $export_path . '/' . $relative_path;
 
                         $this->copy_file( $path, $copy_to );
 
@@ -343,7 +347,7 @@ body {
 
         $i = 1;
         foreach ( $docs as $key => $doc ) {
-            if ( $doc->post_parent == $parent ) {
+            if ( (int) $doc->post_parent === (int) $parent ) {
                 $name_pre_cur = $name_pre . ( $i++ ) . '.';
 
                 unset( $docs[ $key ] );
@@ -369,21 +373,22 @@ body {
      */
     public function parse_css( $css_url, $export_path ) {
         $css_path = $this->get_path( $css_url );
-        $assets = array();
+        $assets   = array();
 
         if ( ! $css_path ) {
             return;
         }
 
         // get css content and remove comments.
+        // phpcs:ignore
         $css_content_nocomments = preg_replace( '#/\*.*\*/#Um', '', file_get_contents( $css_path ) );
 
         // find imported files in css content.
         preg_match_all( "/@import[ ]*['\"]{0,}(url\()*['\"]*([^;'\"\)]*)['\"\)]*/ui", $css_content_nocomments, $matches );
         if ( is_array( $matches ) ) {
             foreach ( $matches[2] as $import ) {
-                $url = $this->normalize_url( $import );
-                $path = $this->get_path( $url, $css_url );
+                $url      = $this->normalize_url( $import );
+                $path     = $this->get_path( $url, $css_url );
                 $assets[] = $path;
 
                 if ( $path && file_exists( $path ) && is_readable( $path ) ) {
@@ -391,7 +396,7 @@ body {
 
                     // copy CSS file.
                     $relative_path = $this->get_assets_relative_path( $path );
-                    $copy_to = $export_path . '/' . $relative_path;
+                    $copy_to       = $export_path . '/' . $relative_path;
 
                     if ( $this->copy_file( $path, $copy_to ) ) {
                         // find imported images, fonts and other files in css content.
@@ -430,7 +435,7 @@ body {
         $assets = array_unique( $assets );
         foreach ( $assets as $asset ) {
             $relative_path = $this->get_assets_relative_path( $asset );
-            $copy_to = $export_path . '/' . $relative_path;
+            $copy_to       = $export_path . '/' . $relative_path;
 
             $this->copy_file( $asset, $copy_to );
         }
@@ -484,6 +489,7 @@ LOD;
     public function get_path( $url, $base_url = false ) {
         $url = $this->normalize_url( $url );
 
+        // phpcs:ignore
         $site_host = parse_url( $this->wp_site_url, PHP_URL_HOST );
 
         // normalize.
@@ -493,22 +499,23 @@ LOD;
             } else {
                 $url = 'http:' . $url;
             }
-        } else if ( ( strpos( $url, '//' ) === false ) && ( strpos( $url, $site_host ) === false ) ) {
+        } elseif ( ( strpos( $url, '//' ) === false ) && ( strpos( $url, $site_host ) === false ) ) {
             if ( $this->wp_site_url === $site_host ) {
                 $url = $this->wp_site_url . $url;
-            } else if ( $base_url && strpos( $url, 'http' ) !== 0 ) {
+            } elseif ( $base_url && strpos( $url, 'http' ) !== 0 ) {
                 if ( strpos( $url, './' ) === 0 ) {
                     $url = preg_replace( '^/.\//', '', $url );
                 }
                 $base_url_folder = pathinfo( $base_url, PATHINFO_DIRNAME );
-                $url = trailingslashit( $base_url_folder ) . $url;
+                $url             = trailingslashit( $base_url_folder ) . $url;
             } else {
                 $subdir_levels = substr_count( preg_replace( '/https?:\/\//', '', $this->wp_site_url ), '/' );
-                $url = $this->wp_site_url . str_repeat( '/..', $subdir_levels ) . $url;
+                $url           = $this->wp_site_url . str_repeat( '/..', $subdir_levels ) . $url;
             }
         }
 
         // first check; hostname wp site should be hostname of url.
+        // phpcs:ignore
         $this_host = @parse_url( $url, PHP_URL_HOST );
         if ( $this_host !== $site_host ) {
             return false;
@@ -516,8 +523,8 @@ LOD;
 
         // try to remove "wp root url" from url while not minding http<>https.
         $tmp_ao_root = preg_replace( '/https?:/', '', $this->wp_root_url );
-        $tmp_url = preg_replace( '/https?:/', '', $url );
-        $path = str_replace( $tmp_ao_root, '', $tmp_url );
+        $tmp_url     = preg_replace( '/https?:/', '', $url );
+        $path        = str_replace( $tmp_ao_root, '', $tmp_url );
 
         // final check; if path starts with :// or //, this is not a URL in the WP context and we have to assume we can't aggregate.
         if ( preg_match( '#^:?//#', $path ) ) {
@@ -553,7 +560,10 @@ LOD;
     public function copy_file( $from, $to ) {
         if ( ! file_exists( $to ) && file_exists( $from ) ) {
             wp_mkdir_p( pathinfo( $to, PATHINFO_DIRNAME ) );
+
+            // phpcs:ignore
             @copy( $from, $to );
+
             return true;
         }
         return false;
@@ -602,9 +612,9 @@ LOD;
      */
     public function zip( $main_doc_id ) {
         $export_folder_name = get_post_field( 'post_name', $main_doc_id );
-        $source = $this->export_path . '/' . $export_folder_name . '/';
-        $destination = $this->export_path . '/' . $export_folder_name . '.zip';
-        $dest_url = $this->export_url . '/' . $export_folder_name . '.zip';
+        $source             = $this->export_path . '/' . $export_folder_name . '/';
+        $destination        = $this->export_path . '/' . $export_folder_name . '.zip';
+        $dest_url           = $this->export_url . '/' . $export_folder_name . '.zip';
 
         if ( ! extension_loaded( 'zip' ) || ! file_exists( $source ) ) {
             return false;
@@ -629,7 +639,7 @@ LOD;
                 $file = str_replace( '\\', '/', $file );
 
                 // Ignore "." and ".." folders.
-                if ( in_array( substr( $file, strrpos( $file, '/' ) + 1 ), array( '.', '..' ) ) ) {
+                if ( in_array( substr( $file, strrpos( $file, '/' ) + 1 ), array( '.', '..' ), true ) ) {
                     continue;
                 }
 
@@ -637,11 +647,13 @@ LOD;
 
                 if ( is_dir( $file ) === true ) {
                     $zip->addEmptyDir( str_replace( $source . '/', '', $file . '/' ) );
-                } else if ( is_file( $file ) === true ) {
+                } elseif ( is_file( $file ) === true ) {
+                    // phpcs:ignore
                     $zip->addFromString( str_replace( $source . '/', '', $file ), file_get_contents( $file ) );
                 }
             }
-        } else if ( is_file( $source ) === true ) {
+        } elseif ( is_file( $source ) === true ) {
+            // phpcs:ignore
             $zip->addFromString( basename( $source ), file_get_contents( $source ) );
         }
 
@@ -672,8 +684,8 @@ LOD;
      */
     protected function emit_sse_message( $message, $action = 'message' ) {
         $data = array(
-            'action'  => $action,
-            'message' => $message,
+            'action'    => $action,
+            'message'   => $message,
             'max_delta' => $this->max_delta,
         );
 

@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// phpcs:ignore
 $show_parents = docspress()->get_option( 'sidebar_show_nav_parents', 'docspress_single', false );
 
 ?>
@@ -31,6 +32,7 @@ $show_parents = docspress()->get_option( 'sidebar_show_nav_parents', 'docspress_
         <?php endif; ?>
 
         <?php
+        // phpcs:ignore
         $nav_list = wp_list_pages(
             array(
                 'title_li'  => '',
@@ -42,10 +44,14 @@ $show_parents = docspress()->get_option( 'sidebar_show_nav_parents', 'docspress_
             )
         );
         if ( $nav_list ) {
+            // phpcs:ignore
             $show_childs = docspress()->get_option( 'sidebar_show_nav_childs', 'docspress_single', false );
             ?>
             <ul class="docspress-nav-list<?php echo ( $show_childs ? ' docspress-nav-list-show-childs' : '' ); ?>">
-                <?php echo $nav_list; // WP XSS OK. ?>
+                <?php
+                // phpcs:ignore
+                echo $nav_list;
+                ?>
             </ul>
         <?php } ?>
     </div>

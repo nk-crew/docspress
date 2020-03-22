@@ -13,8 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// phpcs:disable
 $prev_post_id = docspress()->get_previous_adjacent_doc_id();
 $next_post_id = docspress()->get_next_adjacent_doc_id();
+// phpcs:enable
 
 if ( $prev_post_id || $next_post_id ) {
     ?>

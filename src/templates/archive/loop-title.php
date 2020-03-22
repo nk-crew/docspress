@@ -13,13 +13,15 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$articles = get_pages(
+// phpcs:disable
+$articles       = get_pages(
     array(
-        'child_of' => get_the_ID(),
+        'child_of'  => get_the_ID(),
         'post_type' => 'docs',
     )
 );
 $articles_count = count( $articles );
+// phpcs:enable
 
 ?>
 

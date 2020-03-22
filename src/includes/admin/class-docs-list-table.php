@@ -114,10 +114,10 @@ class DocsPress_Docs_List_Table {
             return;
         }
 
-        $fields = [
+        $fields = array(
             'positive',
             'negative',
-        ];
+        );
 
         foreach ( $fields as $field ) {
             // phpcs:ignore
@@ -136,7 +136,7 @@ class DocsPress_Docs_List_Table {
      * @return array
      */
     public function docs_list_columns( $columns ) {
-        $vote  = array( 'votes' => __( 'Votes', '@@text_domain' ) );
+        $vote = array( 'votes' => __( 'Votes', '@@text_domain' ) );
 
         // insert before last element, date.
         // remove first 3 items and store to $first_items, date remains to $columns.
@@ -196,6 +196,7 @@ class DocsPress_Docs_List_Table {
                 $vars = array_merge(
                     $vars,
                     array(
+                        // phpcs:ignore
                         'meta_key' => 'positive',
                         'orderby'  => 'meta_value_num',
                     )

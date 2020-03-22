@@ -15,14 +15,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 docspress()->get_template_part( 'global/wrap-start' );
 
-$keys  = implode( '|', explode( ' ', get_search_query() ) );
+// phpcs:ignore
+$keys = implode( '|', explode( ' ', get_search_query() ) );
 
 ?>
 <header class="page-header">
     <h1 class="page-title">
         <?php
         // translators: %s search query.
-        printf( esc_html__( 'Documentation search: "%s"' ), esc_html( get_search_query() ) );
+        printf( esc_html__( 'Documentation search: "%s"', '@@text_domain' ), esc_html( get_search_query() ) );
         ?>
     </h1>
 </header><!-- .page-header -->
@@ -37,10 +38,12 @@ $keys  = implode( '|', explode( ' ', get_search_query() ) );
                     while ( have_posts() ) :
                         the_post();
                         // highlight search terms in title.
-                        $title = wp_trim_words( get_the_title(), 10 );
-                        $title = preg_replace( '/(' . $keys . ')/iu', '<mark>\0</mark>', $title );
+                        // phpcs:disable
+                        $title   = wp_trim_words( get_the_title(), 10 );
+                        $title   = preg_replace( '/(' . $keys . ')/iu', '<mark>\0</mark>', $title );
                         $excerpt = wp_trim_words( get_the_excerpt(), 10 );
                         $excerpt = preg_replace( '/(' . $keys . ')/iu', '<mark>\0</mark>', $excerpt );
+                        // phpcs:enable
                         ?>
                         <li class="docspress-search-list-item">
                             <a href="<?php the_permalink(); ?>">
@@ -64,7 +67,7 @@ $keys  = implode( '|', explode( ' ', get_search_query() ) );
                     'after'  => '</div>',
                 )
             );
-        ?>
+            ?>
     </div>
 </article>
 

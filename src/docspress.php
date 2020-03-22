@@ -25,9 +25,9 @@ class DocsPress {
     /**
      * The single class instance.
      *
-     * @var $_instance
+     * @var $instance
      */
-    private static $_instance = null;
+    private static $instance = null;
 
     /**
      * Path to the plugin directory
@@ -111,11 +111,11 @@ class DocsPress {
      * Ensures only one instance of this class exists in memory at any one time.
      */
     public static function instance() {
-        if ( is_null( self::$_instance ) ) {
-            self::$_instance = new self();
-            self::$_instance->plugin_init();
+        if ( is_null( self::$instance ) ) {
+            self::$instance = new self();
+            self::$instance->plugin_init();
         }
-        return self::$_instance;
+        return self::$instance;
     }
 
     /**
@@ -123,20 +123,22 @@ class DocsPress {
      */
     public function plugin_init() {
         $data = get_file_data(
-            __FILE__, array(
-                'Name' => 'Name',
+            __FILE__,
+            array(
+                'Name'    => 'Name',
                 'Version' => 'Version',
-            ), 'plugin'
+            ),
+            'plugin'
         );
 
-        $this->plugin_name = $data['Name'];
-        $this->plugin_version = $data['Version'];
-        $this->plugin_slug = plugin_basename( __FILE__, '.php' );
+        $this->plugin_name           = $data['Name'];
+        $this->plugin_version        = $data['Version'];
+        $this->plugin_slug           = plugin_basename( __FILE__, '.php' );
         $this->plugin_name_sanitized = basename( __FILE__, '.php' );
-        $this->plugin_path = plugin_dir_path( __FILE__ );
-        $this->plugin_url = plugin_dir_url( __FILE__ );
-        $this->theme_dir_path = 'docspress/';
-        $this->template_path = $this->plugin_path . '/templates/';
+        $this->plugin_path           = plugin_dir_path( __FILE__ );
+        $this->plugin_url            = plugin_dir_url( __FILE__ );
+        $this->theme_dir_path        = 'docspress/';
+        $this->template_path         = $this->plugin_path . '/templates/';
 
         $this->include_dependencies();
 
@@ -162,7 +164,7 @@ class DocsPress {
      */
     public function activation_hook() {
         $author = get_role( 'author' );
-        $admin = get_role( 'administrator' );
+        $admin  = get_role( 'administrator' );
 
         /* Add docspress manager role */
         $docspress_manager = add_role( 'docspress_manager', __( 'DocsPress Manager', '@@text_domain' ), $author->capabilities );
@@ -266,9 +268,10 @@ class DocsPress {
      */
     public function image_size_names_choose( $sizes ) {
         return array_merge(
-            $sizes, array(
+            $sizes,
+            array(
                 'docspress_archive_sm' => esc_html__( 'Archive Thumbnail Small (DocsPress)', '@@text_domain' ),
-                'docspress_archive' => esc_html__( 'Archive Thumbnail (DocsPress)', '@@text_domain' ),
+                'docspress_archive'    => esc_html__( 'Archive Thumbnail (DocsPress)', '@@text_domain' ),
             )
         );
     }
@@ -279,6 +282,7 @@ class DocsPress {
     public function include_dependencies() {
         include_once docspress()->plugin_path . 'includes/class-template-loader.php';
         include_once docspress()->plugin_path . 'includes/class-walker-docs.php';
+        include_once docspress()->plugin_path . 'includes/class-suggestion.php';
 
         if ( is_admin() ) {
             include_once docspress()->plugin_path . 'includes/admin/class-admin.php';
@@ -309,18 +313,21 @@ class DocsPress {
 
         wp_enqueue_script( 'docspress', docspress()->plugin_url . 'assets/js/script.min.js', $deps, docspress()->plugin_version, true );
         wp_localize_script(
-            'docspress', 'docspress_vars', array(
+            'docspress',
+            'docspress_vars',
+            array(
                 'ajaxurl' => admin_url( 'admin-ajax.php' ),
                 'nonce'   => wp_create_nonce( 'docspress-ajax' ),
             )
         );
 
         // Custom script for AJAX.
-        $ajax = docspress()->get_option( 'ajax', 'docspress_single', true );
+        $ajax      = docspress()->get_option( 'ajax', 'docspress_single', true );
         $custom_js = docspress()->get_option( 'ajax_custom_js', 'docspress_single', '' );
         if ( $ajax && $custom_js ) {
             wp_add_inline_script(
-                'docspress', '
+                'docspress',
+                '
                 (function ($) {
                     $(document).on("docspress_ajax_loaded", function (event, new_page) {
                         ' . $custom_js . '
@@ -338,7 +345,7 @@ class DocsPress {
      */
     public function register_post_type() {
         $docspress_archive_id = docspress()->get_option( 'docs_page_id', 'docspress_settings', false );
-        $docs_page = $docspress_archive_id ? get_post( $docspress_archive_id ) : false;
+        $docs_page            = $docspress_archive_id ? get_post( $docspress_archive_id ) : false;
 
         $labels = array(
             'name'               => $docs_page ? get_the_title( $docs_page ) : _x( 'DocsPress', 'Post Type General Name', '@@text_domain' ),
@@ -387,12 +394,14 @@ class DocsPress {
         register_post_type( $this->post_type, $args );
 
         register_taxonomy(
-            'docs_category', $this->post_type, array(
-                'label'  => esc_html__( 'Docs Categories', '@@text_domain' ),
-                'labels' => array(
+            'docs_category',
+            $this->post_type,
+            array(
+                'label'              => esc_html__( 'Docs Categories', '@@text_domain' ),
+                'labels'             => array(
                     'menu_name' => esc_html__( 'Categories', '@@text_domain' ),
                 ),
-                'rewrite' => array(
+                'rewrite'            => array(
                     'slug' => 'docs-category',
                 ),
                 'hierarchical'       => false,
@@ -429,8 +438,9 @@ class DocsPress {
      * Looks at the theme directory first
      *
      * @param string $name template file name.
+     * @param string $data template data.
      */
-    public function get_template_part( $name ) {
+    public function get_template_part( $name, $data = array() ) {
         $name = (string) $name;
 
         // lookup at docspress/name.php.
@@ -446,7 +456,24 @@ class DocsPress {
         }
 
         if ( $template ) {
-            load_template( $template, false );
+            $this->load_template( $template, $data );
+        }
+    }
+
+    /**
+     * Load template with additional data.
+     *
+     * @param string $template_path - template path.
+     * @param array  $template_data - template data array.
+     */
+    public function load_template( $template_path, $template_data ) {
+        if ( isset( $template_data ) && is_array( $template_data ) ) {
+            // phpcs:ignore
+            extract( $template_data );
+        }
+
+        if ( file_exists( $template_path ) ) {
+            include $template_path;
         }
     }
 
@@ -493,7 +520,7 @@ class DocsPress {
      * @return string
      */
     public function get_docs_page_title() {
-        $title = esc_html__( 'Documentation', '@@text_domain' );
+        $title        = esc_html__( 'Documentation', '@@text_domain' );
         $docs_page_id = docspress()->get_option( 'docs_page_id', 'docspress_settings' );
 
         if ( $docs_page_id ) {
@@ -509,7 +536,7 @@ class DocsPress {
      * @return string
      */
     public function get_docs_page_content() {
-        $content = '';
+        $content      = '';
         $docs_page_id = docspress()->get_option( 'docs_page_id', 'docspress_settings' );
 
         if ( $docs_page_id ) {
@@ -527,7 +554,7 @@ class DocsPress {
     public function get_breadcrumbs_array() {
         global $post;
 
-        $result = array();
+        $result       = array();
         $docs_page_id = docspress()->get_option( 'docs_page_id', 'docspress_settings' );
 
         $result[] = array(
@@ -537,8 +564,8 @@ class DocsPress {
 
         if ( $docs_page_id ) {
             $result[] = array(
-                'label'    => get_the_title( $docs_page_id ) ? : __( 'Docs', '@@text_domain' ),
-                'url'      => get_permalink( $docs_page_id ),
+                'label' => get_the_title( $docs_page_id ) ? get_the_title( $docs_page_id ) : __( 'Docs', '@@text_domain' ),
+                'url'   => get_permalink( $docs_page_id ),
             );
         }
 

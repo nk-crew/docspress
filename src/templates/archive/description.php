@@ -15,7 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( docspress()->get_docs_page_content() ) : ?>
     <div class="docspress-archive-description">
-        <?php echo docspress()->get_docs_page_content(); // WP XSS OK. ?>
+        <?php
+        // phpcs:ignore
+        echo docspress()->get_docs_page_content();
+        ?>
     </div>
-<?php
+    <?php
 endif;

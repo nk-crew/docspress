@@ -79,7 +79,7 @@ class DocsPress_Template_Loader {
             $default_file = 'single.php';
 
             docspress()->is_single = true;
-        } else if ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) {
+        } elseif ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) {
             $default_file = 'archive.php';
 
             docspress()->is_archive = true;
@@ -92,7 +92,7 @@ class DocsPress_Template_Loader {
                 'post_parent'    => 0,
                 'orderby'        => array(
                     'menu_order' => 'ASC',
-                    'date' => 'DESC',
+                    'date'       => 'DESC',
                 ),
             );
 
@@ -105,17 +105,20 @@ class DocsPress_Template_Loader {
 
                 $args['s'] = get_search_query();
 
+                // phpcs:ignore
                 $parent = isset( $_GET['child_of'] ) ? sanitize_text_field( wp_unslash( $_GET['child_of'] ) ) : false;
                 $parent = intval( $parent );
 
                 // we need to get all docs IDs and the use it in WP_Query as we need get also all childrens.
                 if ( $parent ) {
                     $post__in      = array( $parent => $parent );
-                    $children_docs = get_pages( array(
-                        'child_of'  => $parent,
-                        'post_type' => 'docs',
-                        'depth'     => -1,
-                    ) );
+                    $children_docs = get_pages(
+                        array(
+                            'child_of'  => $parent,
+                            'post_type' => 'docs',
+                            'depth'     => -1,
+                        )
+                    );
                     if ( $children_docs ) {
                         $post__in = array_merge( $post__in, wp_list_pluck( $children_docs, 'ID' ) );
                     }
@@ -125,10 +128,12 @@ class DocsPress_Template_Loader {
 
             // make order by term.
             if ( 'archive.php' === $default_file ) {
-                $categories = get_terms( array(
-                    'taxonomy'   => 'docs_category',
-                    'hide_empty' => false,
-                ) );
+                $categories = get_terms(
+                    array(
+                        'taxonomy'   => 'docs_category',
+                        'hide_empty' => false,
+                    )
+                );
 
                 // we need to make query and loop over items and sort it by term.
                 if ( ! empty( $categories ) ) {
@@ -142,11 +147,13 @@ class DocsPress_Template_Loader {
                     }
 
                     // get parent docs.
-                    $parent_docs = get_pages( array(
-                        'post_type'   => 'docs',
-                        'parent'      => 0,
-                        'sort_column' => 'menu_order',
-                    ) );
+                    $parent_docs = get_pages(
+                        array(
+                            'post_type'   => 'docs',
+                            'parent'      => 0,
+                            'sort_column' => 'menu_order',
+                        )
+                    );
                     if ( $parent_docs ) {
                         // set all doc IDs to array by terms.
                         foreach ( $parent_docs as $doc ) {
@@ -186,7 +193,7 @@ class DocsPress_Template_Loader {
      * @return string[]
      */
     private static function get_template_loader_files( $default_file ) {
-        $search_files   = apply_filters( 'docspress_template_loader_files', array(), $default_file );
+        $search_files = apply_filters( 'docspress_template_loader_files', array(), $default_file );
 
         if ( is_page_template() ) {
             $search_files[] = get_page_template_slug();

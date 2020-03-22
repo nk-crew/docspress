@@ -248,7 +248,7 @@ class DocsPress_Settings {
      */
     public function get_pages() {
         $pages_options = array( '' => __( '&mdash; Select Page &mdash;', '@@text_domain' ) );
-        $pages = get_pages(
+        $pages         = get_pages(
             array(
                 'numberposts' => -1, // phpcs:ignore
             )

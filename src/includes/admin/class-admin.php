@@ -57,42 +57,44 @@ class DocsPress_Admin {
      * @param string $hook - hook name.
      */
     public function admin_scripts( $hook ) {
-        if ( 'toplevel_page_docspress' != $hook ) {
+        if ( 'toplevel_page_docspress' !== $hook ) {
             return;
         }
 
-        wp_enqueue_script( 'vuejs', docspress()->plugin_url . 'assets/vendor/vue/vue.min.js', array(), '2.5.13' );
-        wp_enqueue_script( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert/js/sweetalert.min.js', array( 'jquery' ), '1.1.3' );
+        wp_enqueue_script( 'vuejs', docspress()->plugin_url . 'assets/vendor/vue/vue.min.js', array(), '2.5.13', true );
+        wp_enqueue_script( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert/js/sweetalert.min.js', array( 'jquery' ), '1.1.3', true );
         wp_enqueue_script( 'docspress-admin', docspress()->plugin_url . 'assets/admin/js/script.min.js', array( 'jquery', 'jquery-ui-sortable', 'wp-util' ), docspress()->plugin_version, true );
         wp_localize_script(
-            'docspress-admin', 'docspress_admin_vars', array(
+            'docspress-admin',
+            'docspress_admin_vars',
+            array(
                 'nonce'    => wp_create_nonce( 'docspress-admin-nonce' ),
                 'editurl'  => admin_url( 'post.php?action=edit&post=' ),
                 'viewurl'  => home_url( '/?p=' ),
                 '__'       => array(
-                    'enter_doc_title'       => __( 'Enter doc title', '@@text_domain' ),
-                    'enter_section_title'   => __( 'Enter section title', '@@text_domain' ),
+                    'enter_doc_title'           => __( 'Enter doc title', '@@text_domain' ),
+                    'enter_section_title'       => __( 'Enter section title', '@@text_domain' ),
                     // translators: %s - copy.
-                    'clone_default_title'   => __( '%s Copy', '@@text_domain' ),
-                    'remove_doc_title'      => __( 'Are you sure?', '@@text_domain' ),
-                    'remove_doc_text'       => __( 'Are you sure to delete the entire documentation? Sections and articles inside this doc will be deleted too!', '@@text_domain' ),
-                    'remove_doc_button_yes' => __( 'Yes, delete it!', '@@text_domain' ),
+                    'clone_default_title'       => __( '%s Copy', '@@text_domain' ),
+                    'remove_doc_title'          => __( 'Are you sure?', '@@text_domain' ),
+                    'remove_doc_text'           => __( 'Are you sure to delete the entire documentation? Sections and articles inside this doc will be deleted too!', '@@text_domain' ),
+                    'remove_doc_button_yes'     => __( 'Yes, delete it!', '@@text_domain' ),
                     'remove_section_title'      => __( 'Are you sure?', '@@text_domain' ),
                     'remove_section_text'       => __( 'Are you sure to delete the entire section? Articles inside this section will be deleted too!', '@@text_domain' ),
                     'remove_section_button_yes' => __( 'Yes, delete it!', '@@text_domain' ),
                     'remove_article_title'      => __( 'Are you sure?', '@@text_domain' ),
                     'remove_article_text'       => __( 'Are you sure to delete the article?', '@@text_domain' ),
                     'remove_article_button_yes' => __( 'Yes, delete it!', '@@text_domain' ),
-                    'post_deleted_text'     => __( 'This post has been deleted', '@@text_domain' ),
-                    'export_doc_text'       => __( 'This process may take a while depending on your documentation size.', '@@text_domain' ),
+                    'post_deleted_text'         => __( 'This post has been deleted', '@@text_domain' ),
+                    'export_doc_text'           => __( 'This process may take a while depending on your documentation size.', '@@text_domain' ),
                     // translators: %s - export.
-                    'export_doc_title'       => __( 'Export %s?', '@@text_domain' ),
-                    'export_doc_button_yes'  => __( 'Export!', '@@text_domain' ),
-                    'exporting_doc_title'    => __( 'Exporting...', '@@text_domain' ),
-                    'exporting_doc_text'     => __( 'Starting', '@@text_domain' ),
-                    'exported_doc_title'     => __( 'Successfully Exported', '@@text_domain' ),
-                    'exported_doc_download'  => __( 'Download ZIP', '@@text_domain' ),
-                    'exported_doc_cancel'    => __( 'Close', '@@text_domain' ),
+                    'export_doc_title'          => __( 'Export %s?', '@@text_domain' ),
+                    'export_doc_button_yes'     => __( 'Export!', '@@text_domain' ),
+                    'exporting_doc_title'       => __( 'Exporting...', '@@text_domain' ),
+                    'exporting_doc_text'        => __( 'Starting', '@@text_domain' ),
+                    'exported_doc_title'        => __( 'Successfully Exported', '@@text_domain' ),
+                    'exported_doc_download'     => __( 'Download ZIP', '@@text_domain' ),
+                    'exported_doc_cancel'       => __( 'Close', '@@text_domain' ),
                 ),
             )
         );
@@ -200,7 +202,7 @@ class DocsPress_Admin {
         $pages          = array( 'toplevel_page_docspress', 'edit-docs' );
 
         // Check to make sure we're on a docs admin page.
-        if ( isset( $current_screen->id ) && apply_filters( 'docspress_display_admin_footer_text', in_array( $current_screen->id, $pages ) ) ) {
+        if ( isset( $current_screen->id ) && apply_filters( 'docspress_display_admin_footer_text', in_array( $current_screen->id, $pages, true ) ) ) {
             $footer_text .= ' ' . __( 'Thank you for using <strong>DocsPress</strong>.', '@@text_domain' );
 
             // translators: %s - docs page url.

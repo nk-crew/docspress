@@ -13,7 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$show = docspress()->get_option( 'show_articles', 'docspress_archive', true );
+// phpcs:disable
+$show            = docspress()->get_option( 'show_articles', 'docspress_archive', true );
 $articles_number = intval( docspress()->get_option( 'articles_number', 'docspress_archive', 3 ) );
 
 if ( -1 === $articles_number ) {
@@ -31,13 +32,14 @@ $top_articles = new WP_Query(
         'post_parent'    => get_the_ID(),
         'orderby'        => array(
             'menu_order' => 'ASC',
-            'date' => 'DESC',
+            'date'       => 'DESC',
         ),
     )
 );
-$parent_link = get_permalink();
+$parent_link  = get_permalink();
 
 $count = 0;
+// phpcs:enable
 
 if ( $top_articles->have_posts() ) : ?>
 
