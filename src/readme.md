@@ -66,6 +66,12 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.2.0 =
+
+* improved feedback suggestion email template
+* enqueue assets on DocsPress pages only
+* fixed breadcrumbs structured data error
+
 = 2.1.2 =
 
 * changed position of anchor link to right (fixes Ghost Kit numbered headings conflict)
