@@ -22,6 +22,7 @@ cfg.copy_files_src = [ '{src}/**/*', '!{src}/**/*.{js,scss}', '{src}/**/vendor/*
 
 // Compile SCSS files.
 cfg.compile_scss_files_src = [ '{src}/*assets/**/*.scss' ];
+cfg.compile_scss_files_rtl = true;
 
 // Compile JS files.
 cfg.compile_js_files_src = [

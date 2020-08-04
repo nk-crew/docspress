@@ -267,6 +267,8 @@ class DocsPress {
         }
 
         wp_enqueue_style( 'docspress', docspress()->plugin_url . 'assets/css/style.min.css', array(), '@@plugin_version' );
+        wp_style_add_data( 'docspress', 'rtl', 'replace' );
+        wp_style_add_data( 'docspress', 'suffix', '.min' );
 
         $deps = array( 'jquery' );
         if ( docspress()->get_option( 'show_anchor_links', 'docspress_single', true ) ) {

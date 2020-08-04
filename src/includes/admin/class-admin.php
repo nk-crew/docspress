@@ -100,7 +100,10 @@ class DocsPress_Admin {
         );
 
         wp_enqueue_style( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert/css/sweetalert.css', array(), '1.1.3' );
+
         wp_enqueue_style( 'docspress-admin', docspress()->plugin_url . 'assets/admin/css/style.min.css', array(), '@@plugin_version' );
+        wp_style_add_data( 'docspress-admin', 'rtl', 'replace' );
+        wp_style_add_data( 'docspress-admin', 'suffix', '.min' );
     }
 
     /**
