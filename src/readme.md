@@ -66,6 +66,11 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.2.1 =
+
+* added RTL support
+* fixed email template long words break
+
 = 2.2.0 =
 
 * improved feedback suggestion email template
