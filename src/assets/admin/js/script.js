@@ -1,17 +1,24 @@
-/* global Vue */
-/* global wp */
-/* global swal */
-/* global ajaxurl */
+const {
+    jQuery: $,
+    ajaxurl,
+    Swal,
+    Vue,
+    docspress_admin_vars: adminVars,
+} = window;
 
-const $ = window.jQuery;
-const adminVars = window.docspress_admin_vars;
 const __ = adminVars.__;
 
-if ( typeof swal !== 'undefined' ) {
-    swal.setDefaults( {
-        animation: false,
-    } );
-}
+const swalConfig = {
+    customClass: 'docspress-swal',
+    showClass: {
+        popup: 'swal2-noanimation',
+        backdrop: 'swal2-noanimation',
+    },
+    hideClass: {
+        popup: '',
+        backdrop: '',
+    },
+};
 
 Vue.directive( 'sortable', {
     bind: function( el ) {
@@ -25,7 +32,7 @@ Vue.directive( 'sortable', {
                     ids.push( $( li ).data( 'id' ) );
                 } );
 
-                wp.ajax.post( {
+                $.post( ajaxurl, {
                     action: 'docspress_sortable_docs',
                     ids: ids,
                     _wpnonce: adminVars.nonce,
@@ -128,13 +135,9 @@ new Vue( {
     methods: {
 
         onError: function( error ) {
-            swal( {
-                title: 'Error!',
-                text: error.statusText || error.responseText || error,
-                type: 'error',
-                closeOnConfirm: true,
-                customClass: 'docspress-swal',
-            } );
+            Swal.showValidationMessage(
+                `Request failed: ${ error.message || error.statusText || error.responseText || error }`
+            );
             // eslint-disable-next-line
             console.log( error );
         },
@@ -143,34 +146,35 @@ new Vue( {
             const that = this;
             this.docs = this.docs || [];
 
-            swal( {
+            Swal.fire( {
                 title: __.enter_doc_title,
-                type: 'input',
+                input: 'text',
                 showCancelButton: true,
-                closeOnConfirm: false,
                 showLoaderOnConfirm: true,
                 inputPlaceholder: __.enter_doc_title,
-                customClass: 'docspress-swal',
-            }, function( inputValue ) {
-                if ( inputValue === false ) {
-                    swal.close();
-                    return false;
-                }
+                preConfirm: ( value ) => {
+                    if ( value === false ) {
+                        // Swal.close();
+                        return false;
+                    }
 
-                wp.ajax.send( {
-                    data: {
+                    return $.post( ajaxurl, {
                         action: 'docspress_create_doc',
-                        title: inputValue,
+                        title: value,
                         parent: 0,
                         _wpnonce: adminVars.nonce,
-                    },
-                    success: function( res ) {
-                        that.docs.unshift( res );
-                        that.categorized = getCategorizedDocs( that.docs );
-                        swal.close();
-                    },
-                    error: that.onError,
-                } );
+                    } )
+                        .done( ( fetchedData ) => {
+                            if ( ! fetchedData || ! fetchedData.success || ! fetchedData.data ) {
+                                return false;
+                            }
+
+                            that.docs.unshift( fetchedData.data );
+                            that.categorized = getCategorizedDocs( that.docs );
+                        } )
+                        .fail( that.onError );
+                },
+                ...swalConfig,
             } );
         },
 
@@ -178,80 +182,76 @@ new Vue( {
             const that = this;
             this.docs = this.docs || [];
 
-            swal( {
+            Swal.fire( {
                 title: __.enter_doc_title,
-                type: 'input',
+                input: 'text',
                 showCancelButton: true,
-                closeOnConfirm: false,
                 showLoaderOnConfirm: true,
                 inputPlaceholder: __.enter_doc_title,
                 inputValue: __.clone_default_title.replace( '%s', doc.post.title ),
-                customClass: 'docspress-swal',
-            }, function( inputValue ) {
-                if ( inputValue === false ) {
-                    swal.close();
-                    return false;
-                }
+                preConfirm: ( value ) => {
+                    if ( value === false ) {
+                        // Swal.close();
+                        return false;
+                    }
 
-                wp.ajax.send( {
-                    data: {
+                    return $.post( ajaxurl, {
                         action: 'docspress_clone_doc',
-                        title: inputValue,
+                        title: value,
                         clone_from: doc.post.id,
                         _wpnonce: adminVars.nonce,
-                    },
-                    success: function( res ) {
-                        that.docs.unshift( res );
-                        that.categorized = getCategorizedDocs( that.docs );
-                        swal.close();
-                    },
-                    error: that.onError,
-                } );
+                    } )
+                        .done( ( fetchedData ) => {
+                            if ( ! fetchedData || ! fetchedData.success || ! fetchedData.data ) {
+                                return false;
+                            }
+
+                            that.docs.unshift( fetchedData.data );
+                            that.categorized = getCategorizedDocs( that.docs );
+                        } )
+                        .fail( that.onError );
+                },
+                ...swalConfig,
             } );
         },
 
         removeDoc: function( doc, docs ) {
             const that = this;
 
-            swal( {
+            Swal.fire( {
                 title: __.remove_doc_title,
                 text: __.remove_doc_text,
-                type: 'warning',
+                icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: __.remove_doc_button_yes,
-                closeOnConfirm: false,
                 showLoaderOnConfirm: true,
-                customClass: 'docspress-swal',
-            }, function() {
-                that.removePost( doc, docs );
+                preConfirm: () => {
+                    return that.removePost( doc, docs );
+                },
+                ...swalConfig,
             } );
         },
 
         exportDoc: function( doc ) {
             const that = this;
 
-            swal( {
-                html: true,
+            Swal.fire( {
                 title: __.clone_default_title.replace( '%s', '<strong>' + doc.post.title + '</strong>' ),
-                text: __.export_doc_text,
-                type: 'info',
+                html: __.export_doc_text,
+                icon: 'info',
                 showCancelButton: true,
                 confirmButtonText: __.export_doc_button_yes,
-                closeOnConfirm: false,
-                customClass: 'docspress-swal',
-            }, function() {
-                swal( {
-                    html: true,
+                ...swalConfig,
+            } ).then( function() {
+                Swal.fire( {
                     title: __.exporting_doc_title,
-                    text: '<div class="docspress-export-response">' + __.exporting_doc_text + '</div><div class="docspress-export-progress"><div class="docspress-export-progress-bar"></div></div>',
-                    type: 'info',
+                    html: '<div class="docspress-export-response">' + __.exporting_doc_text + '</div><div class="docspress-export-progress"><div class="docspress-export-progress-bar"></div></div>',
+                    icon: 'info',
                     showCancelButton: true,
                     showConfirmButton: false,
-                    closeOnCancel: false,
-                    customClass: 'docspress-swal',
-                }, function() {
+                    ...swalConfig,
+                } ).then( function() {
                     evtSource.close();
-                    swal.close();
                 } );
 
                 const $response = $( '.docspress-export-response' );
@@ -274,18 +274,15 @@ new Vue( {
                         break;
                     case 'complete':
                         evtSource.close();
-                        swal( {
-                            html: true,
+                        Swal.fire( {
                             title: __.exported_doc_title,
-                            text: '<a class="button button-primary button-hero" href="' + data.message + '">' + __.exported_doc_download + '</a>',
-                            type: 'success',
+                            html: '<a class="button button-primary button-hero" href="' + data.message + '">' + __.exported_doc_download + '</a>',
+                            icon: 'success',
                             showCancelButton: true,
                             showConfirmButton: false,
                             closeOnCancel: false,
                             cancelButtonText: __.exported_doc_cancel,
-                            customClass: 'docspress-swal',
-                        }, function() {
-                            swal.close();
+                            ...swalConfig,
                         } );
                         break;
                     }
@@ -300,55 +297,51 @@ new Vue( {
         addSection: function( doc ) {
             const that = this;
 
-            swal( {
+            Swal.fire( {
                 title: __.enter_section_title,
-                type: 'input',
+                input: 'text',
                 showCancelButton: true,
-                closeOnConfirm: false,
                 showLoaderOnConfirm: true,
                 inputPlaceholder: __.enter_section_title,
-                customClass: 'docspress-swal',
-            }, function( inputValue ) {
-                if ( inputValue === false ) {
-                    swal.close();
-                    return false;
-                }
+                preConfirm: ( value ) => {
+                    if ( value === false ) {
+                        return false;
+                    }
 
-                inputValue = inputValue.trim();
+                    return $.post( ajaxurl, {
+                        action: 'docspress_create_doc',
+                        title: value,
+                        parent: doc.post.id,
+                        order: doc.child.length,
+                        _wpnonce: adminVars.nonce,
+                    } )
+                        .done( ( fetchedData ) => {
+                            if ( ! fetchedData || ! fetchedData.success || ! fetchedData.data ) {
+                                return false;
+                            }
 
-                if ( inputValue ) {
-                    wp.ajax.send( {
-                        data: {
-                            action: 'docspress_create_doc',
-                            title: inputValue,
-                            parent: doc.post.id,
-                            order: doc.child.length,
-                            _wpnonce: adminVars.nonce,
-                        },
-                        success: function( res ) {
-                            doc.child.push( res );
-                            swal.close();
-                        },
-                        error: that.onError,
-                    } );
-                }
+                            doc.child.push( fetchedData.data );
+                        } )
+                        .fail( that.onError );
+                },
+                ...swalConfig,
             } );
         },
 
         removeSection: function( section, sections ) {
             const that = this;
 
-            swal( {
+            Swal.fire( {
                 title: __.remove_section_title,
                 text: __.remove_section_text,
-                type: 'warning',
+                icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: __.remove_section_button_yes,
-                closeOnConfirm: false,
                 showLoaderOnConfirm: true,
-                customClass: 'docspress-swal',
-            }, function() {
-                that.removePost( section, sections );
+                preConfirm: () => {
+                    return that.removePost( section, sections );
+                },
+                ...swalConfig,
             } );
         },
 
@@ -356,59 +349,58 @@ new Vue( {
             const parentEvent = event;
             const that = this;
 
-            swal( {
+            Swal.fire( {
                 title: __.enter_doc_title,
-                type: 'input',
+                input: 'text',
                 showCancelButton: true,
-                closeOnConfirm: false,
                 showLoaderOnConfirm: true,
                 inputPlaceholder: __.enter_doc_title,
-                customClass: 'docspress-swal',
-            }, function( inputValue ) {
-                if ( inputValue === false ) {
-                    swal.close();
-                    return false;
-                }
+                preConfirm: ( value ) => {
+                    if ( value === false ) {
+                        return false;
+                    }
 
-                wp.ajax.send( {
-                    data: {
+                    return $.post( ajaxurl, {
                         action: 'docspress_create_doc',
-                        title: inputValue,
+                        title: value,
                         parent: section.post.id,
                         status: 'draft',
                         order: section.child.length,
                         _wpnonce: adminVars.nonce,
-                    },
-                    success: function( res ) {
-                        section.child.push( res );
+                    } )
+                        .done( ( fetchedData ) => {
+                            if ( ! fetchedData || ! fetchedData.success || ! fetchedData.data ) {
+                                return false;
+                            }
 
-                        const articles = $( parentEvent.target ).closest( '.section-title' ).next();
+                            section.child.push( fetchedData.data );
 
-                        if ( articles.hasClass( 'collapsed' ) ) {
-                            articles.removeClass( 'collapsed' );
-                        }
+                            const articles = $( parentEvent.target ).closest( '.section-title' ).next();
 
-                        swal.close();
-                    },
-                    error: that.onError,
-                } );
+                            if ( articles.hasClass( 'collapsed' ) ) {
+                                articles.removeClass( 'collapsed' );
+                            }
+                        } )
+                        .fail( that.onError );
+                },
+                ...swalConfig,
             } );
         },
 
         removeArticle: function( article, articles ) {
             const that = this;
 
-            swal( {
+            Swal.fire( {
                 title: __.remove_article_title,
                 text: __.remove_article_text,
-                type: 'warning',
+                icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: __.remove_article_button_yes,
-                closeOnConfirm: false,
                 showLoaderOnConfirm: true,
-                customClass: 'docspress-swal',
-            }, function() {
-                that.removePost( article, articles );
+                preConfirm: () => {
+                    return that.removePost( article, articles );
+                },
+                ...swalConfig,
             } );
         },
 
@@ -416,20 +408,20 @@ new Vue( {
             const that = this;
             const postId = items[ index ].post.id;
 
-            wp.ajax.send( {
-                data: {
-                    action: 'docspress_remove_doc',
-                    id: postId,
-                    _wpnonce: adminVars.nonce,
-                },
-                success: function() {
+            return $.post( ajaxurl, {
+                action: 'docspress_remove_doc',
+                id: postId,
+                _wpnonce: adminVars.nonce,
+            } )
+                .done( ( fetchedData ) => {
+                    if ( ! fetchedData || ! fetchedData.success ) {
+                        return false;
+                    }
+
                     that.docs = removeDoc( that.docs, postId );
                     that.categorized = getCategorizedDocs( that.docs );
-
-                    swal.close();
-                },
-                error: that.onError,
-            } );
+                } )
+                .fail( that.onError );
         },
 
         toggleCollapse: function( event ) {

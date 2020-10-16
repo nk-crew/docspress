@@ -43,6 +43,7 @@
         "lint-staged": "^10.4.0",
         "md5": "^2.3.0",
         "micromatch": "^4.0.2",
+        "path": "^0.12.7",
         "po2json": "^0.4.5",
         "stylelint": "^13.7.2",
         "stylelint-config-recommended-scss": "^4.2.0",
@@ -50,5 +51,10 @@
         "stylelint-order": "^4.1.0",
         "stylelint-scss": "^3.18.0",
         "wpeg": "1.0.15"
+    },
+    "dependencies": {
+        "anchor-js": "^4.2.2",
+        "sweetalert2": "^10.6.1",
+        "vue": "^2.6.12"
     }
 }

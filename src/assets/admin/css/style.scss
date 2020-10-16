@@ -259,8 +259,8 @@ ul.sections {
 /**
  * SweetAlert
  */
-.sweet-overlay {
-    background-color: rgba(0, 0, 0, .7);
+.swal2-container {
+    background: rgba(0, 0, 0, .7);
 }
 .docspress-swal {
     width: 400px;
@@ -275,6 +275,13 @@ ul.sections {
         margin-left: 0;
     }
 
+    .swal2-header,
+    .swal2-content,
+    .swal2-actions {
+        padding: 0;
+        font-size: 1em;
+    }
+
     h2 {
         margin-top: 0;
         margin-bottom: 15px;
@@ -286,21 +293,25 @@ ul.sections {
     input {
         height: 1.7em;
         padding: 3px 8px;
-        margin: 0 0 3px;
-        font-size: 1.7em;
+        margin: 7px 0 0;
+        font-size: 1.2em;
         line-height: 100%;
+        color: #32373c;
         background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 0;
+        border: 1px solid #7e8993;
+        border-radius: 4px;
         outline: 0;
+        box-shadow: 0 0 0 transparent;
 
         &:focus {
-            border-color: #5b9dd9;
-            box-shadow: 0 0 2px rgba(30, 140, 190, .8);
+            border-color: #007cba;
+            outline: 2px solid transparent;
+            box-shadow: 0 0 0 1px #007cba;
         }
     }
 
-    .sa-button-container {
+    .swal2-actions {
+        width: auto;
         padding: 10px 0;
         margin: -20px;
         margin-top: 20px;
@@ -308,94 +319,76 @@ ul.sections {
         border-top: 1px solid #eee;
     }
 
-    .sa-icon {
+    .swal2-icon {
         margin-top: 0;
         margin-bottom: 0;
         transform: scale(.6);
     }
 
-    .la-ball-fall {
-        margin-top: -5px;
-    }
-    .la-ball-fall > div {
-        width: 6px;
-        height: 6px;
-        margin: 3px;
-    }
-
-    button {
+    .swal2-actions button {
         display: inline-block;
         height: 28px;
-        padding: 0 10px 1px;
-        margin: 0;
+        padding: 4px 8px;
         font-size: 13px;
-        line-height: 26px;
-        color: #555;
+        font-weight: 600;
+        line-height: normal;
+        color: #0071a1;
         text-decoration: none;
+        text-shadow: none;
         cursor: pointer;
-        background: #f7f7f7;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        box-shadow: 0 1px 0 #ccc !important; // stylelint-disable-line
+        background: #f3f5f6;
+        border: 1px solid #0071a1;
+        border-radius: 2px;
 
         &:hover {
-            color: #23282d;
-            background: #fafafa;
-            border-color: #999;
+            color: #016087;
+            // stylelint-disable-next-line declaration-no-important
+            background: #f1f1f1 !important;
+            border-color: #016087;
         }
 
-        &:active {
-            background: #eee;
-            border-color: #999;
-            box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, .5) !important; // stylelint-disable-line
-            transform: translateY(1px);
-        }
-        &:focus,
-        &.cancel:focus {
-            border-color: #5b9dd9;
-            box-shadow: 0 0 3px rgba(0, 115, 170, .8) !important; // stylelint-disable-line
+        &:focus {
+            border-color: #007cba;
+            outline: 2px solid transparent;
+            box-shadow: 0 0 0 1px #007cba;
         }
 
-        &.cancel {
-            background: #f7f7f7;
+        &.swal2-confirm {
+            color: #fff;
+            background: #007cba;
+            border-color: #007cba;
 
-            &:hover {
-                color: #23282d;
-                background: #fafafa;
-                border-color: #999;
-            }
-            &:active {
-                background: #eee;
-                border-color: #999;
-                box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, .5) !important; // stylelint-disable-line
-            }
-        }
-
-        &.confirm {
-            color: #fff !important; // stylelint-disable-line
-            text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799 !important; // stylelint-disable-line
-            background: #0085ba !important; // stylelint-disable-line
-            border-color: #0073aa #006799 #006799 !important; // stylelint-disable-line
-            box-shadow: 0 1px 0 #006799 !important; // stylelint-disable-line
-
-            &:hover {
-                color: #fff !important; // stylelint-disable-line
-                background: #008ec2 !important; // stylelint-disable-line
-                border-color: #006799 !important; // stylelint-disable-line
+            &:hover,
+            &:focus {
+                color: #fff;
+                // stylelint-disable-next-line declaration-no-important
+                background: #0071a1 !important;
+                border-color: #0071a1;
             }
             &:focus {
-                border-color: #006799 !important; // stylelint-disable-line
-                box-shadow: 0 1px 0 #0073aa, 0 0 2px 1px #33b3db !important; // stylelint-disable-line
+                box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
             }
             &:active {
-                background: #0073aa !important; // stylelint-disable-line
-                border-color: #006799 !important; // stylelint-disable-line
-                box-shadow: inset 0 2px 0 #006799 !important; // stylelint-disable-line
+                color: #fff;
+                // stylelint-disable-next-line declaration-no-important
+                background: #00669b !important;
+                border-color: #00669b;
+                box-shadow: none;
             }
-            &[disabled] {
-                color: transparent !important; // stylelint-disable-line
-                text-shadow: none !important; // stylelint-disable-line
-            }
+        }
+
+        &[disabled] {
+            // stylelint-disable-next-line declaration-no-important
+            color: #a0a5aa !important;
+            // stylelint-disable-next-line declaration-no-important
+            text-shadow: none !important;
+            cursor: default;
+            // stylelint-disable-next-line declaration-no-important
+            background: #f7f7f7 !important;
+            // stylelint-disable-next-line declaration-no-important
+            border-color: #ddd !important;
+            // stylelint-disable-next-line declaration-no-important
+            box-shadow: none !important;
         }
     }
 }

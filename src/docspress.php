@@ -272,7 +272,7 @@ class DocsPress {
 
         $deps = array( 'jquery' );
         if ( docspress()->get_option( 'show_anchor_links', 'docspress_single', true ) ) {
-            wp_enqueue_script( 'anchor-js', docspress()->plugin_url . 'assets/vendor/anchor/anchor.min.js', array(), '4.1.1', true );
+            wp_enqueue_script( 'anchor-js', docspress()->plugin_url . 'assets/vendor/anchor-js/anchor.min.js', array(), '4.2.2', true );
             $deps[] = 'anchor-js';
         }
 

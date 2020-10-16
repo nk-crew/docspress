@@ -1,11 +1,13 @@
+const path = require( 'path' );
 const pkg = require( 'json-file' ).read( './package.json' ).data;
 
 const cfg = {};
 
 // Build Paths.
+cfg.name = 'docspress';
 cfg.src = './src';
 cfg.dist_root = './dist';
-cfg.dist = '{dist_root}/docspress';
+cfg.dist = '{dist_root}/{name}';
 
 // Template variables that will be automatically replaced.
 cfg.template_files_src = '{dist}/**/*.{md,php,js,css,pot,json}';
@@ -18,7 +20,26 @@ cfg.template_files_variables = {
 };
 
 // Copy files.
-cfg.copy_files_src = [ '{src}/**/*', '!{src}/**/*.{js,scss}', '{src}/**/vendor/**/*.{js,scss}' ];
+cfg.copy_files_src = [
+    '{src}/**/*',
+    '!{src}/**/*.{js,scss}',
+    '{src}/**/vendor/**/*.{js,scss}',
+    './node_modules/*vue/dist/vue.min.js',
+    './node_modules/*sweetalert2/dist/sweetalert2.min.js',
+    './node_modules/*sweetalert2/dist/sweetalert2.min.css',
+    './node_modules/*anchor-js/anchor.min.js',
+];
+
+cfg.copy_files_dist = ( file ) => {
+    let destPath = `${ cfg.dist_root }/${ cfg.name }`;
+    const filePath = path.relative( process.cwd(), file.path );
+
+    if ( filePath && /^node_modules/g.test( filePath ) ) {
+        destPath += '/assets/vendor';
+    }
+
+    return destPath;
+};
 
 // Compile SCSS files.
 cfg.compile_scss_files_src = [ '{src}/*assets/**/*.scss' ];
@@ -40,7 +61,7 @@ cfg.zip_files = [
         src_opts: {
             base: '{dist_root}',
         },
-        dist: '{dist_root}/docspress.zip',
+        dist: '{dist_root}/{name}.zip',
     },
 ];
 
