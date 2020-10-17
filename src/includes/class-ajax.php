@@ -71,7 +71,7 @@ class DocsPress_Ajax {
             'title'    => $post->post_title,
             'name'     => $post->post_name,
             'status'   => $post->post_status,
-            'thumb'    => get_the_post_thumbnail_url( $post, 'docspress_archive_sm' ),
+            'thumb'    => get_the_post_thumbnail_url( $post, 'docspress_archive' ),
             'order'    => $post->menu_order,
             'cat_id'   => $cat_id,
             'cat_name' => $cat_name,
