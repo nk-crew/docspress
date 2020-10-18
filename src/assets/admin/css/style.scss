@@ -21,6 +21,14 @@
     }
 }
 
+.docspress-icon {
+    display: inline-block;
+    width: 1.4em;
+    height: 1.4em;
+    vertical-align: -.3em;
+    fill: currentColor;
+}
+
 .docspress {
 
     .docspress-cat {
@@ -55,8 +63,10 @@
     max-width: calc(25% - 30px);
     margin-right: 30px;
     margin-bottom: 30px;
+    font-size: 14px;
+    font-weight: 600;
     background: #fff;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #ccd0d4;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
 
     @media screen and (max-width: 1400px) {
@@ -79,18 +89,18 @@
     }
 
     h3 {
-        padding: 8px 12px;
+        padding: 12px 19px;
         margin: 0;
         font-size: 14px;
         line-height: 1.4;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #ccd0d4;
 
         img {
             float: left;
             width: auto;
             height: 20px;
             margin-right: 10px;
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
         a {
@@ -102,39 +112,62 @@
         }
     }
 
-    &:hover {
-        h3 {
-            .docspress-row-actions {
-                visibility: visible;
+    .docspress-add-section-btn {
+        display: inline-block;
+        padding: 1px 0;
+        margin-top: 3px;
+        color: inherit;
+
+        svg {
+            margin-right: 5px;
+            margin-left: -1px;
+            color: #949494;
+        }
+
+        &:hover,
+        &:focus {
+            color: #0073aa;
+
+            svg {
+                color: inherit;
             }
         }
     }
-
-    .docspress-add-section-btn {
-        display: block;
-        padding: 7px 10px;
-        text-align: center;
-        background-color: #f7f7f7;
-        border: 1px solid #eee;
-    }
     .docspress-actions {
-        padding: 10px 0;
-        text-align: center;
-        background-color: #f7f7f7;
-        border-top: 1px solid #eee;
+        padding: 10px 5px;
+        border-top: 1px solid #ccd0d4;
 
-        .button .dashicons {
-            vertical-align: middle;
+        .button {
+            min-height: 28px;
+            font-size: 1em;
+            font-weight: inherit;
+            color: inherit;
+            background: transparent;
+            border: none;
+
+            svg {
+                margin-right: 3px;
+                color: #949494;
+            }
+
+            &:hover,
+            &:focus {
+                color: #0073aa;
+
+                svg {
+                    color: inherit;
+                }
+            }
         }
     }
 
     .docspress-item-inner {
         height: 320px;
-        padding: 15px;
+        padding: 20px;
         overflow: auto;
 
         li {
-            min-height: 34px;
+            min-height: 25px;
         }
 
         li.article {
@@ -142,50 +175,78 @@
         }
 
         ul {
+            .section-title {
+                display: block;
+                padding: 4px 0;
+
+                .section-toggle {
+                    display: inline-block;
+                    width: 18px;
+                    height: 18px;
+                    margin-right: 8px;
+                    margin-bottom: -4px;
+                    font-size: 7px;
+                    color: #727272;
+                    cursor: pointer;
+                    border: 2px solid #f0f0f0;
+                    border-radius: 3px;
+
+                    &:hover,
+                    &:focus {
+                        background-color: #f0f0f0;
+                    }
+
+                    svg {
+                        display: block;
+                        margin: 2px;
+                    }
+                    svg:nth-child(2) {
+                        display: none;
+                    }
+                }
+
+                &.collapsed .section-toggle {
+                    svg:nth-child(1) {
+                        display: none;
+                    }
+                    svg:nth-child(2) {
+                        display: block;
+                    }
+                }
+            }
+
             &.sections {
                 padding: 0;
                 list-style: none;
-                & > li {
+
+                > li {
                     margin-bottom: 10px;
+
                     &.ui-sortable-placeholder {
                         visibility: visible !important; // stylelint-disable-line
                         border: 1px dashed #ccc;
                     }
-                }
-                .section-title {
-                    display: block;
-                    padding: 7px 10px;
-                    cursor: pointer;
-                    background-color: #f7f7f7;
-                    border: 1px solid #eee;
+
+                    // change margin for the first articles level.
+                    > ul.articles {
+                        margin-left: 8px;
+                    }
                 }
             }
             &.articles {
                 padding: 0;
-                margin: 10px 0 10px 15px;
+                margin: 10px 0;
+                color: #949494;
                 list-style: none;
-                border-left: 1px solid #eee;
+                border-left: 1px solid #f0f0f0;
+
                 &.collapsed {
                     display: none;
                 }
                 li {
                     &.article {
                         padding: 5px 0;
-                        &:hover {
-                            .docspress-row-actions {
-                                visibility: visible;
-                            }
-                        }
-                    }
-                    &::before {
-                        content: " ";
-                        display: inline-block;
-                        width: 15px;
-                        height: 0;
-                        margin-right: 5px;
-                        color: #eee;
-                        vertical-align: middle;
-                        border-top: 1px solid #eee;
+                        padding-left: 22px;
                     }
                 }
             }
@@ -196,33 +257,67 @@
         }
     }
 
+    // Docs title links colors.
+    h3 > a,
+    .section-title > a,
+    .article > a {
+        color: inherit;
+
+        &:hover,
+        &:focus {
+            color: #0073aa;
+        }
+    }
 }
 
 .docspress-row-actions {
-    color: #999;
-    visibility: hidden;
-
-    a {
-        color: #999;
+    > * {
+        display: none;
+    }
+    > .docspress-icon-more {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        margin-top: -1px;
     }
 
-    .dashicons {
-        width: 18px;
-        height: 18px;
-        font-size: 18px;
+    &:hover,
+    &:focus {
+        > * {
+            display: inline-block;
+        }
+        > .docspress-icon-more {
+            display: none;
+        }
     }
 
-    .dashicons:hover {
-        color: #555;
+    > a,
+    > span {
+        color: #949494;
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            color: #0073aa;
+        }
+    }
+
+    .docspress-btn-remove {
+        cursor: pointer;
+
+        &:hover,
+        &:focus {
+            color: #ca4a1f;
+        }
     }
 }
 
 .doc-status {
     padding: 1px 3px;
-    margin-left: 5px;
+    margin-left: 7px;
     font-size: 11px;
     color: #999;
-    background-color: #eee;
+    background-color: #f0f0f0;
     border-radius: 3px;
 }
 
@@ -232,28 +327,17 @@ ul.sections {
         width: 18px;
         height: 18px;
         padding: 0;
+        margin-left: 5px;
         font-size: 10px;
         color: #999;
         text-align: center;
-        background-color: #ddd;
+        background-color: #f0f0f0;
         border-radius: 50%;
-    }
-
-    .section-title {
-        &:hover {
-            .docspress-row-actions {
-                visibility: visible;
-            }
-        }
     }
 
     .actions {
         float: right;
     }
-}
-
-.docspress-btn-remove {
-    cursor: pointer;
 }
 
 /**

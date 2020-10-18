@@ -425,7 +425,11 @@ new Vue( {
         },
 
         toggleCollapse: function( event ) {
-            $( event.target ).siblings( 'ul.articles' ).toggleClass( 'collapsed' );
+            event.preventDefault();
+
+            $( event.target )
+                .closest( '.section-title' ).toggleClass( 'collapsed' )
+                .siblings( 'ul.articles' ).toggleClass( 'collapsed' );
         },
     },
 } );
