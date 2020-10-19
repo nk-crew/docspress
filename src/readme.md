@@ -66,6 +66,13 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.2.2 =
+
+* improved admin UI
+* improved thumbnail size for admin documentation
+* updated vendor scripts
+* fixed bug when trying to delete documentation, but deleted another documentation
+
 = 2.2.1 =
 
 * added RTL support
