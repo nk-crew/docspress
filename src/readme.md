@@ -1,7 +1,7 @@
 # DocsPress - Online Documentation
 
 * Contributors: nko
-* Tags: documentation, document, help, ajax, export
+* Tags: documentation, document, help, knowledge base, export
 * Requires at least: 4.6.0
 * Tested up to: 5.5
 * Requires PHP: 5.5.9
