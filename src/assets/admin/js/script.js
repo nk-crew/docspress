@@ -119,6 +119,8 @@ new Vue( {
         this.editurl = adminVars.editurl;
         this.viewurl = adminVars.viewurl;
 
+        self.docs = [];
+
         $.get( ajaxurl, {
             action: 'docspress_admin_get_docs',
             _wpnonce: adminVars.nonce,
@@ -144,7 +146,6 @@ new Vue( {
 
         addDoc: function() {
             const that = this;
-            this.docs = this.docs || [];
 
             Swal.fire( {
                 title: __.enter_doc_title,
@@ -180,7 +181,6 @@ new Vue( {
 
         cloneDoc: function( doc ) {
             const that = this;
-            this.docs = this.docs || [];
 
             Swal.fire( {
                 title: __.enter_doc_title,
@@ -215,7 +215,7 @@ new Vue( {
             } );
         },
 
-        removeDoc: function( doc, docs ) {
+        removeDoc: function( id ) {
             const that = this;
 
             Swal.fire( {
@@ -226,7 +226,7 @@ new Vue( {
                 confirmButtonText: __.remove_doc_button_yes,
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    return that.removePost( doc, docs );
+                    return that.removePost( id );
                 },
                 ...swalConfig,
             } );
@@ -328,7 +328,7 @@ new Vue( {
             } );
         },
 
-        removeSection: function( section, sections ) {
+        removeSection: function( id ) {
             const that = this;
 
             Swal.fire( {
@@ -339,7 +339,7 @@ new Vue( {
                 confirmButtonText: __.remove_section_button_yes,
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    return that.removePost( section, sections );
+                    return that.removePost( id );
                 },
                 ...swalConfig,
             } );
@@ -387,7 +387,7 @@ new Vue( {
             } );
         },
 
-        removeArticle: function( article, articles ) {
+        removeArticle: function( id ) {
             const that = this;
 
             Swal.fire( {
@@ -398,15 +398,14 @@ new Vue( {
                 confirmButtonText: __.remove_article_button_yes,
                 showLoaderOnConfirm: true,
                 preConfirm: () => {
-                    return that.removePost( article, articles );
+                    return that.removePost( id );
                 },
                 ...swalConfig,
             } );
         },
 
-        removePost: function( index, items ) {
+        removePost: function( postId ) {
             const that = this;
-            const postId = items[ index ].post.id;
 
             return $.post( ajaxurl, {
                 action: 'docspress_remove_doc',
