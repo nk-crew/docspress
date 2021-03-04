@@ -17,8 +17,8 @@ Online documentation for your multiple products. Create, host and manage documen
 
 ### Links
 
-* [Live Demo](https://nkdev.info/docs)
-* [GitHub](https://github.com/nk-o/docspress)
+* [Live Demo](https://nkdev.info/docs/)
+* [GitHub](https://github.com/nk-crew/docspress/)
 
 ## Features
 
