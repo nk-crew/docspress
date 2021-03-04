@@ -542,7 +542,7 @@ if ( ! class_exists( 'DocsPress_Settings_API' ) ) :
         function script() {
             ?>
             <script>
-            jQuery(document).ready(function($) {
+            jQuery(function($) {
                 //Initiate Color Picker
                 $('.wp-color-picker-field').wpColorPicker();
 
