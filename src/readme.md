@@ -66,6 +66,12 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.2.3 =
+
+* removed usage of deprecated jQuery ready event
+* tested up to WordPress 5.7
+* changed GitHub repo url
+
 = 2.2.2 =
 
 * improved admin UI
