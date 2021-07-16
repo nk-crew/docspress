@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Variables
 $color_main: #069dfd !default;
 $color_text_main: #47484a !default;
@@ -803,7 +805,7 @@ body.single.single-docs .content-area {
             width: $preloader_size_inner;
             height: $preloader_size_inner;
             overflow: hidden;
-            transform-origin: $preloader_size / 2 $preloader_size / 2;
+            transform-origin: math.div($preloader_size, 2) math.div($preloader_size, 2);
             animation: docspress-spinner .7s infinite linear;
 
             &::after {
