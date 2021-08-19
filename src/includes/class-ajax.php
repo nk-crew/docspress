@@ -337,7 +337,7 @@ class DocsPress_Ajax {
         $docs = new WP_Query(
             array(
                 'post_type'      => 'docs',
-                'post_status'    => array( 'publish', 'draft', 'pending' ),
+                'post_status'    => array( 'publish', 'draft', 'pending', 'private' ),
                 'posts_per_page' => -1, // phpcs:ignore
                 'orderby'        => array(
                     'menu_order' => 'ASC',
