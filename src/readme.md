@@ -66,6 +66,10 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.2.6 =
+
+* fixed docs suggestion email Reply-To field (should refer to feedback sender email)
+
 = 2.2.5 =
 
 * fixed private docs displaying for admins
