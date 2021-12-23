@@ -41,8 +41,17 @@ class DocsPress_Suggestion {
      * @return boolean
      */
     public static function process_mail( $data ) {
+        // phpcs:ignore
+        $wp_email = 'wordpress@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
+        $add_reply_to_email = true;
+
         if ( isset( $data['from'] ) && ! empty( $data['from'] ) ) {
             $from = $data['from'];
+
+            if ( filter_var( $from, FILTER_VALIDATE_EMAIL ) ) {
+                $from               = filter_var( $from, FILTER_VALIDATE_EMAIL );
+                $add_reply_to_email = false;
+            }
         } elseif ( is_user_logged_in() ) {
             $from = '';
 
@@ -54,17 +63,20 @@ class DocsPress_Suggestion {
 
             if ( $user->user_email ) {
                 $from .= ( $from ? ' <' : '' ) . $user->user_email . ( $from ? '>' : '' );
+
+                $add_reply_to_email = false;
             }
         } else {
             $from = esc_html__( 'Anonymous', '@@text_domain' );
         }
 
+        if ( $add_reply_to_email ) {
+            $from .= ' <' . $wp_email . '>';
+        }
+
         $data['from']       = $from;
         $data['ip_address'] = self::get_ip_address();
         $data['blogname']   = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
-
-        // phpcs:ignore
-        $wp_email = 'wordpress@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
 
         $email_to = docspress()->get_option( 'show_feedback_suggestion_email', 'docspress_single', '' ) ? docspress()->get_option( 'show_feedback_suggestion_email', 'docspress_single', '' ) : get_option( 'admin_email' );
 
@@ -72,9 +84,12 @@ class DocsPress_Suggestion {
         $subject = sprintf( esc_html__( '[%s] New Doc Suggestion', '@@text_domain' ), $data['blogname'] );
 
         // Prepare headers.
-        $headers  = 'Content-Type: text/html; charset="' . get_option( 'blog_charset' ) . "\"\n";
-        $headers .= 'From: "' . esc_html( $data['from'] ) . "\" <$wp_email>\n";
-        $headers .= "Reply-To: \"$wp_email\" <$wp_email>\n";
+        $headers = array(
+            'Content-Type: text/html; charset="' . get_option( 'blog_charset' ) . '"',
+            'From: "' . esc_html( $data['from'] ) . '" <' . $wp_email . '>',
+            "Return-Path: {$email_to}",
+            "Reply-To: {$from}",
+        );
 
         // Prepare message.
         $message = self::get_mail_html( $data );
