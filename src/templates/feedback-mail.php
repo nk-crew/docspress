@@ -189,12 +189,6 @@
         padding-bottom: 20px;
         word-break: break-all;
     }
-    .field-helpful-type-negative {
-        color: #F24040;
-    }
-    .field-helpful-type-positive {
-        color: #3f9c53;
-    }
 
     /* -------------------------------------
         OTHER STYLES THAT MIGHT BE USEFUL
@@ -316,8 +310,9 @@
                 <tr>
                 <td class="content-block">
                     <?php
-                    // translators: %s - doc title.
-                    echo sprintf( esc_html__( 'New suggestion for doc `%s`', '@@text_domain' ), esc_html( get_the_title( $data['post'] ) ) );
+                    echo '<span style="color: ' . esc_attr( 'negative' === $data['feedback_type'] ? '#F24040' : '#3f9c53' ) . ';">';
+                    echo 'negative' === $data['feedback_type'] ? esc_html__( '😡 Negative Feedback', '@@text_domain' ) : esc_html__( '😀 Positive Feedback', '@@text_domain' );
+                    echo '</span>';
                     ?>
                 </td>
                 </tr>
@@ -337,6 +332,20 @@
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="field-row"><tbody>
                                 <tr><td class="field-row-label">
                                     <strong>
+                                        <?php echo esc_html__( 'Article', '@@text_domain' ); ?>
+                                    </strong>
+                                </td></tr>
+                                <tr><td class="field-row-value">
+                                    <?php
+                                    echo esc_html( get_the_title( $data['post'] ) );
+                                    echo '<br/><a href="' . esc_url( get_permalink( $data['post'] ) ) . '">' . esc_url( get_permalink( $data['post'] ) ) . '</a>';
+                                    ?>
+                                </td></tr>
+                            </tbody></table>
+
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="field-row"><tbody>
+                                <tr><td class="field-row-label">
+                                    <strong>
                                         <?php echo esc_html__( 'From', '@@text_domain' ); ?>
                                     </strong>
                                 </td></tr>
@@ -345,19 +354,6 @@
                                     // translators: %1$s - user name.
                                     // translators: %2$s - user IP address.
                                     echo sprintf( esc_html__( '%1$s (IP: %2$s)', '@@text_domain' ), esc_html( $data['from'] ), esc_html( $data['ip_address'] ) );
-                                    ?>
-                                </td></tr>
-                            </tbody></table>
-
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="field-row"><tbody>
-                                <tr><td class="field-row-label">
-                                    <strong>
-                                        <?php echo esc_html__( 'Helpful?', '@@text_domain' ); ?>
-                                    </strong>
-                                </td></tr>
-                                <tr><td class="field-row-value field-helpful-type-<?php echo esc_attr( $data['feedback_type'] ); ?>">
-                                    <?php
-                                    echo 'negative' === $data['feedback_type'] ? esc_html__( 'Negative', '@@text_domain' ) : esc_html__( 'Positive', '@@text_domain' );
                                     ?>
                                 </td></tr>
                             </tbody></table>
@@ -390,17 +386,7 @@
             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                 <tr>
                 <td class="content-block">
-                    <?php
-                    echo wp_kses_post(
-                        sprintf(
-                            // translators: %1$s - current page title.
-                            // translators: %2$s - current page link.
-                            __( 'This e-mail was sent from a suggestion form on %1$s. (%2$s)', '@@text_domain' ),
-                            esc_html( get_the_title( $data['post'] ) ),
-                            '<a href="' . esc_url( get_permalink( $data['post'] ) ) . '">' . esc_url( get_permalink( $data['post'] ) ) . '</a>'
-                        )
-                    );
-                    ?>
+                    <?php echo esc_html__( 'This e-mail was sent from a suggestion form on one of your DocsPress articles.', '@@text_domain' ); ?>
                 </td>
                 </tr>
             </table>
