@@ -42,11 +42,13 @@ class DocsPress_Suggestion {
      */
     public static function process_mail( $data ) {
         // phpcs:ignore
-        $wp_email = 'wordpress@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
+        $wp_email           = 'wordpress@' . preg_replace( '#^www\.#', '', strtolower( $_SERVER['SERVER_NAME'] ) );
         $add_reply_to_email = true;
+        $initial_from       = $wp_email;
 
         if ( isset( $data['from'] ) && ! empty( $data['from'] ) ) {
-            $from = $data['from'];
+            $from         = $data['from'];
+            $initial_from = $from;
 
             if ( filter_var( $from, FILTER_VALIDATE_EMAIL ) ) {
                 $from               = filter_var( $from, FILTER_VALIDATE_EMAIL );
@@ -62,7 +64,11 @@ class DocsPress_Suggestion {
             }
 
             if ( $user->user_email ) {
-                $from .= ( $from ? ' <' : '' ) . $user->user_email . ( $from ? '>' : '' );
+                if ( $from ) {
+                    $from = '"' . esc_attr( $from ) . '" <' . $user->user_email . '>';
+                } else {
+                    $from = $user->user_email;
+                }
 
                 $add_reply_to_email = false;
             }
@@ -70,31 +76,32 @@ class DocsPress_Suggestion {
             $from = esc_html__( 'Anonymous', '@@text_domain' );
         }
 
+        $reply_to = $from;
         if ( $add_reply_to_email ) {
-            $from .= ' <' . $wp_email . '>';
+            $reply_to = '"' . esc_attr( $reply_to ) . '" <' . $wp_email . '>';
         }
 
         $data['from']       = $from;
         $data['ip_address'] = self::get_ip_address();
         $data['blogname']   = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
-        $email_to = docspress()->get_option( 'show_feedback_suggestion_email', 'docspress_single', '' ) ? docspress()->get_option( 'show_feedback_suggestion_email', 'docspress_single', '' ) : get_option( 'admin_email' );
+        $admin_email = docspress()->get_option( 'show_feedback_suggestion_email', 'docspress_single', '' ) ? docspress()->get_option( 'show_feedback_suggestion_email', 'docspress_single', '' ) : get_option( 'admin_email' );
 
-        // translators: %s - blog name.
-        $subject = sprintf( esc_html__( '[%s] New Doc Suggestion', '@@text_domain' ), $data['blogname'] );
+        // translators: %s - user name.
+        $subject = sprintf( __( 'New Doc Suggestion by "%s"', '@@text_domain' ), $initial_from );
 
         // Prepare headers.
         $headers = array(
             'Content-Type: text/html; charset="' . get_option( 'blog_charset' ) . '"',
-            'From: "' . esc_html( $data['from'] ) . '" <' . $wp_email . '>',
-            "Return-Path: {$email_to}",
-            "Reply-To: {$from}",
+            'From: "' . $data['blogname'] . '" <' . $admin_email . '>',
+            'Return-Path: ' . $admin_email,
+            'Reply-To: ' . $reply_to,
         );
 
         // Prepare message.
         $message = self::get_mail_html( $data );
 
-        return wp_mail( $email_to, wp_specialchars_decode( $subject ), $message, $headers );
+        return wp_mail( $admin_email, wp_specialchars_decode( $subject ), $message, $headers );
     }
 
     /**
