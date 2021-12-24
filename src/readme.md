@@ -66,6 +66,11 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.2.7 =
+
+* improved feedback email template
+* improved feedback mailing function (better reply to and subject lines)
+
 = 2.2.6 =
 
 * fixed docs suggestion email Reply-To field (should refer to feedback sender email)
