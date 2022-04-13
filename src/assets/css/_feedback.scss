@@ -1,0 +1,75 @@
+.docspress-single-feedback {
+    --docspress--feedback--padding: 15px 29px;
+    --docspress--feedback--margin: 0 -39px;
+    --docspress--feedback--border-width: 1px;
+    --docspress--feedback--border-color: var(--docspress-color-border);
+    --docspress--feedback--inner--padding: 10px;
+
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: var(--docspress--feedback--padding);
+    margin: var(--docspress--feedback--margin);
+    border-top: var(--docspress--feedback--border-width) solid var(--docspress--feedback--border-color);
+
+    > * {
+        flex: 1;
+        padding: var(--docspress--feedback--inner--padding);
+    }
+
+    .docspress-single-feedback-vote {
+        flex: none;
+        text-align: right;
+    }
+
+    &.docspress-single-feedback-loading > * {
+        opacity: .15;
+    }
+
+    &.docspress-single-feedback-loading > .docspress-preloader {
+        opacity: 1;
+    }
+
+    @media screen and (max-width: 768px) {
+        > *,
+        .docspress-single-feedback-vote {
+            flex: 0 0 100%;
+            text-align: center;
+        }
+    }
+}
+
+// Suggestion form.
+.docspress-single-feedback-suggestion {
+    --docspress--feedback-suggestion--padding: 15px 29px;
+    --docspress--feedback-suggestion--margin: 0 -39px;
+    --docspress--feedback-suggestion--border-width: 1px;
+    --docspress--feedback-suggestion--border-color: var(--docspress-color-border);
+    --docspress--feedback-suggestion--inner--padding: 10px;
+    --docspress--feedback-suggestion--form--margin-bottom: 15px;
+
+    position: relative;
+    padding: var(--docspress--feedback-suggestion--padding);
+    margin: var(--docspress--feedback-suggestion--margin);
+    border-top: var(--docspress--feedback-suggestion--border-width) solid var(--docspress--feedback-suggestion--border-color);
+
+    > * {
+        padding: var(--docspress--feedback-suggestion--inner--padding);
+    }
+
+    textarea,
+    input {
+        display: block;
+        width: 100%;
+        margin-bottom: var(--docspress--feedback-suggestion--form--margin-bottom);
+    }
+
+    &.docspress-single-feedback-suggestion-loading > * {
+        opacity: .15;
+    }
+
+    &.docspress-single-feedback-suggestion-loading > .docspress-preloader {
+        opacity: 1;
+    }
+}

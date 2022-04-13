@@ -1,0 +1,125 @@
+.docspress-btn {
+    --docspress--button--padding-v: 8px;
+    --docspress--button--padding-h: 20px;
+    --docspress--button--font-size: .8em;
+    --docspress--button--font-weight: 600;
+    --docspress--button--line-height: 1.3;
+    --docspress--button--letter-spacing: .05em;
+    --docspress--button--color: #2f3035;
+    --docspress--button--background-color: #fff;
+    --docspress--button--border-width: 1px;
+    --docspress--button--border-color: var(--docspress-color-border-darken);
+    --docspress--button--border-radius: 2px;
+    --docspress--button--transition: color .1s, background-color .1s, border-color .1s;
+
+    // Medium.
+    --docspress--button-md--padding-v: 10px;
+    --docspress--button-md--padding-h: 25px;
+    --docspress--button-md--font-size: .85em;
+
+    // Large.
+    --docspress--button-lg--padding-v: 12px;
+    --docspress--button-lg--padding-h: 30px;
+    --docspress--button-lg--font-size: .9em;
+
+    // Hover.
+    --docspress--button-hover--color: #fff;
+    --docspress--button-hover--background-color: #474850;
+    --docspress--button-hover--border-color: #474850;
+
+    // Focus.
+    --docspress--button-focus--color: #fff;
+    --docspress--button-focus--background-color: #42444b;
+    --docspress--button-focus--border-color: #42444b;
+
+    // Badge.
+    --docspress--button--badge--padding-v: 0;
+    --docspress--button--badge--padding-h: 4px;
+    --docspress--button--badge--float: right;
+    --docspress--button--badge--min-width: 14px;
+    --docspress--button--badge--height: 14px;
+    --docspress--button--badge--margin-right: -5px;
+    --docspress--button--badge--margin-left: 5px;
+    --docspress--button--badge--font-size: 9px;
+    --docspress--button--badge--line-height: 1.6;
+    --docspress--button--badge--color: #fff;
+    --docspress--button--badge--text-align: center;
+    --docspress--button--badge--background-color: #cecece;
+    --docspress--button--badge--border-radius: 7px;
+
+    // Icon.
+    --docspress--button--icon--top: -2px;
+    --docspress--button--icon--font-family: monospace;
+
+    display: inline-block;
+    padding: var(--docspress--button--padding-v) var(--docspress--button--padding-h);
+    font-size: var(--docspress--button--font-size);
+    font-weight: var(--docspress--button--font-weight);
+    line-height: var(--docspress--button--line-height);
+    color: var(--docspress--button--color);
+    text-align: center;
+    letter-spacing: var(--docspress--button--letter-spacing);
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--docspress--button--background-color);
+    border: var(--docspress--button--border-width) solid var(--docspress--button--border-color);
+    border-radius: var(--docspress--button--border-radius);
+    transition: var(--docspress--button--transition);
+
+    &,
+    &:hover,
+    &.hover,
+    &:active,
+    &.active,
+    &:focus {
+        text-decoration: none;
+    }
+    &:hover,
+    &.hover {
+        color: var(--docspress--button-hover--color);
+        background-color: var(--docspress--button-hover--background-color);
+        border-color: var(--docspress--button-hover--border-color);
+    }
+    &:active,
+    &.active,
+    &:focus {
+        color: var(--docspress--button-focus--color);
+        background-color: var(--docspress--button-focus--background-color);
+        border-color: var(--docspress--button-focus--border-color);
+    }
+
+    .badge {
+        float: var(--docspress--button--badge--float);
+        min-width: var(--docspress--button--badge--min-width);
+        height: var(--docspress--button--badge--height);
+        padding: var(--docspress--button--badge--padding-v) var(--docspress--button--badge--padding-h);
+        margin-right: var(--docspress--button--badge--margin-right);
+        margin-left: var(--docspress--button--badge--margin-left);
+        font-size: var(--docspress--button--badge--font-size);
+        line-height: var(--docspress--button--badge--line-height);
+        color: var(--docspress--button--badge--color);
+        text-align: var(--docspress--button--badge--text-align);
+        background-color: var(--docspress--button--badge--background-color);
+        border-radius: var(--docspress--button--badge--border-radius);
+    }
+
+    .icon {
+        position: relative;
+        top: var(--docspress--button--icon--top);
+        font-family: var(--docspress--button--icon--font-family);
+    }
+}
+
+// Medium.
+.docspress-btn-md {
+    padding: var(--docspress--button-md--padding-v) var(--docspress--button-md--padding-h);
+    font-size: var(--docspress--button-md--font-size);
+}
+
+// Large.
+.docspress-btn-lg {
+    padding: var(--docspress--button-lg--padding-v) var(--docspress--button-lg--padding-h);
+    font-size: var(--docspress--button-lg--font-size);
+}

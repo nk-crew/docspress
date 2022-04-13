@@ -1,0 +1,76 @@
+@keyframes docspress-spinner {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.docspress-preloader {
+    --docspress--preloader--size: 30px;
+    --docspress--preloader-inner--size: calc(var(--docspress--preloader--size) * .35);
+    --docspress--preloader--weight: 3px;
+    --docspress--preloader--color: var(--docspress-color-text);
+    --docspress--preloader--background-opacity: .3;
+
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-height: 350px;
+    opacity: 1;
+
+    > span {
+        position: relative;
+        display: block;
+        width: var(--docspress--preloader--size);
+        height: var(--docspress--preloader--size);
+
+        // Background.
+        &::after {
+            content: "";
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 var(--docspress--preloader--weight) var(--docspress--preloader--color);
+            opacity: var(--docspress--preloader--background-opacity);
+        }
+
+        // Spinner.
+        > span {
+            position: absolute;
+            display: block;
+            width: var(--docspress--preloader-inner--size);
+            height: var(--docspress--preloader-inner--size);
+            overflow: hidden;
+            transform-origin: calc(var(--docspress--preloader--size) * .5) calc(var(--docspress--preloader--size) * .5);
+            animation: docspress-spinner .7s infinite linear;
+
+            &::after {
+                content: "";
+                display: block;
+                width: var(--docspress--preloader--size);
+                height: var(--docspress--preloader--size);
+                border-radius: 50%;
+                box-shadow: inset 0 0 0 var(--docspress--preloader--weight) var(--docspress--preloader--color);
+            }
+        }
+    }
+}
+
+// Ajax loading.
+.docspress-single.docspress-single-ajax-loading {
+    .docspress-single-sidebar > *,
+    .docspress-single-content > * {
+        opacity: .15;
+    }
+    .docspress-single-content > .docspress-preloader {
+        opacity: 1;
+    }
+}

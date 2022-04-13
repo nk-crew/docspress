@@ -1,0 +1,13 @@
+.docspress-single .comments-area {
+    --docspress--comments--padding: 40px;
+    --docspress--comments--margin: 0 -39px;
+    --docspress--comments--border: 0;
+    --docspress--comments--border-top: 1px solid var(--docspress-color-border);
+    --docspress--comments--box-shadow: none;
+
+    padding: var(--docspress--comments--padding);
+    margin: var(--docspress--comments--margin);
+    border: var(--docspress--comments--border);
+    border-top: var(--docspress--comments--border-top);
+    box-shadow: var(--docspress--comments--box-shadow);
+}

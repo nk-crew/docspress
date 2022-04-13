@@ -1,0 +1,24 @@
+.docspress-single-adjacent-nav {
+    --docspress--adjacent-navigation--padding: 25px 39px;
+    --docspress--adjacent-navigation--margin: 0 -39px;
+    --docspress--adjacent-navigation--border-width: 1px;
+    --docspress--adjacent-navigation--border-color: var(--docspress-color-border);
+
+    display: flex;
+    flex-wrap: wrap;
+    padding: var(--docspress--adjacent-navigation--padding);
+    margin: var(--docspress--adjacent-navigation--margin);
+    border-top: var(--docspress--adjacent-navigation--border-width) solid var(--docspress--adjacent-navigation--border-color);
+
+    > * {
+        flex: 1;
+    }
+
+    .nav-previous {
+        text-align: left;
+    }
+
+    .nav-next {
+        text-align: right;
+    }
+}

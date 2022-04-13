@@ -52,6 +52,7 @@ class DocsPress {
         // if empty search field.
         if ( ! $form.find( '.docspress-search-field' ).val() ) {
             $form.next( '.docspress-search-form-result' ).html( '' );
+            $form.removeClass( 'docspress-search-form-existence' );
             return;
         }
 
@@ -63,6 +64,7 @@ class DocsPress {
                 const $data = $( data );
                 const result = $data.find( '.docspress-search-list' ).get( 0 ).outerHTML;
                 $form.next( '.docspress-search-form-result' ).html( result );
+                $form.addClass( 'docspress-search-form-existence' );
                 self.xhrAjaxSearch = false;
             },
             error( e ) {
