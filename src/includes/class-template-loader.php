@@ -68,6 +68,58 @@ class DocsPress_Template_Loader {
     }
 
     /**
+     * Checks whether a block template with that name exists.
+     *
+     * **Note: ** This checks both the `templates` and `block-templates` directories
+     * as both conventions should be supported.
+     *
+     * @since  5.5.0
+     * @param string $template_name Template to check.
+     * @return boolean
+     */
+    private static function has_block_template( $template_name ) {
+        if ( ! $template_name ) {
+            return false;
+        }
+
+        $has_template      = false;
+        $template_filename = $template_name . '.html';
+        // Since Gutenberg 12.1.0, the conventions for block templates directories have changed,
+        // we should check both these possible directories for backwards-compatibility.
+        $possible_templates_dirs = array( 'templates', 'block-templates' );
+
+        // Combine the possible root directory names with either the template directory
+        // or the stylesheet directory for child themes, getting all possible block templates
+        // locations combinations.
+        $filepath        = DIRECTORY_SEPARATOR . 'templates/fse-templates' . DIRECTORY_SEPARATOR . $template_filename;
+        $legacy_filepath = DIRECTORY_SEPARATOR . 'block-templates' . DIRECTORY_SEPARATOR . $template_filename;
+        $possible_paths  = array(
+            get_stylesheet_directory() . $filepath,
+            get_stylesheet_directory() . $legacy_filepath,
+            get_template_directory() . $filepath,
+            get_template_directory() . $legacy_filepath,
+        );
+
+        // Check the first matching one.
+        foreach ( $possible_paths as $path ) {
+            if ( is_readable( $path ) ) {
+                $has_template = true;
+                break;
+            }
+        }
+
+        /**
+         * Filters the value of the result of the block template check.
+         *
+         * @since x.x.x
+         *
+         * @param boolean $has_template value to be filtered.
+         * @param string $template_name The name of the template.
+         */
+        return (bool) apply_filters( 'docspress_has_block_template', $has_template, $template_name );
+    }
+
+    /**
      * Get the default filename for a template.
      *
      * @return string
@@ -76,13 +128,17 @@ class DocsPress_Template_Loader {
         $default_file = '';
 
         if ( is_singular( 'docs' ) ) {
-            $default_file = 'single.php';
-
             docspress()->is_single = true;
-        } elseif ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) {
-            $default_file = 'archive.php';
 
+            if ( ! self::has_block_template( 'single-docs' ) ) {
+                $default_file = 'single.php';
+            }
+        } elseif ( ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) ) {
             docspress()->is_archive = true;
+
+            if ( ! self::has_block_template( 'archive-docs' ) ) {
+                $default_file = 'archive.php';
+            }
 
             // Add query for page docs.
             global $wp_query;
@@ -127,7 +183,7 @@ class DocsPress_Template_Loader {
             }
 
             // make order by term.
-            if ( 'archive.php' === $default_file ) {
+            if ( 'archive.php' === $default_file || self::has_block_template( 'archive-docs' ) ) {
                 $categories = get_terms(
                     array(
                         'taxonomy'   => 'docs_category',
