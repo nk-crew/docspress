@@ -48,6 +48,7 @@ cfg.compile_scss_files_rtl = true;
 // Compile JS files.
 cfg.compile_js_files_src = [
     '{src}/*assets/**/*.js',
+    '{src}/*gutenberg/blocks/**/*.js',
     '!{src}/**/vendor/**/*',
 ];
 

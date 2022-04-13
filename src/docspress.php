@@ -237,9 +237,12 @@ class DocsPress {
      * Include dependencies
      */
     public function include_dependencies() {
+        include_once docspress()->plugin_path . 'includes/class-block-template-utils.php';
+        include_once docspress()->plugin_path . 'includes/class-block-template-controller.php';
         include_once docspress()->plugin_path . 'includes/class-template-loader.php';
         include_once docspress()->plugin_path . 'includes/class-walker-docs.php';
         include_once docspress()->plugin_path . 'includes/class-suggestion.php';
+        include_once docspress()->plugin_path . 'gutenberg/index.php';
 
         if ( is_admin() ) {
             include_once docspress()->plugin_path . 'includes/admin/class-admin.php';

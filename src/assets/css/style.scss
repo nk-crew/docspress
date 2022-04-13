@@ -830,6 +830,12 @@ body.single.single-docs .content-area {
 /**
  * Fixes for default WP themes
  */
+.single-docs.theme-twentytwentytwo .wp-site-blocks > .wp-block-group {
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .docspress_theme_twentyseventeen {
     float: none !important; // stylelint-disable-line
     width: 100% !important; // stylelint-disable-line
