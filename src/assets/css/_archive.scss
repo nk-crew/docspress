@@ -72,11 +72,6 @@
     margin-left: calc(var(--docspress--archive--gap-h) * -1);
     list-style: none;
 
-    li {
-        position: relative;
-        margin: 0;
-    }
-
     a {
         text-decoration: none;
         transition: color .1s;
@@ -138,6 +133,7 @@
     position: relative;
     padding-top: var(--docspress--archive--gap-v);
     padding-left: var(--docspress--archive--gap-h);
+    margin: 0;
 
     @media screen and (max-width: 991px) {
         @include docspress-column(1, 2);
