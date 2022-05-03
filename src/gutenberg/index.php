@@ -30,14 +30,14 @@ class DocsPress_Gutenberg {
      */
     public function gutenberg_register_blocks() {
         wp_register_script(
-            'docspress-archive',
+            'docspress-archive-block',
             docspress()->plugin_url . 'gutenberg/blocks/archive/script.min.js',
             array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
             '@@plugin_version',
             false
         );
         wp_register_script(
-            'docspress-single',
+            'docspress-single-block',
             docspress()->plugin_url . 'gutenberg/blocks/single/script.min.js',
             array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
             '@@plugin_version',
@@ -47,14 +47,14 @@ class DocsPress_Gutenberg {
             'docspress/archive',
             array(
                 'render_callback' => array( $this, 'gutenberg_archive_block_render_callback' ),
-                'editor_script'   => 'docspress-archive',
+                'editor_script'   => 'docspress-archive-block',
             )
         );
         register_block_type(
             'docspress/single',
             array(
                 'render_callback' => array( $this, 'gutenberg_single_block_render_callback' ),
-                'editor_script'   => 'docspress-single',
+                'editor_script'   => 'docspress-single-block',
             )
         );
     }
