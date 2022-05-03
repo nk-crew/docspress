@@ -1,20 +1,26 @@
 const { registerBlockType } = wp.blocks;
-const { serverSideRender: ServerSideRender } = wp;
 
 const { Fragment } = wp.element;
 
+const { Placeholder } = wp.components;
+
 registerBlockType( 'docspress/single', {
-    title: 'DocsPress Single',
-    description: 'DocsPress Single',
-    icon: ( <svg version="1.1" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 24 24"><rect width="24" height="24" style={ { fill: 'rgb(0,121,200)' } } /></svg> ),
-    edit: () => {
-        return <Fragment>
-            <ServerSideRender
-                block="docspress/single"
-                attributes={ {} }
-            />
-        </Fragment>;
+    title: 'DocsPress Single Article',
+    description: 'FullSite Editing template for DocsPress Single Article',
+    supports: {
+        align: true,
+        className: true,
     },
+    icon: 'media-document',
+    edit: () => (
+        <Fragment>
+            <Placeholder
+                icon="media-document"
+                label="DocsPress Single Article Block"
+                instructions="This is an editor placeholder for the DocsPress Single Article Block. In your documentation this will be replaced by the template and display with your article image(s), title, etc. You can move this placeholder around and add further blocks around it to extend the template."
+            />
+        </Fragment>
+    ),
     save() {
         return null; // Nothing to save here..
     },
