@@ -60,6 +60,32 @@ class DocsPress_Gutenberg {
     }
 
     /**
+     * Get block classname based on block attributes.
+     *
+     * @param string $classname - default classname.
+     * @param array  $attributes - block attributes.
+     * @return string
+     */
+    public function get_block_classname( $classname, $attributes ) {
+        $attributes = array_merge(
+            array(
+                'align'     => '',
+                'className' => '',
+            ),
+            $attributes
+        );
+
+        if ( $attributes['align'] ) {
+            $classname .= ' align' . $attributes['align'];
+        }
+        if ( $attributes['className'] ) {
+            $classname .= ' ' . $attributes['className'];
+        }
+
+        return $classname;
+    }
+
+    /**
      * Render single doc block.
      *
      * @param array $attributes - block attributes.
@@ -69,22 +95,7 @@ class DocsPress_Gutenberg {
     public function gutenberg_single_block_render_callback( $attributes ) {
         ob_start();
 
-        $attributes = array_merge(
-            array(
-                'align'     => '',
-                'className' => '',
-            ),
-            $attributes
-        );
-
-        $classname = 'wp-block-docspress-single-article';
-
-        if ( $attributes['align'] ) {
-            $classname .= ' align' . $attributes['align'];
-        }
-        if ( $attributes['className'] ) {
-            $classname .= ' ' . $attributes['className'];
-        }
+        $classname = $this->get_block_classname( 'wp-block-docspress-single-article', $attributes );
 
         echo '<div class="' . esc_attr( $classname ) . '">';
 
@@ -108,22 +119,7 @@ class DocsPress_Gutenberg {
     public function gutenberg_archive_block_render_callback( $attributes ) {
         ob_start();
 
-        $attributes = array_merge(
-            array(
-                'align'     => '',
-                'className' => '',
-            ),
-            $attributes
-        );
-
-        $classname = 'wp-block-docspress-archive';
-
-        if ( $attributes['align'] ) {
-            $classname .= ' align' . $attributes['align'];
-        }
-        if ( $attributes['className'] ) {
-            $classname .= ' ' . $attributes['className'];
-        }
+        $classname = $this->get_block_classname( 'wp-block-docspress-archive', $attributes );
 
         echo '<div class="' . esc_attr( $classname ) . '">';
 
