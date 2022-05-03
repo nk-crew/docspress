@@ -242,6 +242,7 @@ class DocsPress {
         include_once docspress()->plugin_path . 'includes/class-template-loader.php';
         include_once docspress()->plugin_path . 'includes/class-walker-docs.php';
         include_once docspress()->plugin_path . 'includes/class-suggestion.php';
+        include_once docspress()->plugin_path . 'includes/class-themes-support.php';
         include_once docspress()->plugin_path . 'gutenberg/index.php';
 
         if ( is_admin() ) {

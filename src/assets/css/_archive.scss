@@ -90,6 +90,10 @@
         }
     }
 
+    .docspress-archive-list-item ul {
+        margin: 0;
+    }
+
     // Children.
     ul {
         padding-left: 0;
@@ -103,6 +107,7 @@
         }
 
         a {
+            position: relative;
             display: block;
             padding: var(--docspress--archive--children--link--padding);
 
@@ -173,7 +178,7 @@
     margin: 0;
     line-height: var(--docspress--archive--item--line-height);
 
-    h2 {
+    span h2 {
         padding: 0;
         margin: 0;
     }

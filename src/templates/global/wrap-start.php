@@ -15,16 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 get_header( 'docs' );
 
-// phpcs:disable
-$theme_class = '';
-
-// additional class for default theme to add fix styles.
-$current_theme = get_template();
-if ( in_array( $current_theme, array( 'twentyseventeen', 'twentysixteen', 'twentyfifteen' ), true ) ) {
-    $theme_class = ' docspress_theme_' . $current_theme;
-}
-// phpcs:enable
-
 ?>
-<div id="primary" class="content-area<?php echo esc_attr( $theme_class ); ?>">
+<div id="primary" class="content-area docspress-wrap">
     <main id="main" class="site-main" role="main">
