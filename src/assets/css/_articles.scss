@@ -1,49 +1,49 @@
 .docspress-single-articles {
-    --docspress--articles--font-size: .85em;
-    --docspress--articles--link--padding: 2px 0 2px 15px;
-    --docspress--articles--link--transition: color .1s;
-    --docspress--articles--link-hover--color: var(--docspress-color-primary);
-    --docspress--articles--link-bullet--top: 50%;
-    --docspress--articles--link-bullet--width: 4px;
-    --docspress--articles--link-bullet--height: 4px;
-    --docspress--articles--link-bullet--border-radius: 2px;
-    --docspress--articles--children--margin-left: 16px;
+  --docspress--articles--font-size: 0.85em;
+  --docspress--articles--link--padding: 2px 0 2px 15px;
+  --docspress--articles--link--transition: color 0.1s;
+  --docspress--articles--link-hover--color: var(--docspress-color-primary);
+  --docspress--articles--link-bullet--top: 50%;
+  --docspress--articles--link-bullet--width: 4px;
+  --docspress--articles--link-bullet--height: 4px;
+  --docspress--articles--link-bullet--border-radius: 2px;
+  --docspress--articles--children--margin-left: 16px;
+
+  ul {
+    padding-left: 0;
+    margin-left: 0;
+    list-style: none;
 
     ul {
-        padding-left: 0;
-        margin-left: 0;
-        list-style: none;
+      margin-left: var(--docspress--articles--children--margin-left);
+    }
+  }
 
-        ul {
-            margin-left: var(--docspress--articles--children--margin-left);
-        }
+  > ul {
+    font-size: var(--docspress--articles--font-size);
+  }
+
+  a {
+    position: relative;
+    display: block;
+    padding: var(--docspress--articles--link--padding);
+    transition: var(--docspress--articles--link--transition);
+
+    &::before {
+      position: absolute;
+      top: var(--docspress--articles--link-bullet--top);
+      left: 0;
+      display: block;
+      width: var(--docspress--articles--link-bullet--width);
+      height: var(--docspress--articles--link-bullet--height);
+      margin-top: calc(var(--docspress--articles--link-bullet--height) * -0.5);
+      content: "";
+      background-color: currentcolor;
+      border-radius: var(--docspress--articles--link-bullet--border-radius);
     }
 
-    > ul {
-        font-size: var(--docspress--articles--font-size);
+    &:hover {
+      color: var(--docspress--articles--link-hover--color);
     }
-
-    a {
-        position: relative;
-        display: block;
-        padding: var(--docspress--articles--link--padding);
-        transition: var(--docspress--articles--link--transition);
-
-        &::before {
-            content: "";
-            position: absolute;
-            display: block;
-            top: var(--docspress--articles--link-bullet--top);
-            left: 0;
-            width: var(--docspress--articles--link-bullet--width);
-            height: var(--docspress--articles--link-bullet--height);
-            margin-top: calc(var(--docspress--articles--link-bullet--height) * -.5);
-            background-color: currentColor;
-            border-radius: var(--docspress--articles--link-bullet--border-radius);
-        }
-
-        &:hover {
-            color: var(--docspress--articles--link-hover--color);
-        }
-    }
+  }
 }

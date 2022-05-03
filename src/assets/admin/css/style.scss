@@ -1,511 +1,517 @@
 #docspress-app {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .no-docspress {
-    padding: 60px;
-    color: #777;
-    text-align: center;
+  padding: 60px;
+  color: #777;
+  text-align: center;
 
-    &.not-loaded {
-        display: none;
-    }
+  &.not-loaded {
+    display: none;
+  }
 
-    &::before {
-        content: "\f322";
-        display: block;
-        padding-bottom: 30px;
-        font-family: Dashicons; // stylelint-disable-line
-        font-size: 50px;
-        color: #ccc;
-    }
+  &::before {
+    display: block;
+    padding-bottom: 30px;
+    /* stylelint-disable-next-line font-family-no-missing-generic-family-keyword */
+    font-family: Dashicons;
+    font-size: 50px;
+    color: #ccc;
+    content: "\f322";
+  }
 }
 
 .docspress-icon {
-    display: inline-block;
-    width: 1.4em;
-    height: 1.4em;
-    vertical-align: -.3em;
-    fill: currentColor;
+  display: inline-block;
+  width: 1.4em;
+  height: 1.4em;
+  vertical-align: -0.3em;
+  fill: currentcolor;
 }
 
 .docspress {
-
-    .docspress-cat {
-        > h3 {
-            margin-top: 40px;
-        }
-        > ul {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 20px 0;
-            margin-right: -30px;
-            margin-bottom: -30px;
-            overflow: hidden;
-            list-style: none;
-        }
+  .docspress-cat {
+    > h3 {
+      margin-top: 40px;
     }
 
-    &.not-loaded {
-        display: none;
+    > ul {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 20px 0;
+      margin-right: -30px;
+      margin-bottom: -30px;
+      overflow: hidden;
+      list-style: none;
     }
+  }
 
-    &,
-    * {
-        box-sizing: border-box;
-    }
+  &.not-loaded {
+    display: none;
+  }
+
+  &,
+  * {
+    box-sizing: border-box;
+  }
 }
 
 .docspress-item {
-    position: relative;
-    flex: 1;
-    min-width: calc(25% - 30px);
-    max-width: calc(25% - 30px);
-    margin-right: 30px;
-    margin-bottom: 30px;
+  position: relative;
+  flex: 1;
+  min-width: calc(25% - 30px);
+  max-width: calc(25% - 30px);
+  margin-right: 30px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  background: #fff;
+  border: 1px solid #ccd0d4;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 4%);
+
+  @media screen and (max-width: 1400px) {
+    min-width: calc(33.33% - 30px);
+    max-width: calc(33.33% - 30px);
+  }
+  @media screen and (max-width: 940px) {
+    min-width: calc(50% - 30px);
+    max-width: calc(50% - 30px);
+  }
+  @media screen and (max-width: 600px) {
+    min-width: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+  }
+
+  &.ui-sortable-placeholder {
+    visibility: visible !important;
+    background-color: transparent;
+    border: 2px dashed #ccc;
+  }
+
+  h3 {
+    padding: 12px 19px;
+    margin: 0;
     font-size: 14px;
-    font-weight: 600;
-    background: #fff;
-    border: 1px solid #ccd0d4;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    line-height: 1.4;
+    border-bottom: 1px solid #ccd0d4;
 
-    @media screen and (max-width: 1400px) {
-        min-width: calc(33.33% - 30px);
-        max-width: calc(33.33% - 30px);
-    }
-    @media screen and (max-width: 940px) {
-        min-width: calc(50% - 30px);
-        max-width: calc(50% - 30px);
-    }
-    @media screen and (max-width: 600px) {
-        min-width: calc(100% - 30px);
-        max-width: calc(100% - 30px);
+    img {
+      float: left;
+      width: auto;
+      height: 20px;
+      margin-right: 10px;
+      border-radius: 2px;
     }
 
-    &.ui-sortable-placeholder {
-        visibility: visible !important; // stylelint-disable-line
-        background-color: transparent;
-        border: 2px dashed #ccc;
+    a {
+      text-decoration: none;
     }
 
-    h3 {
-        padding: 12px 19px;
-        margin: 0;
-        font-size: 14px;
-        line-height: 1.4;
-        border-bottom: 1px solid #ccd0d4;
-
-        img {
-            float: left;
-            width: auto;
-            height: 20px;
-            margin-right: 10px;
-            border-radius: 2px;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .docspress-row-actions {
-            float: right;
-        }
+    .docspress-row-actions {
+      float: right;
     }
+  }
 
-    .docspress-add-section-btn {
-        display: inline-block;
-        padding: 1px 0;
-        margin-top: 3px;
-        color: inherit;
+  .docspress-add-section-btn {
+    display: inline-block;
+    padding: 1px 0;
+    margin-top: 3px;
+    color: inherit;
 
-        svg {
-            margin-right: 5px;
-            margin-left: -1px;
-            color: #949494;
-        }
-
-        &:hover,
-        &:focus {
-            color: #0073aa;
-
-            svg {
-                color: inherit;
-            }
-        }
-    }
-    .docspress-actions {
-        padding: 10px 5px;
-        border-top: 1px solid #ccd0d4;
-
-        .button {
-            min-height: 28px;
-            font-size: 1em;
-            font-weight: inherit;
-            color: inherit;
-            background: transparent;
-            border: none;
-
-            svg {
-                margin-right: 3px;
-                color: #949494;
-            }
-
-            &:hover,
-            &:focus {
-                color: #0073aa;
-
-                svg {
-                    color: inherit;
-                }
-            }
-        }
-    }
-
-    .docspress-item-inner {
-        height: 320px;
-        padding: 20px;
-        overflow: auto;
-
-        li {
-            min-height: 25px;
-        }
-
-        li.article {
-            min-height: 20px;
-        }
-
-        ul {
-            .section-title {
-                display: block;
-                padding: 4px 0;
-
-                .section-toggle {
-                    display: inline-block;
-                    width: 18px;
-                    height: 18px;
-                    margin-right: 8px;
-                    margin-bottom: -4px;
-                    font-size: 7px;
-                    color: #727272;
-                    cursor: pointer;
-                    border: 2px solid #f0f0f0;
-                    border-radius: 3px;
-
-                    &:hover,
-                    &:focus {
-                        background-color: #f0f0f0;
-                    }
-
-                    svg {
-                        display: block;
-                        margin: 2px;
-                    }
-                    svg:nth-child(2) {
-                        display: none;
-                    }
-                }
-
-                &.collapsed .section-toggle {
-                    svg:nth-child(1) {
-                        display: none;
-                    }
-                    svg:nth-child(2) {
-                        display: block;
-                    }
-                }
-            }
-
-            &.sections {
-                padding: 0;
-                list-style: none;
-
-                > li {
-                    margin-bottom: 10px;
-
-                    &.ui-sortable-placeholder {
-                        visibility: visible !important; // stylelint-disable-line
-                        border: 1px dashed #ccc;
-                    }
-
-                    // change margin for the first articles level.
-                    > ul.articles {
-                        margin-left: 8px;
-                    }
-                }
-            }
-            &.articles {
-                padding: 0;
-                margin: 10px 0;
-                color: #949494;
-                list-style: none;
-                border-left: 1px solid #f0f0f0;
-
-                &.collapsed {
-                    display: none;
-                }
-                li {
-                    &.article {
-                        padding: 5px 0;
-                        padding-left: 22px;
-                    }
-                }
-            }
-        }
-        a {
-            width: auto;
-            text-decoration: none;
-        }
-    }
-
-    // Docs title links colors.
-    h3 > a,
-    .section-title > a,
-    .article > a {
-        color: inherit;
-
-        &:hover,
-        &:focus {
-            color: #0073aa;
-        }
-    }
-}
-
-.docspress-row-actions {
-    > * {
-        display: none;
-    }
-    > .docspress-icon-more {
-        display: inline-block;
-        width: 22px;
-        height: 22px;
-        margin-top: -1px;
+    svg {
+      margin-right: 5px;
+      margin-left: -1px;
+      color: #949494;
     }
 
     &:hover,
     &:focus {
-        > * {
-            display: inline-block;
-        }
-        > .docspress-icon-more {
-            display: none;
-        }
-    }
+      color: #0073aa;
 
-    > a,
-    > span {
+      svg {
+        color: inherit;
+      }
+    }
+  }
+
+  .docspress-actions {
+    padding: 10px 5px;
+    border-top: 1px solid #ccd0d4;
+
+    .button {
+      min-height: 28px;
+      font-size: 1em;
+      font-weight: inherit;
+      color: inherit;
+      background: transparent;
+      border: none;
+
+      svg {
+        margin-right: 3px;
         color: #949494;
-        cursor: pointer;
+      }
 
-        &:hover,
-        &:focus {
-            color: #0073aa;
+      &:hover,
+      &:focus {
+        color: #0073aa;
+
+        svg {
+          color: inherit;
         }
+      }
+    }
+  }
+
+  .docspress-item-inner {
+    height: 320px;
+    padding: 20px;
+    overflow: auto;
+
+    li {
+      min-height: 25px;
     }
 
-    .docspress-btn-remove {
-        cursor: pointer;
-
-        &:hover,
-        &:focus {
-            color: #ca4a1f;
-        }
+    li.article {
+      min-height: 20px;
     }
+
+    ul {
+      .section-title {
+        display: block;
+        padding: 4px 0;
+
+        .section-toggle {
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          margin-right: 8px;
+          margin-bottom: -4px;
+          font-size: 7px;
+          color: #727272;
+          cursor: pointer;
+          border: 2px solid #f0f0f0;
+          border-radius: 3px;
+
+          &:hover,
+          &:focus {
+            background-color: #f0f0f0;
+          }
+
+          svg {
+            display: block;
+            margin: 2px;
+          }
+
+          svg:nth-child(2) {
+            display: none;
+          }
+        }
+
+        &.collapsed .section-toggle {
+          svg:nth-child(1) {
+            display: none;
+          }
+
+          svg:nth-child(2) {
+            display: block;
+          }
+        }
+      }
+
+      &.sections {
+        padding: 0;
+        list-style: none;
+
+        > li {
+          margin-bottom: 10px;
+
+          &.ui-sortable-placeholder {
+            visibility: visible !important;
+            border: 1px dashed #ccc;
+          }
+
+          // change margin for the first articles level.
+          > ul.articles {
+            margin-left: 8px;
+          }
+        }
+      }
+
+      &.articles {
+        padding: 0;
+        margin: 10px 0;
+        color: #949494;
+        list-style: none;
+        border-left: 1px solid #f0f0f0;
+
+        &.collapsed {
+          display: none;
+        }
+
+        li {
+          &.article {
+            padding: 5px 0;
+            padding-left: 22px;
+          }
+        }
+      }
+    }
+
+    a {
+      width: auto;
+      text-decoration: none;
+    }
+  }
+
+  // Docs title links colors.
+  h3 > a,
+  .section-title > a,
+  .article > a {
+    color: inherit;
+
+    &:hover,
+    &:focus {
+      color: #0073aa;
+    }
+  }
+}
+
+.docspress-row-actions {
+  > * {
+    display: none;
+  }
+
+  > .docspress-icon-more {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    margin-top: -1px;
+  }
+
+  &:hover,
+  &:focus {
+    > * {
+      display: inline-block;
+    }
+
+    > .docspress-icon-more {
+      display: none;
+    }
+  }
+
+  > a,
+  > span {
+    color: #949494;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: #0073aa;
+    }
+  }
+
+  .docspress-btn-remove {
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+      color: #ca4a1f;
+    }
+  }
 }
 
 .doc-status {
-    padding: 1px 3px;
-    margin-left: 7px;
-    font-size: 11px;
-    color: #999;
-    background-color: #f0f0f0;
-    border-radius: 3px;
+  padding: 1px 3px;
+  margin-left: 7px;
+  font-size: 11px;
+  color: #999;
+  background-color: #f0f0f0;
+  border-radius: 3px;
 }
 
 ul.sections {
-    .count {
-        display: inline-block;
-        width: 18px;
-        height: 18px;
-        padding: 0;
-        margin-left: 5px;
-        font-size: 10px;
-        color: #999;
-        text-align: center;
-        background-color: #f0f0f0;
-        border-radius: 50%;
-    }
+  .count {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    margin-left: 5px;
+    font-size: 10px;
+    color: #999;
+    text-align: center;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+  }
 
-    .actions {
-        float: right;
-    }
+  .actions {
+    float: right;
+  }
 }
 
 /**
  * SweetAlert
  */
 .swal2-container {
-    background: rgba(0, 0, 0, .7);
+  background: rgba(0, 0, 0, 70%);
 }
+
 .docspress-swal {
-    width: 400px;
-    padding: 20px;
-    margin-left: -220px;
-    border: 1px solid #e5e5e5;
-    border-radius: 0;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+  width: 400px;
+  padding: 20px;
+  margin-left: -220px;
+  border: 1px solid #e5e5e5;
+  border-radius: 0;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 4%);
 
-    @media (max-width: 540px) {
-        width: auto;
-        margin-left: 0;
+  @media (max-width: 540px) {
+    width: auto;
+    margin-left: 0;
+  }
+
+  .swal2-header,
+  .swal2-content,
+  .swal2-actions {
+    padding: 0;
+    font-size: 1em;
+  }
+
+  h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 23px;
+    font-weight: 400;
+    color: #23282d;
+  }
+
+  input {
+    height: 1.7em;
+    padding: 3px 8px;
+    margin: 7px 0 0;
+    font-size: 1.2em;
+    line-height: 100%;
+    color: #32373c;
+    background-color: #fff;
+    border: 1px solid #7e8993;
+    border-radius: 4px;
+    outline: 0;
+    box-shadow: 0 0 0 transparent;
+
+    &:focus {
+      border-color: #007cba;
+      outline: 2px solid transparent;
+      box-shadow: 0 0 0 1px #007cba;
+    }
+  }
+
+  .swal2-actions {
+    width: auto;
+    padding: 10px 0;
+    margin: -20px;
+    margin-top: 20px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #eee;
+  }
+
+  .swal2-icon {
+    margin-top: 0;
+    margin-bottom: 0;
+    transform: scale(0.6);
+  }
+
+  .swal2-actions button {
+    display: inline-block;
+    height: 28px;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: normal;
+    color: #0071a1;
+    text-decoration: none;
+    text-shadow: none;
+    cursor: pointer;
+    background: #f3f5f6;
+    border: 1px solid #0071a1;
+    border-radius: 2px;
+
+    &:hover {
+      color: #016087;
+      background: #f1f1f1 !important;
+      border-color: #016087;
     }
 
-    .swal2-header,
-    .swal2-content,
-    .swal2-actions {
-        padding: 0;
-        font-size: 1em;
+    &:focus {
+      border-color: #007cba;
+      outline: 2px solid transparent;
+      box-shadow: 0 0 0 1px #007cba;
     }
 
-    h2 {
-        margin-top: 0;
-        margin-bottom: 15px;
-        font-size: 23px;
-        font-weight: 400;
-        color: #23282d;
+    &.swal2-confirm {
+      color: #fff;
+      background: #007cba;
+      border-color: #007cba;
+
+      &:hover,
+      &:focus {
+        color: #fff;
+        background: #0071a1 !important;
+        border-color: #0071a1;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
+      }
+
+      &:active {
+        color: #fff;
+        background: #00669b !important;
+        border-color: #00669b;
+        box-shadow: none;
+      }
     }
 
-    input {
-        height: 1.7em;
-        padding: 3px 8px;
-        margin: 7px 0 0;
-        font-size: 1.2em;
-        line-height: 100%;
-        color: #32373c;
-        background-color: #fff;
-        border: 1px solid #7e8993;
-        border-radius: 4px;
-        outline: 0;
-        box-shadow: 0 0 0 transparent;
-
-        &:focus {
-            border-color: #007cba;
-            outline: 2px solid transparent;
-            box-shadow: 0 0 0 1px #007cba;
-        }
+    &[disabled] {
+      color: #a0a5aa !important;
+      text-shadow: none !important;
+      cursor: default;
+      background: #f7f7f7 !important;
+      border-color: #ddd !important;
+      box-shadow: none !important;
     }
-
-    .swal2-actions {
-        width: auto;
-        padding: 10px 0;
-        margin: -20px;
-        margin-top: 20px;
-        background-color: #f7f7f7;
-        border-top: 1px solid #eee;
-    }
-
-    .swal2-icon {
-        margin-top: 0;
-        margin-bottom: 0;
-        transform: scale(.6);
-    }
-
-    .swal2-actions button {
-        display: inline-block;
-        height: 28px;
-        padding: 4px 8px;
-        font-size: 13px;
-        font-weight: 600;
-        line-height: normal;
-        color: #0071a1;
-        text-decoration: none;
-        text-shadow: none;
-        cursor: pointer;
-        background: #f3f5f6;
-        border: 1px solid #0071a1;
-        border-radius: 2px;
-
-        &:hover {
-            color: #016087;
-            // stylelint-disable-next-line declaration-no-important
-            background: #f1f1f1 !important;
-            border-color: #016087;
-        }
-
-        &:focus {
-            border-color: #007cba;
-            outline: 2px solid transparent;
-            box-shadow: 0 0 0 1px #007cba;
-        }
-
-        &.swal2-confirm {
-            color: #fff;
-            background: #007cba;
-            border-color: #007cba;
-
-            &:hover,
-            &:focus {
-                color: #fff;
-                // stylelint-disable-next-line declaration-no-important
-                background: #0071a1 !important;
-                border-color: #0071a1;
-            }
-            &:focus {
-                box-shadow: 0 0 0 1px #fff, 0 0 0 3px #007cba;
-            }
-            &:active {
-                color: #fff;
-                // stylelint-disable-next-line declaration-no-important
-                background: #00669b !important;
-                border-color: #00669b;
-                box-shadow: none;
-            }
-        }
-
-        &[disabled] {
-            // stylelint-disable-next-line declaration-no-important
-            color: #a0a5aa !important;
-            // stylelint-disable-next-line declaration-no-important
-            text-shadow: none !important;
-            cursor: default;
-            // stylelint-disable-next-line declaration-no-important
-            background: #f7f7f7 !important;
-            // stylelint-disable-next-line declaration-no-important
-            border-color: #ddd !important;
-            // stylelint-disable-next-line declaration-no-important
-            box-shadow: none !important;
-        }
-    }
+  }
 }
 
 /**
  * Progress Bar
  */
 .docspress-export-progress {
-    position: relative;
-    height: 12px;
-    margin-top: 30px;
-    margin-right: -20px;
-    margin-bottom: -20px;
-    margin-left: -20px;
-    background-color: #f7f7f7;
-    box-shadow: inset 0 1px 1px 0 #eee;
+  position: relative;
+  height: 12px;
+  margin-top: 30px;
+  margin-right: -20px;
+  margin-bottom: -20px;
+  margin-left: -20px;
+  background-color: #f7f7f7;
+  box-shadow: inset 0 1px 1px 0 #eee;
 }
+
 .docspress-export-progress-bar {
-    position: absolute;
-    width: 0;
-    height: 100%;
-    margin: 0;
-    background: #0073ab;
-    background-image: linear-gradient(135deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
-    background-size: 20px 20px;
-    transition: .5s width ease-in-out;
-    animation: docspress-export-animate-progress 5s linear infinite;
+  position: absolute;
+  width: 0;
+  height: 100%;
+  margin: 0;
+  background: #0073ab;
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 15%) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 15%) 50%, rgba(255, 255, 255, 15%) 75%, transparent 75%, transparent);
+  background-size: 20px 20px;
+  transition: 0.5s width ease-in-out;
+  animation: docspress-export-animate-progress 5s linear infinite;
 }
 @keyframes docspress-export-animate-progress {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 260px 0;
-    }
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 260px 0;
+  }
 }

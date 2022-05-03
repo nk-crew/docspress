@@ -31,14 +31,14 @@ class DocsPress_Gutenberg {
     public function gutenberg_register_blocks() {
         wp_register_script(
             'docspress-archive',
-            docspress()->plugin_url . 'gutenberg/blocks/archive/build.min.js',
+            docspress()->plugin_url . 'gutenberg/blocks/archive/script.min.js',
             array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
             '@@plugin_version',
             false
         );
         wp_register_script(
             'docspress-single',
-            docspress()->plugin_url . 'gutenberg/blocks/single/build.min.js',
+            docspress()->plugin_url . 'gutenberg/blocks/single/script.min.js',
             array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
             '@@plugin_version',
             false

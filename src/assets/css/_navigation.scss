@@ -1,71 +1,71 @@
 .docspress-nav-list {
-    --docspress--navigation--padding: 10px 1px 10px 10px;
-    --docspress--navigation--font-size: .85em;
-    --docspress--navigation--color: var(--docspress-color-text);
+  --docspress--navigation--padding: 10px 1px 10px 10px;
+  --docspress--navigation--font-size: 0.85em;
+  --docspress--navigation--color: var(--docspress-color-text);
 
-    // Link.
-    --docspress--navigation--link--padding-v: 3px;
-    --docspress--navigation--link--padding-h: 20px;
-    --docspress--navigation--link--font-weight: 600;
-    --docspress--navigation--link--color: inherit;
-    --docspress--navigation--link-hover--color: var(--docspress-color-primary);
-    --docspress--navigation--link-active--color: var(--docspress-color-primary);
-    --docspress--navigation--link-active--font-weight: 600;
-    --docspress--navigation--link-parent--padding-v: 7px;
-    --docspress--navigation--link-parent--padding-h: 0;
-    --docspress--navigation--link-children--font-weight: 400;
+  // Link.
+  --docspress--navigation--link--padding-v: 3px;
+  --docspress--navigation--link--padding-h: 20px;
+  --docspress--navigation--link--font-weight: 600;
+  --docspress--navigation--link--color: inherit;
+  --docspress--navigation--link-hover--color: var(--docspress-color-primary);
+  --docspress--navigation--link-active--color: var(--docspress-color-primary);
+  --docspress--navigation--link-active--font-weight: 600;
+  --docspress--navigation--link-parent--padding-v: 7px;
+  --docspress--navigation--link-parent--padding-h: 0;
+  --docspress--navigation--link-children--font-weight: 400;
 
-    // Children.
-    --docspress--navigation--children--padding: 0 0 10px;
-    --docspress--navigation--children--margin-left: 15px;
+  // Children.
+  --docspress--navigation--children--padding: 0 0 10px;
+  --docspress--navigation--children--margin-left: 15px;
 
-    padding: var(--docspress--navigation--padding);
-    margin: 0;
-    font-size: var(--docspress--navigation--font-size);
-    color: var(--docspress--navigation--color);
+  padding: var(--docspress--navigation--padding);
+  margin: 0;
+  font-size: var(--docspress--navigation--font-size);
+  color: var(--docspress--navigation--color);
+  list-style: none;
+
+  // Links.
+  a {
+    display: block;
+    padding: var(--docspress--navigation--link--padding-v) var(--docspress--navigation--link--padding-h);
+    padding-left: 0;
+    font-weight: var(--docspress--navigation--link--font-weight);
+    color: var(--docspress--navigation--link--color);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--docspress--navigation--link-hover--color);
+    }
+  }
+
+  // Parent links.
+  > li > a {
+    padding: var(--docspress--navigation--link-parent--padding-v) var(--docspress--navigation--link-parent--padding-h);
+  }
+
+  // Current links.
+  li.current_page_item > a {
+    font-weight: var(--docspress--navigation--link-active--font-weight);
+    color: var(--docspress--navigation--link-active--color);
+  }
+
+  // Children.
+  .children {
+    display: none;
+    padding: var(--docspress--navigation--children--padding);
+    margin-left: var(--docspress--navigation--children--margin-left);
     list-style: none;
 
-    // Links.
     a {
-        display: block;
-        padding: var(--docspress--navigation--link--padding-v) var(--docspress--navigation--link--padding-h);
-        padding-left: 0;
-        font-weight: var(--docspress--navigation--link--font-weight);
-        color: var(--docspress--navigation--link--color);
-        text-decoration: none;
-
-        &:hover {
-            color: var(--docspress--navigation--link-hover--color);
-        }
+      font-weight: var(--docspress--navigation--link-children--font-weight);
     }
+  }
 
-    // Parent links.
-    > li > a {
-        padding: var(--docspress--navigation--link-parent--padding-v) var(--docspress--navigation--link-parent--padding-h);
-    }
-
-    // Current links.
-    li.current_page_item > a {
-        font-weight: var(--docspress--navigation--link-active--font-weight);
-        color: var(--docspress--navigation--link-active--color);
-    }
-
-    // Children.
-    .children {
-        display: none;
-        padding: var(--docspress--navigation--children--padding);
-        margin-left: var(--docspress--navigation--children--margin-left);
-        list-style: none;
-
-        a {
-            font-weight: var(--docspress--navigation--link-children--font-weight);
-        }
-    }
-
-    &.docspress-nav-list-show-childs .children,
-    > .current_page_parent .children,
-    > .current_page_item .children,
-    > .current_page_ancestor .children {
-        display: block;
-    }
+  &.docspress-nav-list-show-childs .children,
+  > .current_page_parent .children,
+  > .current_page_item .children,
+  > .current_page_ancestor .children {
+    display: block;
+  }
 }

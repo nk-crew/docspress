@@ -1,19 +1,19 @@
 :root {
-    // Colors.
-    --docspress-color-primary: #069dfd;
-    --docspress-color-text: #47484a;
-    --docspress-color-secondary: #a7a7a7;
+  // Colors.
+  --docspress-color-primary: #069dfd;
+  --docspress-color-text: #47484a;
+  --docspress-color-secondary: #a7a7a7;
 
-    // Color border.
-    --docspress-color-border: #eee;
-    --docspress-color-border-lighten: #f9f9f9;
-    --docspress-color-border-darken: #e7e7e7;
+  // Color border.
+  --docspress-color-border: #eee;
+  --docspress-color-border-lighten: #f9f9f9;
+  --docspress-color-border-darken: #e7e7e7;
 
-    // Scrollbar.
-    --docspress--scrollbar--width: 4px;
-    --docspress--scrollbar--color: rgba(135, 135, 135, .4);
-    --docspress--scrollbar--background-color: rgba(135, 135, 135, .1);
+  // Scrollbar.
+  --docspress--scrollbar--width: 4px;
+  --docspress--scrollbar--color: rgba(135, 135, 135, 40%);
+  --docspress--scrollbar--background-color: rgba(135, 135, 135, 10%);
 
-    // Content.
-    --docspress--content--padding: 40px;
+  // Content.
+  --docspress--content--padding: 40px;
 }

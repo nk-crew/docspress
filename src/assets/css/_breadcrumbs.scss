@@ -1,38 +1,38 @@
 .docspress-single-breadcrumbs {
-    --docspress--breadcrumbs--padding: 10px 39px;
-    --docspress--breadcrumbs--margin: -40px -39px 10px;
-    --docspress--breadcrumbs--font-size: .75em;
-    --docspress--breadcrumbs--link--color: inherit;
-    --docspress--breadcrumbs--link-hover--color: var(--docspress-color-primary);
-    --docspress--breadcrumbs--li--margin-h: 5px;
+  --docspress--breadcrumbs--padding: 10px 39px;
+  --docspress--breadcrumbs--margin: -40px -39px 10px;
+  --docspress--breadcrumbs--font-size: 0.75em;
+  --docspress--breadcrumbs--link--color: inherit;
+  --docspress--breadcrumbs--link-hover--color: var(--docspress-color-primary);
+  --docspress--breadcrumbs--li--margin-h: 5px;
 
-    padding: var(--docspress--breadcrumbs--padding);
-    margin: var(--docspress--breadcrumbs--margin);
-    font-size: var(--docspress--breadcrumbs--font-size);
-    color: var(--docspress-color-text);
-    list-style: none;
+  padding: var(--docspress--breadcrumbs--padding);
+  margin: var(--docspress--breadcrumbs--margin);
+  font-size: var(--docspress--breadcrumbs--font-size);
+  color: var(--docspress-color-text);
+  list-style: none;
 
-    li {
-        display: inline;
-        margin-right: var(--docspress--breadcrumbs--li--margin-h);
-        margin-left: var(--docspress--breadcrumbs--li--margin-h);
+  li {
+    display: inline;
+    margin-right: var(--docspress--breadcrumbs--li--margin-h);
+    margin-left: var(--docspress--breadcrumbs--li--margin-h);
+  }
+
+  a {
+    color: var(--docspress--breadcrumbs--link--color);
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: var(--docspress--breadcrumbs--link-hover--color);
     }
+  }
 
-    a {
-        color: var(--docspress--breadcrumbs--link--color);
+  .delimiter {
+    opacity: 0.2;
+  }
 
-        &:hover,
-        &:focus,
-        &:active {
-            color: var(--docspress--breadcrumbs--link-hover--color);
-        }
-    }
-
-    .delimiter {
-        opacity: .2;
-    }
-
-    .delimiter:last-child {
-        display: none;
-    }
+  .delimiter:last-child {
+    display: none;
+  }
 }

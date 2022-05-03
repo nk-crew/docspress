@@ -1,102 +1,106 @@
 .docspress-single {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
 
-    &.hentry {
-        padding-top: 0;
-        box-shadow: none;
-    }
+  &.hentry {
+    padding-top: 0;
+    box-shadow: none;
+  }
 }
 
 // Sidebar.
 .docspress-single-sidebar {
-    --docspress--sidebar--flex: 1;
-    --docspress--sidebar--min-width: 250px;
-    --docspress--sidebar--padding-bottom: 40px;
-    --docspress--sidebar--border-right: 1px solid var(--docspress-color-border);
+  --docspress--sidebar--flex: 1;
+  --docspress--sidebar--min-width: 250px;
+  --docspress--sidebar--padding-bottom: 40px;
+  --docspress--sidebar--border-right: 1px solid var(--docspress-color-border);
 
-    position: relative;
-    flex: var(--docspress--sidebar--flex);
-    min-width: var(--docspress--sidebar--min-width);
-    padding-bottom: var(--docspress--sidebar--padding-bottom);
-    border-right: var(--docspress--sidebar--border-right);
+  position: relative;
+  flex: var(--docspress--sidebar--flex);
+  min-width: var(--docspress--sidebar--min-width);
+  padding-bottom: var(--docspress--sidebar--padding-bottom);
+  border-right: var(--docspress--sidebar--border-right);
 
-    .widget-title {
-        padding: 40px 30px;
-        margin: 0;
-        font-weight: 600;
+  .widget-title {
+    padding: 40px 30px;
+    margin: 0;
+    font-weight: 600;
 
-        + .docspress-nav-list {
-            padding-top: 0;
-            margin-top: -10px;
-        }
+    + .docspress-nav-list {
+      padding-top: 0;
+      margin-top: -10px;
     }
+  }
 }
 
 // Sidebar wrap.
 body.admin-bar .docspress-single-sidebar-wrap {
-    top: var(--wp-admin--admin-bar--height, 0);
-    max-height: calc(100vh - var(--wp-admin--admin-bar--height));
+  top: var(--wp-admin--admin-bar--height, 0);
+  max-height: calc(100vh - var(--wp-admin--admin-bar--height));
 }
 
 .docspress-single-sidebar-wrap {
-    position: sticky;
-    top: 0;
-    max-height: 100vh;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  position: sticky;
+  top: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
-    &::-webkit-scrollbar {
-        width: var(--docspress--scrollbar--width);
-    }
-    &::-webkit-scrollbar-thumb {
-        background-color: var(--docspress--scrollbar--color);
-        border-radius: var(--docspress--scrollbar--width);
-    }
-    &::-webkit-scrollbar-track {
-        background-color: var(--docspress--scrollbar--background-color);
-    }
-    &:not(:hover)::-webkit-scrollbar-thumb {
-        background-color: transparent;
-    }
-    &:not(:hover)::-webkit-scrollbar-track {
-        background-color: transparent;
-    }
+  &::-webkit-scrollbar {
+    width: var(--docspress--scrollbar--width);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--docspress--scrollbar--color);
+    border-radius: var(--docspress--scrollbar--width);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--docspress--scrollbar--background-color);
+  }
+
+  &:not(:hover)::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  &:not(:hover)::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
 }
 
 // Content.
 .docspress-single-content {
-    .entry-header,
-    .entry-content {
-        padding: 0;
-    }
+  .entry-header,
+  .entry-content {
+    padding: 0;
+  }
 
-    .entry-content {
-        display: block;
-        float: none !important; // stylelint-disable-line
-        width: 100% !important; // stylelint-disable-line
-        margin-bottom: var(--docspress--content--padding);
-    }
+  .entry-content {
+    display: block;
+    float: none !important;
+    width: 100% !important;
+    margin-bottom: var(--docspress--content--padding);
+  }
 }
 
 @media screen and (max-width: 800px) {
-    .docspress-single-sidebar,
-    .docspress-single-content {
-        min-width: 100%;
-        max-width: 100%;
-    }
+  .docspress-single-sidebar,
+  .docspress-single-content {
+    min-width: 100%;
+    max-width: 100%;
+  }
 }
 
 // Anchors.
 .docspress-single .anchorjs-link {
-    transition: opacity .15s ease-in-out;
+  transition: opacity 0.15s ease-in-out;
 
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-        text-decoration: none;
-        box-shadow: none;
-    }
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    box-shadow: none;
+  }
 }

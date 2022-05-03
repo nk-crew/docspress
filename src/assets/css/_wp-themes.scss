@@ -1,192 +1,202 @@
 .theme-twentytwentytwo {
-    .wp-block-docspress-archive,
-    .wp-block-docspress-single-article {
-        &,
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        .page-title,
-        .entry-title {
-            font-size: var(--wp--custom--typography--font-size--gigantic);
-        }
-
-        .wp-block-button__link {
-            cursor: pointer;
-            padding: calc(0.667em + 2px) calc(1.333em + 2px);
-            border: none;
-        }
+  .wp-block-docspress-archive,
+  .wp-block-docspress-single-article {
+    &,
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
     }
+
+    .page-title,
+    .entry-title {
+      font-size: var(--wp--custom--typography--font-size--gigantic);
+    }
+
+    .wp-block-button__link {
+      padding: calc(0.667em + 2px) calc(1.333em + 2px);
+      cursor: pointer;
+      border: none;
+    }
+  }
 }
 
 .theme-twentytwentyone {
-    &.post-type-archive-docs .page-header {
-        max-width: var(--responsive--alignwide-width);
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .docspress-archive-list-item-title img {
-        max-width: var(--docspress--archive--item-image--width) !important;
-    }
-    .docspress-single {
-        max-width: var(--responsive--alignwide-width);
-        margin-left: auto;
-        margin-right: auto;
+  &.post-type-archive-docs .page-header {
+    max-width: var(--responsive--alignwide-width);
+    margin-right: auto;
+    margin-left: auto;
+  }
 
-        .entry-header {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        .entry-title {
-            font-size: var(--global--font-size-xl);
-        }
-        .entry-content > * {
-            max-width: none !important;
-            width: auto !important;
-        }
-    }
-}
+  .docspress-archive-list-item-title img {
+    max-width: var(--docspress--archive--item-image--width) !important;
+  }
 
-.theme-twentytwenty {
-    &.post-type-archive-docs .page-title {
-        margin-bottom: 0;
-        max-width: 168rem;
-        text-align: center;
-    }
-    .docspress-single {
-        margin: 40px auto;
-        max-width: 120rem;
-        width: calc(100% - 4rem);
-
-        .entry-header {
-            padding-top: 0;
-            background-color: transparent;
-        }
-        .entry-content > * {
-            max-width: none !important;
-            width: auto !important;
-        }
-    }
-}
-
-.theme-twentynineteen {
-    .docspress-archive-list-item-title h2::before {
-        content: none;
-    }
-    .docspress-single {
-        max-width: calc(100% - (2 * 1rem));
-        margin: 0 1rem;
-
-        @media only screen and (min-width: 768px) {
-            max-width: 80%;
-            margin: 0 10%;
-            padding: 0 60px;
-        }
-    }
-    .docspress-single-content {
-        .entry-header,
-        .entry-content,
-        .entry-footer {
-            margin-left: 0;
-            padding: 0;
-            max-width: none;
-        }
-    }
-}
-
-.theme-twentyseventeen .docspress-wrap {
-    float: none !important; // stylelint-disable-line
-    width: 100% !important; // stylelint-disable-line
-    max-width: 700px;
-    padding-right: 2em;
-    padding-left: 2em;
+  .docspress-single {
+    max-width: var(--responsive--alignwide-width);
     margin-right: auto;
     margin-left: auto;
 
-    @media screen and (min-width: 48em) {
-        max-width: 1000px;
-        padding-right: 3em;
-        padding-left: 3em;
+    .entry-header {
+      margin-bottom: 0;
+      border-bottom: none;
     }
 
-    .docspress-single-content .entry-footer {
-        border: none;
+    .entry-title {
+      font-size: var(--global--font-size-xl);
     }
 
-    .docspress-single-content .docspress-single-articles a,
-    .docspress-archive-list > .docspress-archive-list-item a,
-    .docspress-archive-list > .docspress-archive-list-item .docspress-archive-list-item-title img {
-        box-shadow: none;
+    .entry-content > * {
+      width: auto !important;
+      max-width: none !important;
     }
+  }
+}
+
+.theme-twentytwenty {
+  &.post-type-archive-docs .page-title {
+    max-width: 168rem;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  .docspress-single {
+    width: calc(100% - 4rem);
+    max-width: 120rem;
+    margin: 40px auto;
+
+    .entry-header {
+      padding-top: 0;
+      background-color: transparent;
+    }
+
+    .entry-content > * {
+      width: auto !important;
+      max-width: none !important;
+    }
+  }
+}
+
+.theme-twentynineteen {
+  .docspress-archive-list-item-title h2::before {
+    content: none;
+  }
+
+  .docspress-single {
+    max-width: calc(100% - (2 * 1rem));
+    margin: 0 1rem;
+
+    @media only screen and (min-width: 768px) {
+      max-width: 80%;
+      padding: 0 60px;
+      margin: 0 10%;
+    }
+  }
+
+  .docspress-single-content {
+    .entry-header,
+    .entry-content,
+    .entry-footer {
+      max-width: none;
+      padding: 0;
+      margin-left: 0;
+    }
+  }
+}
+
+.theme-twentyseventeen .docspress-wrap {
+  float: none !important;
+  width: 100% !important;
+  max-width: 700px;
+  padding-right: 2em;
+  padding-left: 2em;
+  margin-right: auto;
+  margin-left: auto;
+
+  @media screen and (min-width: 48em) {
+    max-width: 1000px;
+    padding-right: 3em;
+    padding-left: 3em;
+  }
+
+  .docspress-single-content .entry-footer {
+    border: none;
+  }
+
+  .docspress-single-content .docspress-single-articles a,
+  .docspress-archive-list > .docspress-archive-list-item a,
+  .docspress-archive-list > .docspress-archive-list-item .docspress-archive-list-item-title img {
+    box-shadow: none;
+  }
 }
 
 .theme-twentysixteen .docspress-wrap {
-    .site-main {
-        margin-right: 7.6923%;
-        margin-left: 7.6923%;
+  .site-main {
+    margin-right: 7.6923%;
+    margin-left: 7.6923%;
 
-        @media screen and (min-width: 56.875em) {
-            margin-right: 0;
-            margin-left: 0;
-        }
-
-        .entry-header,
-        .post-thumbnail,
-        .comments-area,
-        .image-navigation,
-        .post-navigation,
-        .page-header,
-        .page-content,
-        .content-bottom-widgets {
-            margin-right: 0;
-            margin-left: 0;
-        }
-        .entry-content,
-        .entry-summary,
-        .entry-footer {
-            margin-right: 0 !important;
-            margin-left: 0 !important;
-        }
-        .entry-footer {
-            width: auto !important;
-            float: none;
-        }
+    @media screen and (min-width: 56.875em) {
+      margin-right: 0;
+      margin-left: 0;
     }
 
-    .docspress-single-content .docspress-single-articles a,
-    .docspress-archive-list > .docspress-archive-list-item a,
-    .docspress-archive-list > .docspress-archive-list-item .docspress-archive-list-item-title img {
-        box-shadow: none;
+    .entry-header,
+    .post-thumbnail,
+    .comments-area,
+    .image-navigation,
+    .post-navigation,
+    .page-header,
+    .page-content,
+    .content-bottom-widgets {
+      margin-right: 0;
+      margin-left: 0;
     }
 
-    .docspress-single-content .docspress-single-articles a:not(:hover),
-    .docspress-archive-list > .docspress-archive-list-item a:not(:hover) {
-        color: inherit;
+    .entry-content,
+    .entry-summary,
+    .entry-footer {
+      margin-right: 0 !important;
+      margin-left: 0 !important;
     }
+
+    .entry-footer {
+      float: none;
+      width: auto !important;
+    }
+  }
+
+  .docspress-single-content .docspress-single-articles a,
+  .docspress-archive-list > .docspress-archive-list-item a,
+  .docspress-archive-list > .docspress-archive-list-item .docspress-archive-list-item-title img {
+    box-shadow: none;
+  }
+
+  .docspress-single-content .docspress-single-articles a:not(:hover),
+  .docspress-archive-list > .docspress-archive-list-item a:not(:hover) {
+    color: inherit;
+  }
 }
 
 .theme-twentyfifteen .docspress-wrap {
-    .docspress-single-content,
-    .docspress-single-sidebar-wrap {
-        padding: 7%;
+  .docspress-single-content,
+  .docspress-single-sidebar-wrap {
+    padding: 7%;
 
-        @media screen and (min-width: 38.75em) {
-            padding: 6%;
-        }
-        @media screen and (min-width: 59.6875em) {
-            padding: 5%;
-        }
+    @media screen and (min-width: 38.75em) {
+      padding: 6%;
     }
+    @media screen and (min-width: 59.6875em) {
+      padding: 5%;
+    }
+  }
 
-    .docspress-single-breadcrumbs {
-        margin-top: 0;
-    }
+  .docspress-single-breadcrumbs {
+    margin-top: 0;
+  }
 }
 
 .docspress-single-sidebar .docspress-nav-list a,
 .docspress-single .docspress-single-articles a,
 .docspress-archive .docspress-archive-list a {
-    border-bottom: none;
+  border-bottom: none;
 }

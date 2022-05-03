@@ -1,244 +1,244 @@
 .docspress-archive {
-    --docspress--archive--gap-v: 10px;
-    --docspress--archive--gap-h: 30px;
+  --docspress--archive--gap-v: 10px;
+  --docspress--archive--gap-h: 30px;
 
-    // Item.
-    --docspress--archive--item--padding-v: 15px;
-    --docspress--archive--item--padding-h: 0;
-    --docspress--archive--item--line-height: 1.4;
+  // Item.
+  --docspress--archive--item--padding-v: 15px;
+  --docspress--archive--item--padding-h: 0;
+  --docspress--archive--item--line-height: 1.4;
 
-    // Item category.
-    --docspress--archive--item--category--gap: 20px;
-    --docspress--archive--item--category--font-size: 1.2em;
-    --docspress--archive--item--category--font-weight: 600;
+  // Item category.
+  --docspress--archive--item--category--gap: 20px;
+  --docspress--archive--item--category--font-size: 1.2em;
+  --docspress--archive--item--category--font-weight: 600;
 
-    // Item title.
-    --docspress--archive--item--title--font-size: 1em;
-    --docspress--archive--item--title--will-change: transform;
-    --docspress--archive--item--title--transition: color .1s, transform .2s;
-    --docspress--archive--item--title--transform: translateY(-50%);
-    --docspress--archive--item--title-hover--color: var(--docspress-color-primary);
-    --docspress--archive--item--title-hover--transform: translateY(0);
+  // Item title.
+  --docspress--archive--item--title--font-size: 1em;
+  --docspress--archive--item--title--will-change: transform;
+  --docspress--archive--item--title--transition: color 0.1s, transform 0.2s;
+  --docspress--archive--item--title--transform: translateY(-50%);
+  --docspress--archive--item--title-hover--color: var(--docspress-color-primary);
+  --docspress--archive--item--title-hover--transform: translateY(0);
 
-    // Item subtitle.
-    --docspress--archive--item--subtitle--font-size: .7em;
-    --docspress--archive--item--subtitle--opacity: 0;
-    --docspress--archive--item--subtitle--will-change: transform, opacity;
-    --docspress--archive--item--subtitle--transition: color .1s, transform .2s, opacity .2s;
-    --docspress--archive--item--subtitle--transform: translateY(50%);
-    --docspress--archive--item--subtitle-hover--opacity: 1;
-    --docspress--archive--item--subtitle-hover--transform: translateY(0);
+  // Item subtitle.
+  --docspress--archive--item--subtitle--font-size: 0.7em;
+  --docspress--archive--item--subtitle--opacity: 0;
+  --docspress--archive--item--subtitle--will-change: transform, opacity;
+  --docspress--archive--item--subtitle--transition: color 0.1s, transform 0.2s, opacity 0.2s;
+  --docspress--archive--item--subtitle--transform: translateY(50%);
+  --docspress--archive--item--subtitle-hover--opacity: 1;
+  --docspress--archive--item--subtitle-hover--transform: translateY(0);
 
-    // Item image.
-    --docspress--archive--item-image--width: 40px;
-    --docspress--archive--item-image--height: auto;
-    --docspress--archive--item-image--gap: 15px;
-    --docspress--archive--item-image--border-radius: 4px;
+  // Item image.
+  --docspress--archive--item-image--width: 40px;
+  --docspress--archive--item-image--height: auto;
+  --docspress--archive--item-image--gap: 15px;
+  --docspress--archive--item-image--border-radius: 4px;
 
-    // More.
-    --docspress--archive--more--color: var(--docspress-color-secondary);
-    --docspress--archive--more-hover--color: var(--docspress-color-primary);
+  // More.
+  --docspress--archive--more--color: var(--docspress-color-secondary);
+  --docspress--archive--more-hover--color: var(--docspress-color-primary);
 
-    // Children.
-    --docspress--archive--children--color: var(--docspress-color-secondary);
-    --docspress--archive--children--font-size: .85em;
+  // Children.
+  --docspress--archive--children--color: var(--docspress-color-secondary);
+  --docspress--archive--children--font-size: 0.85em;
 
-    // Children link.
-    --docspress--archive--children--link--padding: 2px 0 2px 15px;
-    --docspress--archive--children--link-hover--color: var(--docspress-color-primary);
-    --docspress--archive--children--link-bullet--top: 50%;
-    --docspress--archive--children--link-bullet--width: 4px;
-    --docspress--archive--children--link-bullet--height: 4px;
-    --docspress--archive--children--link-bullet--border-radius: 2px;
-    --docspress--archive--children--link-bullet--background-color: currentColor;
+  // Children link.
+  --docspress--archive--children--link--padding: 2px 0 2px 15px;
+  --docspress--archive--children--link-hover--color: var(--docspress-color-primary);
+  --docspress--archive--children--link-bullet--top: 50%;
+  --docspress--archive--children--link-bullet--width: 4px;
+  --docspress--archive--children--link-bullet--height: 4px;
+  --docspress--archive--children--link-bullet--border-radius: 2px;
+  --docspress--archive--children--link-bullet--background-color: currentcolor;
 
-    // Content on the Docs Archive page.
-    .docspress-archive-description + & {
-        margin-top: 30px;
-    }
+  // Content on the Docs Archive page.
+  .docspress-archive-description + & {
+    margin-top: 30px;
+  }
 }
 
 @mixin docspress-column($size, $column) {
-    flex: 0 0 #{math.div($size, $column) * 100%};
-    max-width: #{math.div($size, $column) * 100%};
+  flex: 0 0 #{math.div($size, $column) * 100%};
+  max-width: #{math.div($size, $column) * 100%};
 }
 
 // List.
 .docspress-archive-list {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0;
-    margin-top: calc(var(--docspress--archive--gap-v) * -1);
-    margin-left: calc(var(--docspress--archive--gap-h) * -1);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin-top: calc(var(--docspress--archive--gap-v) * -1);
+  margin-left: calc(var(--docspress--archive--gap-h) * -1);
+  list-style: none;
+
+  a {
+    text-decoration: none;
+    transition: color 0.1s;
+  }
+
+  // More.
+  .more a {
+    color: var(--docspress--archive--more--color);
+
+    &::before {
+      content: none;
+    }
+
+    &:hover {
+      color: var(--docspress--archive--more-hover--color);
+    }
+  }
+
+  .docspress-archive-list-item ul {
+    margin: 0;
+  }
+
+  // Children.
+  ul {
+    padding-left: 0;
+    margin: 0;
+    font-size: var(--docspress--archive--children--font-size);
+    color: var(--docspress--archive--children--color);
     list-style: none;
 
+    li {
+      margin: 0;
+    }
+
     a {
-        text-decoration: none;
-        transition: color .1s;
+      position: relative;
+      display: block;
+      padding: var(--docspress--archive--children--link--padding);
+
+      &::before {
+        position: absolute;
+        top: var(--docspress--archive--children--link-bullet--top);
+        left: 0;
+        display: block;
+        width: var(--docspress--archive--children--link-bullet--width);
+        height: var(--docspress--archive--children--link-bullet--height);
+        margin-top: calc(var(--docspress--archive--children--link-bullet--height) * -0.5);
+        content: "";
+        background-color: var(--docspress--archive--children--link-bullet--background-color);
+        border-radius: var(--docspress--archive--children--link-bullet--border-radius);
+      }
+
+      &:hover {
+        color: var(--docspress--archive--children--link-hover--color);
+      }
     }
-
-    // More.
-    .more a {
-        color: var(--docspress--archive--more--color);
-
-        &::before {
-            content: none;
-        }
-
-        &:hover {
-            color: var(--docspress--archive--more-hover--color);
-        }
-    }
-
-    .docspress-archive-list-item ul {
-        margin: 0;
-    }
-
-    // Children.
-    ul {
-        padding-left: 0;
-        margin: 0;
-        font-size: var(--docspress--archive--children--font-size);
-        color: var(--docspress--archive--children--color);
-        list-style: none;
-
-        li {
-            margin: 0;
-        }
-
-        a {
-            position: relative;
-            display: block;
-            padding: var(--docspress--archive--children--link--padding);
-
-            &::before {
-                content: "";
-                position: absolute;
-                display: block;
-                top: var(--docspress--archive--children--link-bullet--top);
-                left: 0;
-                width: var(--docspress--archive--children--link-bullet--width);
-                height: var(--docspress--archive--children--link-bullet--height);
-                margin-top: calc(var(--docspress--archive--children--link-bullet--height) * -.5);
-                background-color: var(--docspress--archive--children--link-bullet--background-color);
-                border-radius: var(--docspress--archive--children--link-bullet--border-radius);
-            }
-
-            &:hover {
-                color: var(--docspress--archive--children--link-hover--color);
-            }
-        }
-    }
+  }
 }
 
 // Item.
 .docspress-archive-list-item {
-    @include docspress-column(1, 3);
+  @include docspress-column(1, 3);
 
-    position: relative;
-    padding-top: var(--docspress--archive--gap-v);
-    padding-left: var(--docspress--archive--gap-h);
-    margin: 0;
+  position: relative;
+  padding-top: var(--docspress--archive--gap-v);
+  padding-left: var(--docspress--archive--gap-h);
+  margin: 0;
 
-    @media screen and (max-width: 991px) {
-        @include docspress-column(1, 2);
-    }
+  @media screen and (max-width: 991px) {
+    @include docspress-column(1, 2);
+  }
 
-    @media screen and (max-width: 576px) {
-        @include docspress-column(1, 1);
-    }
+  @media screen and (max-width: 576px) {
+    @include docspress-column(1, 1);
+  }
 
-    // Children items.
-    .docspress-archive-list-item {
-        padding: 15px;
-        margin-left: 20px;
-        list-style-type: disc;
-    }
+  // Children items.
+  .docspress-archive-list-item {
+    padding: 15px;
+    margin-left: 20px;
+    list-style-type: disc;
+  }
 }
 
 // Category.
 .docspress-archive-list li + .docspress-archive-list-category {
-    margin-top: var(--docspress--archive--item--category--gap);
+  margin-top: var(--docspress--archive--item--category--gap);
 }
 
 .docspress-archive-list-category {
-    @include docspress-column(1, 1);
+  @include docspress-column(1, 1);
 
-    padding-top: var(--docspress--archive--gap-v);
-    padding-left: var(--docspress--archive--gap-h);
-    font-size: var(--docspress--archive--item--category--font-size);
-    font-weight: var(--docspress--archive--item--category--font-weight);
+  padding-top: var(--docspress--archive--gap-v);
+  padding-left: var(--docspress--archive--gap-h);
+  font-size: var(--docspress--archive--item--category--font-size);
+  font-weight: var(--docspress--archive--item--category--font-weight);
 }
 
 // Item title.
 .docspress-archive-list-item-title {
-    display: flex;
-    align-items: center;
-    padding: var(--docspress--archive--item--padding-v) var(--docspress--archive--item--padding-h);
+  display: flex;
+  align-items: center;
+  padding: var(--docspress--archive--item--padding-v) var(--docspress--archive--item--padding-h);
+  margin: 0;
+  line-height: var(--docspress--archive--item--line-height);
+
+  span h2 {
+    padding: 0;
     margin: 0;
-    line-height: var(--docspress--archive--item--line-height);
+  }
 
-    span h2 {
-        padding: 0;
-        margin: 0;
+  img {
+    flex: 0 0 auto;
+    width: var(--docspress--archive--item-image--width);
+    height: var(--docspress--archive--item-image--height);
+    margin-right: var(--docspress--archive--item-image--gap);
+    border-radius: var(--docspress--archive--item-image--border-radius);
+
+    + span {
+      max-width: calc(100% - (var(--docspress--archive--item-image--gap) + var(--docspress--archive--item-image--width)));
+    }
+  }
+
+  > span {
+    position: relative;
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+
+    h2,
+    span,
+    strong {
+      position: relative;
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    img {
-        flex: 0 0 auto;
-        width: var(--docspress--archive--item-image--width);
-        height: var(--docspress--archive--item-image--height);
-        margin-right: var(--docspress--archive--item-image--gap);
-        border-radius: var(--docspress--archive--item-image--border-radius);
-
-        + span {
-            max-width: calc(100% - (var(--docspress--archive--item-image--gap) + var(--docspress--archive--item-image--width)));
-        }
+    // Subtitle.
+    span {
+      font-size: var(--docspress--archive--item--subtitle--font-size);
+      opacity: var(--docspress--archive--item--subtitle--opacity);
+      will-change: var(--docspress--archive--item--subtitle--will-change);
+      transition: var(--docspress--archive--item--subtitle--transition);
+      transform: var(--docspress--archive--item--subtitle--transform);
     }
 
-    > span {
-        position: relative;
-        flex-basis: 0;
-        flex-grow: 1;
-        max-width: 100%;
+    // Title.
+    h2 {
+      font-size: var(--docspress--archive--item--title--font-size);
+      will-change: var(--docspress--archive--item--title--will-change);
+      transition: var(--docspress--archive--item--title--transition);
+      transform: var(--docspress--archive--item--title--transform);
+    }
+  }
 
-        h2,
-        span,
-        strong {
-            position: relative;
-            display: block;
-            width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        // Subtitle.
-        span {
-            font-size: var(--docspress--archive--item--subtitle--font-size);
-            opacity: var(--docspress--archive--item--subtitle--opacity);
-            will-change: var(--docspress--archive--item--subtitle--will-change);
-            transition: var(--docspress--archive--item--subtitle--transition);
-            transform: var(--docspress--archive--item--subtitle--transform);
-        }
-
-        // Title.
-        h2 {
-            font-size: var(--docspress--archive--item--title--font-size);
-            will-change: var(--docspress--archive--item--title--will-change);
-            transition: var(--docspress--archive--item--title--transition);
-            transform: var(--docspress--archive--item--title--transform);
-        }
+  &:hover > span {
+    span {
+      opacity: var(--docspress--archive--item--subtitle-hover--opacity);
+      transform: var(--docspress--archive--item--subtitle-hover--transform);
     }
 
-    &:hover > span {
-        span {
-            opacity: var(--docspress--archive--item--subtitle-hover--opacity);
-            transform: var(--docspress--archive--item--subtitle-hover--transform);
-        }
-
-        h2 {
-            color: var(--docspress--archive--item--title-hover--color);
-            transform: var(--docspress--archive--item--title-hover--transform);
-        }
+    h2 {
+      color: var(--docspress--archive--item--title-hover--color);
+      transform: var(--docspress--archive--item--title-hover--transform);
     }
+  }
 }
