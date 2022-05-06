@@ -22,7 +22,9 @@ class DocsPress_Block_Template_Utils {
      */
     // phpcs:ignore
     const DIRECTORY_NAMES = array(
-        'TEMPLATES'                 => 'fse-templates',
+        'DEPRECATED_TEMPLATES'      => 'block-templates',
+        'DEPRECATED_TEMPLATE_PARTS' => 'block-template-parts',
+        'TEMPLATES'                 => 'templates',
         'TEMPLATE_PARTS'            => 'parts',
     );
 

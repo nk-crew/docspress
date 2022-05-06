@@ -31,16 +31,22 @@ class DocsPress_Block_Template_Controller {
      *
      * @var string
      */
-    const TEMPLATES_ROOT_DIR = 'templates';
+    const TEMPLATES_DIR_NAME = 'block-templates';
+
+    /**
+     * Directory name of the block template parts directory.
+     *
+     * @var string
+     */
+    const TEMPLATE_PARTS_DIR_NAME = 'block-template-parts';
 
     /**
      * Constructor.
      */
     public function __construct() {
-        $root_path = plugin_dir_path( __DIR__ ) . self::TEMPLATES_ROOT_DIR . DIRECTORY_SEPARATOR;
+        $this->templates_directory      = plugin_dir_path( __DIR__ ) . 'templates/' . self::TEMPLATES_DIR_NAME;
+        $this->template_parts_directory = plugin_dir_path( __DIR__ ) . 'templates/' . self::TEMPLATE_PARTS_DIR_NAME;
 
-        $this->templates_directory      = $root_path . DocsPress_Block_Template_Utils::DIRECTORY_NAMES['TEMPLATES'];
-        $this->template_parts_directory = $root_path . DocsPress_Block_Template_Utils::DIRECTORY_NAMES['TEMPLATE_PARTS'];
         $this->init();
     }
 
@@ -55,7 +61,7 @@ class DocsPress_Block_Template_Controller {
 
     /**
      * This function checks if there's a blocks template (ultimately it resolves either a saved blocks template from the
-     * database or a template file in `docspress/templates/fse-templates/`)
+     * database or a template file in `docspress/templates/block-templates/`)
      * to return to pre_get_posts short-circuiting the query in Gutenberg.
      *
      * @param \WP_Block_Template|null $template Return a block template object to short-circuit the default query,

@@ -91,7 +91,7 @@ class DocsPress_Template_Loader {
         // Combine the possible root directory names with either the template directory
         // or the stylesheet directory for child themes, getting all possible block templates
         // locations combinations.
-        $filepath        = DIRECTORY_SEPARATOR . 'templates/fse-templates' . DIRECTORY_SEPARATOR . $template_filename;
+        $filepath        = DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $template_filename;
         $legacy_filepath = DIRECTORY_SEPARATOR . 'block-templates' . DIRECTORY_SEPARATOR . $template_filename;
         $possible_paths  = array(
             get_stylesheet_directory() . $filepath,
