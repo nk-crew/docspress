@@ -66,6 +66,15 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.3.0 =
+
+* added support for FSE themes
+* added CSS variables support
+* improved styles for Twenty themes
+* simplified styles
+* changed required PHP version to 7.2
+* removed IE support
+
 = 2.2.7 =
 
 * improved feedback email template
