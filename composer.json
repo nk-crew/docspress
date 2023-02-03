@@ -9,5 +9,10 @@
     "phpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
     "phpcbf": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcbf",
     "wp": "\"vendor/wp-cli/wp-cli/bin/wp\""
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
