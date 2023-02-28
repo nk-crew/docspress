@@ -268,17 +268,29 @@ class DocsPress {
             return;
         }
 
-        wp_enqueue_style( 'docspress', docspress()->plugin_url . 'assets/css/style.min.css', array(), '@@plugin_version' );
+        $css_deps = array();
+        $js_deps  = array( 'jquery' );
+
+        $show_search = docspress()->get_option( 'sidebar_show_search', 'docspress_single', true );
+
+        if ( 'docsearch' === $show_search ) {
+            wp_enqueue_style( 'docsearch', 'https://cdn.jsdelivr.net/npm/@docsearch/css@3', array(), '3' );
+            $css_deps[] = 'docsearch';
+
+            wp_enqueue_script( 'docsearch', 'https://cdn.jsdelivr.net/npm/@docsearch/js@3', array(), '3', true );
+            $js_deps[] = 'docsearch';
+        }
+
+        if ( docspress()->get_option( 'show_anchor_links', 'docspress_single', true ) ) {
+            wp_enqueue_script( 'anchor-js', docspress()->plugin_url . 'assets/vendor/anchor-js/anchor.min.js', array(), '4.2.2', true );
+            $js_deps[] = 'anchor-js';
+        }
+
+        wp_enqueue_style( 'docspress', docspress()->plugin_url . 'assets/css/style.min.css', $css_deps, '@@plugin_version' );
         wp_style_add_data( 'docspress', 'rtl', 'replace' );
         wp_style_add_data( 'docspress', 'suffix', '.min' );
 
-        $deps = array( 'jquery' );
-        if ( docspress()->get_option( 'show_anchor_links', 'docspress_single', true ) ) {
-            wp_enqueue_script( 'anchor-js', docspress()->plugin_url . 'assets/vendor/anchor-js/anchor.min.js', array(), '4.2.2', true );
-            $deps[] = 'anchor-js';
-        }
-
-        wp_enqueue_script( 'docspress', docspress()->plugin_url . 'assets/js/script.min.js', $deps, '@@plugin_version', true );
+        wp_enqueue_script( 'docspress', docspress()->plugin_url . 'assets/js/script.min.js', $js_deps, '@@plugin_version', true );
         wp_localize_script(
             'docspress',
             'docspress_vars',

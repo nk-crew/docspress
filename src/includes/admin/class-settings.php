@@ -140,8 +140,28 @@ class DocsPress_Settings {
                 array(
                     'name'    => 'sidebar_show_search',
                     'label'   => __( 'Display Search', '@@text_domain' ),
-                    'type'    => 'checkbox',
+                    'type'    => 'select',
                     'default' => 'on',
+                    'options' => array(
+                        ''          => __( 'Disable', '@@text_domain' ),
+                        'on'        => __( 'Enable', '@@text_domain' ),
+                        'docsearch' => __( 'DocSearch by Algolia', '@@text_domain' ),
+                    ),
+                ),
+                array(
+                    'name' => 'docsearch_app_id',
+                    'desc' => __( 'DocSearch App ID', '@@text_domain' ),
+                    'type' => 'text',
+                ),
+                array(
+                    'name' => 'docsearch_api_key',
+                    'desc' => __( 'DocSearch API Key', '@@text_domain' ),
+                    'type' => 'text',
+                ),
+                array(
+                    'name' => 'docsearch_index_name',
+                    'desc' => __( 'DocSearch Index Name', '@@text_domain' ),
+                    'type' => 'text',
                 ),
                 array(
                     'name'    => 'sidebar_show_nav_parents',
@@ -271,6 +291,12 @@ class DocsPress_Settings {
         ?>
         <script type="text/javascript">
             jQuery(function($) {
+                $('select[name="docspress_single[sidebar_show_search]"]').on( 'change', function() {
+
+                    $('tr.docsearch_app_id, tr.docsearch_api_key, tr.docsearch_index_name')[ $(this).val() === 'docsearch' ? 'show' : 'hide' ]();
+
+                }).change();
+
                 $('input[name="docspress_single[show_feedback_buttons]"]:checkbox').on( 'change', function() {
 
                     $('tr.show_feedback_buttons_likes')[ $(this).is(':checked' ) ? 'show' : 'hide' ]();

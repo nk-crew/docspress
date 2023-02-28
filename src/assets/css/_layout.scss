@@ -34,6 +34,21 @@
   }
 }
 
+// DocSearch.
+.docspress-docsearch {
+  padding-right: 10px;
+
+  > .DocSearch {
+    width: 100%;
+    margin: 0;
+  }
+
+  .DocSearch-Button {
+    height: 42px;
+    padding: 0 15px;
+  }
+}
+
 // Sidebar wrap.
 body.admin-bar .docspress-single-sidebar-wrap {
   top: var(--wp-admin--admin-bar--height, 0);

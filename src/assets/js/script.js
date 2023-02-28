@@ -14,6 +14,7 @@ class DocsPress {
     self.$singleAjax = $('.docspress-single-ajax');
 
     self.initSearch();
+    self.initDocSearch();
     self.initAnchors();
     self.initFeedbacks();
     self.initAjax();
@@ -73,6 +74,30 @@ class DocsPress {
         console.log(e);
         self.xhrAjaxSearch = false;
       },
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  initDocSearch() {
+    if ('undefined' === typeof window.docsearch) {
+      return;
+    }
+
+    $('.docspress-docsearch').each(function () {
+      const $docsearch = $(this);
+      const appId = $docsearch.attr('data-docsearch-app-id');
+      const apiKey = $docsearch.attr('data-docsearch-api-key');
+      const indexName = $docsearch.attr('data-docsearch-index-name');
+
+      if (appId && apiKey && indexName) {
+        window.docsearch({
+          appId,
+          apiKey,
+          indexName,
+          container: this,
+          debug: false,
+        });
+      }
     });
   }
 
