@@ -3,7 +3,7 @@
 * Contributors: nko
 * Tags: documentation, document, help, knowledge base, export
 * Requires at least: 4.6.0
-* Tested up to: 6.0
+* Tested up to: 6.2
 * Requires PHP: 7.2
 * Stable tag: @@plugin_version
 * License: GPLv2 or later
@@ -65,6 +65,11 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 4. Documentations Admin Classic UI
 
 ## Changelog
+
+= 2.3.1 =
+
+* added support for DocSearch
+* added support for navigation category titles when enabled "Display Parent Links" setting
 
 = 2.3.0 =
 
