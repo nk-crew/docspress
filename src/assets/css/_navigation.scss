@@ -4,16 +4,18 @@
   --docspress--navigation--color: var(--docspress-color-text);
 
   // Link.
-  --docspress--navigation--link--padding-v: 3px;
-  --docspress--navigation--link--padding-h: 20px;
-  --docspress--navigation--link--font-weight: 600;
+  --docspress--navigation--link--padding: 3px 20px;
+  --docspress--navigation--link--font-weight: 500;
   --docspress--navigation--link--color: inherit;
   --docspress--navigation--link-hover--color: var(--docspress-color-primary);
   --docspress--navigation--link-active--color: var(--docspress-color-primary);
-  --docspress--navigation--link-active--font-weight: 600;
-  --docspress--navigation--link-parent--padding-v: 7px;
-  --docspress--navigation--link-parent--padding-h: 0;
+  --docspress--navigation--link-active--font-weight: 500;
+  --docspress--navigation--link-parent--padding: 7px 0;
   --docspress--navigation--link-children--font-weight: 400;
+
+  // Category.
+  --docspress--navigation--category--padding: 15px 0 7px 0;
+  --docspress--navigation--category--font-weight: 700;
 
   // Children.
   --docspress--navigation--children--padding: 0 0 10px;
@@ -28,7 +30,7 @@
   // Links.
   a {
     display: block;
-    padding: var(--docspress--navigation--link--padding-v) var(--docspress--navigation--link--padding-h);
+    padding: var(--docspress--navigation--link--padding);
     padding-left: 0;
     font-weight: var(--docspress--navigation--link--font-weight);
     color: var(--docspress--navigation--link--color);
@@ -41,13 +43,19 @@
 
   // Parent links.
   > li > a {
-    padding: var(--docspress--navigation--link-parent--padding-v) var(--docspress--navigation--link-parent--padding-h);
+    padding: var(--docspress--navigation--link-parent--padding);
   }
 
   // Current links.
   li.current_page_item > a {
     font-weight: var(--docspress--navigation--link-active--font-weight);
     color: var(--docspress--navigation--link-active--color);
+  }
+
+  // Category.
+  .docspress-nav-list-category {
+    padding: var(--docspress--navigation--category--padding);
+    font-weight: var(--docspress--navigation--category--font-weight);
   }
 
   // Children.
