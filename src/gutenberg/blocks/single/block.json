@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "docspress/single",
+  "category": "docspress",
+  "title": "DocsPress Single Article",
+  "description": "FullSite Editing template for DocsPress Single Article",
+  "keywords": ["docspress"],
+  "supports": {
+    "className": true,
+    "align": true
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "docspress/archive",
+  "category": "docspress",
+  "title": "DocsPress Archive",
+  "description": "FullSite Editing template for DocsPress Archive",
+  "keywords": ["docspress"],
+  "supports": {
+    "className": true,
+    "align": true
+  }
+}

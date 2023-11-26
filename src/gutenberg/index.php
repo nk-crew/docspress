@@ -32,57 +32,32 @@ class DocsPress_Gutenberg {
         wp_register_script(
             'docspress-archive-block',
             docspress()->plugin_url . 'gutenberg/blocks/archive/script.min.js',
-            array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
+            array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor' ),
             '@@plugin_version',
             false
         );
         wp_register_script(
             'docspress-single-block',
             docspress()->plugin_url . 'gutenberg/blocks/single/script.min.js',
-            array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
+            array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor', 'wp-block-editor' ),
             '@@plugin_version',
             false
         );
-        register_block_type(
-            'docspress/archive',
+
+        register_block_type_from_metadata(
+            docspress()->plugin_path . 'gutenberg/blocks/archive',
             array(
                 'render_callback' => array( $this, 'gutenberg_archive_block_render_callback' ),
                 'editor_script'   => 'docspress-archive-block',
             )
         );
-        register_block_type(
-            'docspress/single',
+        register_block_type_from_metadata(
+            docspress()->plugin_path . 'gutenberg/blocks/single',
             array(
                 'render_callback' => array( $this, 'gutenberg_single_block_render_callback' ),
                 'editor_script'   => 'docspress-single-block',
             )
         );
-    }
-
-    /**
-     * Get block classname based on block attributes.
-     *
-     * @param string $classname - default classname.
-     * @param array  $attributes - block attributes.
-     * @return string
-     */
-    public function get_block_classname( $classname, $attributes ) {
-        $attributes = array_merge(
-            array(
-                'align'     => '',
-                'className' => '',
-            ),
-            $attributes
-        );
-
-        if ( $attributes['align'] ) {
-            $classname .= ' align' . $attributes['align'];
-        }
-        if ( $attributes['className'] ) {
-            $classname .= ' ' . $attributes['className'];
-        }
-
-        return $classname;
     }
 
     /**
@@ -95,18 +70,16 @@ class DocsPress_Gutenberg {
     public function gutenberg_single_block_render_callback( $attributes ) {
         ob_start();
 
-        $classname = $this->get_block_classname( 'wp-block-docspress-single-article', $attributes );
+        docspress()->get_template_part( 'single/page' );
 
-        echo '<div class="' . esc_attr( $classname ) . '">';
+        /* Restore original Post Data */
+        wp_reset_postdata();
 
-            docspress()->get_template_part( 'single/page' );
+        $output = ob_get_clean();
 
-            /* Restore original Post Data */
-            wp_reset_postdata();
+        $wrapper_attributes = get_block_wrapper_attributes();
 
-        echo '</div>';
-
-        return ob_get_clean();
+        return sprintf( '<div %1$s>%2$s</div>', $wrapper_attributes, $output );
     }
 
     /**
@@ -119,20 +92,17 @@ class DocsPress_Gutenberg {
     public function gutenberg_archive_block_render_callback( $attributes ) {
         ob_start();
 
-        $classname = $this->get_block_classname( 'wp-block-docspress-archive', $attributes );
+        docspress()->get_template_part( 'archive/title' );
+        docspress()->get_template_part( 'archive/page' );
 
-        echo '<div class="' . esc_attr( $classname ) . '">';
+        /* Restore original Post Data */
+        wp_reset_postdata();
 
-            docspress()->get_template_part( 'archive/title' );
+        $output = ob_get_clean();
 
-            docspress()->get_template_part( 'archive/page' );
+        $wrapper_attributes = get_block_wrapper_attributes();
 
-            /* Restore original Post Data */
-            wp_reset_postdata();
-
-        echo '</div>';
-
-        return ob_get_clean();
+        return sprintf( '<div %1$s>%2$s</div>', $wrapper_attributes, $output );
     }
 }
 new DocsPress_Gutenberg();
