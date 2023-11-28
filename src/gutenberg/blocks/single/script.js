@@ -4,7 +4,13 @@ const { registerBlockType } = wp.blocks;
 const { useBlockProps } = wp.blockEditor;
 const { Placeholder } = wp.components;
 
+const { pagenow } = window;
+
 registerBlockType(metadata.name, {
+  supports: {
+    ...metadata.supports,
+    inserter: pagenow && 'site-editor' === pagenow,
+  },
   icon: 'media-document',
   edit() {
     const blockProps = useBlockProps();

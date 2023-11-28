@@ -20,7 +20,28 @@ class DocsPress_Gutenberg {
      * DocsPress_Gutenberg constructor.
      */
     public function __construct() {
+        // Change priority to add category to the end of the blocks list.
+        add_filter( 'block_categories_all', array( $this, 'block_categories_all' ), 11 );
         add_action( 'init', array( $this, 'gutenberg_register_blocks' ) );
+    }
+
+    /**
+     * Register DocsPress blocks category
+     *
+     * @param array $categories - available categories.
+     * @return array
+     */
+    public function block_categories_all( $categories ) {
+        return array_merge(
+            $categories,
+            array(
+                array(
+                    'slug'  => 'docspress',
+                    'icon'  => 'media-document',
+                    'title' => __( 'DocsPress', '@@text_domain' ),
+                ),
+            )
+        );
     }
 
     /**

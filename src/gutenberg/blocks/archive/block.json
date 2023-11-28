@@ -8,6 +8,7 @@
   "keywords": ["docspress"],
   "supports": {
     "className": true,
-    "align": true
+    "align": true,
+    "multiple": false
   }
 }
