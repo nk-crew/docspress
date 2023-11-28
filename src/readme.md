@@ -66,7 +66,13 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
-= 2.4.1 - 28 Nov, 2023 =
+= 2.4.2 - 28 Nov, 2023 =
+
+* changed tested WP version to 6.4
+* changed minimal WP version to 6.2
+* fixed `docspress_ajax_loaded` usage error because of jQuery used
+
+= 2.4.0 - 28 Nov, 2023 =
 
 * added blocks version to v3 - allows to enable blocks iframe editor
 * added output attributes with useBlockProps and get_block_wrapper_attributes in blocks
