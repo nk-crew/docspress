@@ -311,11 +311,14 @@ class DocsPress {
             wp_add_inline_script(
                 'docspress',
                 '
-                (function ($) {
-                    $(document).on("docspress_ajax_loaded", function (event, new_page) {
+                (function (ivent) {
+                    ivent.on(document, "docspress_ajax_loaded", function (event) {
+                        // Fallback.
+                        const new_page = event?.data;
+
                         ' . $custom_js . '
                     });
-                }(jQuery));
+                }(ivent));
             '
             );
         }
