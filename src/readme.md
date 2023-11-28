@@ -2,8 +2,8 @@
 
 * Contributors: nko
 * Tags: documentation, document, help, knowledge base, export
-* Requires at least: 4.6.0
-* Tested up to: 6.2
+* Requires at least: 6.2.0
+* Tested up to: 6.4
 * Requires PHP: 7.2
 * Stable tag: @@plugin_version
 * License: GPLv2 or later
@@ -66,7 +66,7 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
-= 2.4.0 - 28 Nov, 2023 =
+= 2.4.1 - 28 Nov, 2023 =
 
 * added blocks version to v3 - allows to enable blocks iframe editor
 * added output attributes with useBlockProps and get_block_wrapper_attributes in blocks
