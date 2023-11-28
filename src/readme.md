@@ -66,12 +66,22 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
-= 2.3.1 =
+= 2.4.0 - 28 Nov, 2023 =
+
+* added blocks version to v3 - allows to enable blocks iframe editor
+* added output attributes with useBlockProps and get_block_wrapper_attributes in blocks
+* hide FSE blocks from standard editor
+* changed block templates align to wide
+* changed Helpfulness old metabox to use Gutenberg API
+* remove possibility to add FSE blocks multiple times
+* removed jQuery dependency on frontend
+
+= 2.3.1 - 6 May, 2023 =
 
 * added support for DocSearch
 * added support for navigation category titles when enabled "Display Parent Links" setting
 
-= 2.3.0 =
+= 2.3.0 - 1 Jul, 2022 =
 
 * added support for FSE themes
 * added CSS variables support
@@ -80,42 +90,42 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 * changed required PHP version to 7.2
 * removed IE support
 
-= 2.2.7 =
+= 2.2.7 - 24 Dec, 2021 =
 
 * improved feedback email template
 * improved feedback mailing function (better reply to and subject lines)
 
-= 2.2.6 =
+= 2.2.6 - 24 Dec, 2021 =
 
 * fixed docs suggestion email Reply-To field (should refer to feedback sender email)
 
-= 2.2.5 =
+= 2.2.5 - 20 Aug, 2021 =
 
 * fixed private docs displaying for admins
 
-= 2.2.4 =
+= 2.2.4 - 16 Jul, 2021 =
 
 * tested up to WP 5.8
 
-= 2.2.3 =
+= 2.2.3 - 4 Mar, 2021 =
 
 * removed usage of deprecated jQuery ready event
 * tested up to WordPress 5.7
 * changed GitHub repo url
 
-= 2.2.2 =
+= 2.2.2 - 19 Oct, 2020 =
 
 * improved admin UI
 * improved thumbnail size for admin documentation
 * updated vendor scripts
 * fixed bug when trying to delete documentation, but deleted another documentation
 
-= 2.2.1 =
+= 2.2.1 - 10 Aug, 2020 =
 
 * added RTL support
 * fixed email template long words break
 
-= 2.2.0 =
+= 2.2.0 - 23 Mar, 2020 =
 
 * improved feedback suggestion email template
 * enqueue assets on DocsPress pages only
