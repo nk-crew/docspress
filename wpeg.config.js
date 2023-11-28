@@ -46,13 +46,14 @@ cfg.copy_files_dist = (file) => {
 };
 
 // Compile SCSS files.
-cfg.compile_scss_files_src = ['{src}/*assets/**/*.scss'];
+cfg.compile_scss_files_src = ['{src}/*assets/**/*.scss', '{src}/*gutenberg/page-options/**/*.scss'];
 cfg.compile_scss_files_rtl = true;
 
 // Compile JS files.
 cfg.compile_js_files_src = [
   '{src}/*assets/**/*.js',
   '{src}/*gutenberg/blocks/**/*.js',
+  '{src}/*gutenberg/page-options/**/*.js',
   '!{src}/**/vendor/**/*',
 ];
 

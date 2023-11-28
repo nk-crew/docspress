@@ -133,7 +133,7 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 * added Suggestion form option (show after user added feedback)
 * added categories in admin docs list
-* added possibility to change helpfullness in post metabox
+* added possibility to change helpfulness in post metabox
 * fixed anchors initialization after ajax load
 * prevent cloning helpfulness meta
 

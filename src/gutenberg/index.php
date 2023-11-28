@@ -23,6 +23,7 @@ class DocsPress_Gutenberg {
         // Change priority to add category to the end of the blocks list.
         add_filter( 'block_categories_all', array( $this, 'block_categories_all' ), 11 );
         add_action( 'init', array( $this, 'gutenberg_register_blocks' ) );
+        add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
     }
 
     /**
@@ -124,6 +125,29 @@ class DocsPress_Gutenberg {
         $wrapper_attributes = get_block_wrapper_attributes();
 
         return sprintf( '<div %1$s>%2$s</div>', $wrapper_attributes, $output );
+    }
+
+    /**
+     * Enqueue block editor assets.
+     */
+    public function enqueue_block_editor_assets() {
+        if ( 'docs' !== get_post_type() ) {
+            return;
+        }
+
+        wp_enqueue_script(
+            'docspress-page-options',
+            docspress()->plugin_url . 'gutenberg/page-options/script.min.js',
+            array( 'wp-i18n', 'wp-plugins', 'wp-components', 'wp-edit-post', 'wp-core-data' ),
+            '@@plugin_version',
+            false
+        );
+        wp_enqueue_style(
+            'docspress-page-options',
+            docspress()->plugin_url . 'gutenberg/page-options/style.min.css',
+            array(),
+            '@@plugin_version'
+        );
     }
 }
 new DocsPress_Gutenberg();

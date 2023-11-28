@@ -110,6 +110,7 @@ class DocsPress {
 
         // custom post type register.
         add_action( 'init', array( $this, 'register_post_type' ) );
+        add_action( 'init', array( $this, 'register_post_meta' ) );
 
         // Loads frontend scripts and styles.
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -354,9 +355,9 @@ class DocsPress {
 
         $args = array(
             'labels'              => $labels,
-            'supports'            => array( 'title', 'editor', 'thumbnail', 'revisions', 'page-attributes', 'comments' ),
             'hierarchical'        => true,
             'public'              => true,
+            'publicly_queryable'  => true,
             'show_ui'             => true,
             'show_in_menu'        => false,
             'show_in_nav_menus'   => true,
@@ -366,11 +367,19 @@ class DocsPress {
             'can_export'          => true,
             'has_archive'         => $docs_page ? urldecode( get_page_uri( $docspress_archive_id ) ) : 'docs',
             'exclude_from_search' => false,
-            'publicly_queryable'  => true,
             'show_in_rest'        => true,
             'rewrite'             => $rewrite,
             'map_meta_cap'        => true,
             'capability_type'     => array( 'doc', 'docs' ),
+            'supports'            => array(
+                'title',
+                'editor',
+                'thumbnail',
+                'revisions',
+                'page-attributes',
+                'comments',
+                'custom-fields',
+            ),
         );
 
         register_post_type( $this->post_type, $args );
@@ -393,6 +402,50 @@ class DocsPress {
                 'show_admin_column'  => true,
             )
         );
+    }
+
+    /**
+     * Register helpfulness meta.
+     */
+    public function register_post_meta() {
+        register_meta(
+            'post',
+            'positive',
+            array(
+                'object_subtype' => 'docs',
+                'type'           => 'string',
+                'single'         => true,
+                'show_in_rest'   => true,
+                'auth_callback'  => array( __CLASS__, 'rest_auth' ),
+            )
+        );
+        register_meta(
+            'post',
+            'negative',
+            array(
+                'object_subtype' => 'docs',
+                'type'           => 'string',
+                'single'         => true,
+                'show_in_rest'   => true,
+                'auth_callback'  => array( __CLASS__, 'rest_auth' ),
+            )
+        );
+    }
+
+    /**
+     * Determines REST API authentication.
+     *
+     * @param bool   $allowed Whether it is allowed.
+     * @param string $meta_key The meta key being checked.
+     * @param int    $post_id The post ID being checked.
+     * @param int    $user_id The user ID being checked.
+     * @param string $cap The current capability.
+     * @param array  $caps All capabilities.
+     * @return bool Whether the user can do it.
+     */
+    // phpcs:ignore
+    public static function rest_auth( $allowed, $meta_key, $post_id, $user_id, $cap, $caps ) {
+        return user_can( $user_id, 'edit_post', $post_id );
     }
 
     /**
