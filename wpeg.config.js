@@ -30,6 +30,8 @@ cfg.copy_files_src = [
   './node_modules/*sweetalert2/dist/sweetalert2.min.js',
   './node_modules/*sweetalert2/dist/sweetalert2.min.css',
   './node_modules/*anchor-js/anchor.min.js',
+  './node_modules/*ivent/dist/ivent.min.js',
+  './node_modules/*ivent/dist/ivent.min.js.map',
 ];
 
 cfg.copy_files_dist = (file) => {

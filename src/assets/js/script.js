@@ -1,4 +1,4 @@
-const $ = window.jQuery;
+const { on, trigger } = window.ivent;
 
 class DocsPress {
   constructor() {
@@ -7,11 +7,12 @@ class DocsPress {
     self.cache = {};
     self.pendingAjax = false;
     self.xhrAjaxSearch = false;
-    self.$body = $('body');
-    self.$window = $(window);
-    self.$document = $(document);
-    self.$preloader = $('<div class="docspress-preloader"><span><span></span></span></div>');
-    self.$singleAjax = $('.docspress-single-ajax');
+
+    self.$preloader = document.createElement('div');
+    self.$preloader.className = 'docspress-preloader';
+    self.$preloader.innerHTML = '<span><span></span></span>';
+
+    self.$singleAjax = document.querySelector('.docspress-single-ajax');
 
     self.initSearch();
     self.initDocSearch();
@@ -29,16 +30,16 @@ class DocsPress {
     const self = this;
     let timeout = false;
 
-    self.$document.on('submit', '.docspress-search-form', function (e) {
+    on(document, 'submit', '.docspress-search-form', (e) => {
       e.preventDefault();
-      self.prepareSearchResults($(this));
+      self.prepareSearchResults(e.delegateTarget);
     });
-    self.$document.on('input', '.docspress-search-form', function (e) {
+    on(document, 'input', '.docspress-search-form', (e) => {
       e.preventDefault();
 
       clearTimeout(timeout);
       timeout = setTimeout(() => {
-        self.prepareSearchResults($(this));
+        self.prepareSearchResults(e.delegateTarget);
       }, 500);
     });
   }
@@ -52,29 +53,48 @@ class DocsPress {
     }
 
     // if empty search field.
-    if (!$form.find('.docspress-search-field').val()) {
-      $form.next('.docspress-search-form-result').html('');
-      $form.removeClass('docspress-search-form-existence');
+    if (!$form.querySelector('.docspress-search-field')?.value) {
+      $form.nextElementSibling.querySelector('.docspress-search-form-result').innerHTML = '';
+      $form.classList.remove('docspress-search-form-existence');
       return;
     }
 
-    self.xhrAjaxSearch = $.ajax({
-      type: 'GET',
-      url: $form.attr('action'),
-      data: $form.serialize(),
-      success(data) {
-        const $data = $(data);
-        const result = $data.find('.docspress-search-list').get(0).outerHTML;
-        $form.next('.docspress-search-form-result').html(result);
-        $form.addClass('docspress-search-form-existence');
-        self.xhrAjaxSearch = false;
-      },
-      error(e) {
+    let actionUrl = $form.getAttribute('action');
+    actionUrl +=
+      (-1 < actionUrl.indexOf('?') ? '&' : '?') +
+      new URLSearchParams(new FormData($form)).toString();
+
+    self.xhrAjaxSearch = new XMLHttpRequest();
+    self.xhrAjaxSearch.open('GET', actionUrl);
+    self.xhrAjaxSearch.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    self.xhrAjaxSearch.onload = function () {
+      if (200 === self.xhrAjaxSearch.status) {
+        const parser = new DOMParser();
+        const data = parser.parseFromString(self.xhrAjaxSearch.responseText, 'text/html');
+        const result = data.querySelector('.docspress-search-list').outerHTML;
+
+        const $resultEl = $form.parentElement.querySelector(
+          ':scope > .docspress-search-form-result'
+        );
+        if ($resultEl) {
+          $resultEl.innerHTML = result;
+        }
+
+        $form.classList.add('docspress-search-form-existence');
+      } else {
         // eslint-disable-next-line no-console
-        console.log(e);
-        self.xhrAjaxSearch = false;
-      },
-    });
+        console.log('Error:', self.xhrAjaxSearch.status);
+      }
+
+      // self.xhrAjaxSearch = false;
+    };
+    self.xhrAjaxSearch.onerror = function () {
+      // eslint-disable-next-line no-console
+      console.log('Request failed');
+      self.xhrAjaxSearch = false;
+    };
+
+    self.xhrAjaxSearch.send();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -83,18 +103,18 @@ class DocsPress {
       return;
     }
 
-    $('.docspress-docsearch').each(function () {
-      const $docsearch = $(this);
-      const appId = $docsearch.attr('data-docsearch-app-id');
-      const apiKey = $docsearch.attr('data-docsearch-api-key');
-      const indexName = $docsearch.attr('data-docsearch-index-name');
+    const docsearchElements = document.querySelectorAll('.docspress-docsearch');
+    docsearchElements.forEach((element) => {
+      const appId = element.getAttribute('data-docsearch-app-id');
+      const apiKey = element.getAttribute('data-docsearch-api-key');
+      const indexName = element.getAttribute('data-docsearch-index-name');
 
       if (appId && apiKey && indexName) {
         window.docsearch({
           appId,
           apiKey,
           indexName,
-          container: this,
+          container: element,
           debug: false,
         });
       }
@@ -123,16 +143,17 @@ class DocsPress {
     const self = this;
 
     // feedback links click
-    self.$body.on('click', '.docspress-single-feedback a', function (e) {
-      self.onFeedbackClick(e, $(this));
+    on(document, 'click', '.docspress-single-feedback a', (e) => {
+      self.onFeedbackClick(e);
     });
 
     // feedback suggestion form send
-    self.$body.on(
+    on(
+      document,
       'submit',
       '.docspress-single-feedback + .docspress-single-feedback-suggestion',
-      function (e) {
-        self.onFeedbackSuggestionSend(e, $(this));
+      (e) => {
+        self.onFeedbackSuggestionSend(e);
       }
     );
   }
@@ -140,36 +161,52 @@ class DocsPress {
   initAjax() {
     const self = this;
 
-    if (!self.$singleAjax.length) {
+    if (!self.$singleAjax) {
       return;
     }
 
     // save current page data
     self.setCache(window.location.href, {
       href: window.location.href,
+      editHref: document.querySelector('#wp-admin-bar-edit .ab-item')?.getAttribute('href'),
       title: document.title,
-      doc: self.$singleAjax.html(),
+      doc: self.$singleAjax.innerHTML,
       html: document.documentElement.outerHTML,
     });
 
     // click on links
-    self.$singleAjax.on(
+    on(
+      self.$singleAjax,
       'click',
       '.docspress-nav-list a, .docspress-single-breadcrumbs a, .docspress-single-articles a, .docspress-single-adjacent-nav a, .docspress-search-form-result a',
-      function (e) {
+      (e) => {
         self.onDocLinksClick(e);
       }
     );
 
     // on state change
-    self.$window.on('popstate', function (e) {
-      self.renderDoc(e.target.location.href);
+    // we have to check the hash change and prevent render doc,
+    // because for some reason `popstate` event fires on hash change.
+    let popOld = document.location.pathname;
+    let popNew = '';
+
+    on(window, 'popstate', (e) => {
+      popNew = document.location.pathname;
+
+      // Path changed.
+      if (popNew !== popOld) {
+        self.renderDoc(e.delegateTarget.location.href);
+      }
+
+      popOld = popNew;
     });
   }
 
-  onFeedbackClick(e, $item) {
+  onFeedbackClick(e) {
     e.preventDefault();
+
     const self = this;
+    const $button = e.delegateTarget;
 
     // return if any request is in process already
     if (self.pendingAjax) {
@@ -178,43 +215,48 @@ class DocsPress {
 
     self.pendingAjax = true;
 
-    const $wrap = $item
-      .closest('.docspress-single-feedback')
-      .addClass('docspress-single-feedback-loading');
-    const $suggestionForm = $item
+    const $wrap = $button.closest('.docspress-single-feedback');
+    const $suggestionForm = $button
       .closest('.docspress-single-content')
-      .find('.docspress-single-feedback-suggestion');
+      .querySelector('.docspress-single-feedback-suggestion');
 
-    const feedbackType = $item.data('type');
+    $wrap.classList.add('docspress-single-feedback-loading');
+
+    const feedbackType = $button.getAttribute('data-type');
 
     const data = {
-      post_id: $item.data('id'),
+      post_id: $button.getAttribute('data-id'),
       type: feedbackType,
       action: 'docspress_ajax_feedback',
       _wpnonce: window.docspress_vars.nonce,
     };
 
-    $wrap.append(self.$preloader.clone());
+    $wrap.appendChild(self.$preloader.cloneNode(true));
 
-    $.post(window.docspress_vars.ajaxurl, data, function (resp) {
-      $wrap.html(`<div>${resp.data}</div>`);
+    fetch(window.docspress_vars.ajaxurl, {
+      method: 'POST',
+      body: new URLSearchParams(data),
+    })
+      .then((response) => response.json())
+      .then((resp) => {
+        $wrap.innerHTML = `<div>${resp.data}</div>`;
 
-      if (resp.success && $suggestionForm.length) {
-        $suggestionForm.show();
-        $suggestionForm.append(
-          `<input type="hidden" name="feedback_type" value="${feedbackType}">`
-        );
-      }
+        if (resp.success && $suggestionForm) {
+          $suggestionForm.style.display = 'block';
+          $suggestionForm.innerHTML += `<input type="hidden" name="feedback_type" value="${feedbackType}">`;
+        }
 
-      $wrap.removeClass('docspress-single-feedback-loading');
+        $wrap.classList.remove('docspress-single-feedback-loading');
 
-      self.pendingAjax = false;
-    });
+        self.pendingAjax = false;
+      });
   }
 
-  onFeedbackSuggestionSend(e, $form) {
+  onFeedbackSuggestionSend(e) {
     e.preventDefault();
+
     const self = this;
+    const form = e.delegateTarget;
 
     // return if any request is in process already
     if (self.pendingAjax) {
@@ -223,13 +265,13 @@ class DocsPress {
 
     self.pendingAjax = true;
 
-    const $wrap = $form
-      .closest('.docspress-single-feedback-suggestion')
-      .addClass('docspress-single-feedback-suggestion-loading');
-    const $button = $form.find('button');
+    const wrap = form.closest('.docspress-single-feedback-suggestion');
+    const button = form.querySelector('button');
 
-    const formData = $form.serializeArray().reduce((obj, item) => {
-      obj[item.name] = item.value;
+    wrap.classList.add('docspress-single-feedback-suggestion-loading');
+
+    const formData = Array.from(new FormData(form)).reduce((obj, [key, value]) => {
+      obj[key] = value;
       return obj;
     }, {});
 
@@ -242,16 +284,20 @@ class DocsPress {
       _wpnonce: window.docspress_vars.nonce,
     };
 
-    $wrap.append(self.$preloader.clone());
+    wrap.appendChild(self.$preloader.cloneNode(true));
 
-    $button.prop('disabled', 'disabled');
+    button.disabled = true;
 
-    $.post(window.docspress_vars.ajaxurl, data, function (resp) {
-      $wrap
-        .html(`<div>${resp.data}</div>`)
-        .removeClass('docspress-single-feedback-suggestion-loading');
-      self.pendingAjax = false;
-    });
+    fetch(window.docspress_vars.ajaxurl, {
+      method: 'POST',
+      body: new URLSearchParams(data),
+    })
+      .then((response) => response.json())
+      .then((resp) => {
+        wrap.innerHTML = `<div>${resp.data}</div>`;
+        wrap.classList.remove('docspress-single-feedback-suggestion-loading');
+        self.pendingAjax = false;
+      });
   }
 
   // cache ajax pages
@@ -276,25 +322,29 @@ class DocsPress {
     const cached = this.getCache(href);
 
     // replace content.
-    this.$singleAjax.html(cached.doc);
-    $('title').text(cached.title);
-    $('.wp-admin-bar-edit .ab-item').attr('href', href);
+    this.$singleAjax.innerHTML = cached.doc;
+    document.title = cached.title;
+
+    if (cached.editHref) {
+      document.querySelector('#wp-admin-bar-edit .ab-item')?.setAttribute('href', cached.editHref);
+    }
 
     // scroll to top of doc.
-    const { top } = $('.docspress-single')[0].getBoundingClientRect();
+    const $content = document.querySelector('.docspress-single');
+    const { top } = $content.getBoundingClientRect();
 
-    if (0 > top) {
-      this.$document.scrollTop(this.$document.scrollTop() + top);
+    if (0 > top && $content) {
+      $content.scrollIntoView();
     }
 
     // init new anchors.
     this.initAnchors();
 
-    this.$document.trigger('docspress_ajax_loaded', cached);
+    trigger(document, 'docspress_ajax_loaded', { data: cached });
   }
 
   onDocLinksClick(e) {
-    const link = e.currentTarget;
+    const link = e.delegateTarget;
 
     // Middle click, cmd click, and ctrl click should open
     // links in a new tab as normal.
@@ -321,7 +371,7 @@ class DocsPress {
     }
 
     // Ignore e with default prevented
-    if (e.isDefaultPrevented()) {
+    if (e.defaultPrevented) {
       return;
     }
 
@@ -357,22 +407,30 @@ class DocsPress {
     }
 
     // new ajax request
-    const $ajaxBlock = self.$singleAjax.addClass('docspress-single-ajax-loading');
-    $ajaxBlock.find('.docspress-single-content').append(self.$preloader.clone());
+    const xhr = new XMLHttpRequest();
 
-    self.xhr = $.ajax({
-      url: href,
-      success: function success(responseHtml) {
+    self.$singleAjax.classList.add('docspress-single-ajax-loading');
+    self.$singleAjax
+      .querySelector('.docspress-single-content')
+      .appendChild(self.$preloader.cloneNode(true));
+
+    xhr.open('GET', href);
+    xhr.onload = function () {
+      if (200 === xhr.status) {
+        const responseHtml = xhr.responseText;
+
         if (!responseHtml) {
           window.location = href;
           return;
         }
 
-        let $HTML = $('<div>').html(responseHtml);
-        const title = $HTML.find('title:eq(0)').text() || document.title;
-        const $newDocContent = $HTML.find('.docspress-single-ajax').html();
+        let $HTML = document.createElement('div');
+        $HTML.innerHTML = responseHtml;
+        const title = $HTML.querySelector('title').textContent || document.title;
+        const editHref = $HTML.querySelector('#wp-admin-bar-edit .ab-item')?.getAttribute('href');
+        const newDocContent = $HTML.querySelector('.docspress-single-ajax').innerHTML;
 
-        if (!$newDocContent) {
+        if (!newDocContent) {
           window.location = href;
           return;
         }
@@ -380,8 +438,9 @@ class DocsPress {
         // save cache
         self.setCache(href, {
           href,
+          editHref,
           title,
-          doc: $newDocContent,
+          doc: newDocContent,
           html: responseHtml,
         });
 
@@ -395,23 +454,24 @@ class DocsPress {
         $HTML.remove();
         $HTML = null;
 
-        $ajaxBlock.removeClass('docspress-single-ajax-loading');
-      },
-      error: function error(msg) {
-        if (0 !== msg.status) {
+        self.$singleAjax.classList.remove('docspress-single-ajax-loading');
+      } else {
+        if (0 !== xhr.status) {
           // eslint-disable-next-line no-console
-          console.log('error', msg);
+          console.log('error', xhr);
         } else {
           window.location = href;
         }
 
-        $ajaxBlock.removeClass('docspress-single-ajax-loading');
-      },
-    });
+        self.$singleAjax.classList.remove('docspress-single-ajax-loading');
+      }
+    };
+
+    xhr.send();
   }
 }
 
-$(function () {
+on(document, 'ready', () => {
   // eslint-disable-next-line no-new
   new DocsPress();
 });
