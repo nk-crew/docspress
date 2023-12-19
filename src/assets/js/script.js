@@ -18,6 +18,7 @@ class DocsPress {
     self.initDocSearch();
     self.initAnchors();
     self.initFeedbacks();
+    self.initSidebarScroll();
     self.initAjax();
   }
 
@@ -156,6 +157,31 @@ class DocsPress {
         self.onFeedbackSuggestionSend(e);
       }
     );
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  initSidebarScroll() {
+    const sidebar = document.querySelector('.docspress-single-sidebar-wrap');
+
+    // Skip if no sidebar available or it is not scrollable.
+    if (!sidebar || sidebar.scrollHeight <= sidebar.clientHeight) {
+      return;
+    }
+
+    const currentItem = sidebar.querySelector('.current_page_item');
+
+    if (!currentItem) {
+      return;
+    }
+
+    const sidebarHeight = sidebar.clientHeight;
+    const itemOffsetTop = currentItem.offsetTop;
+    const itemHeight = currentItem.clientHeight;
+    const a = itemOffsetTop - sidebarHeight + itemHeight;
+
+    if (sidebar.scrollTop > itemOffsetTop || sidebar.scrollTop < a) {
+      sidebar.scrollTop = itemOffsetTop - sidebarHeight / 2 + itemHeight / 2;
+    }
   }
 
   initAjax() {
