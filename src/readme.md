@@ -66,6 +66,10 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.4.3 - 26 Dec, 2023 =
+
+* added automatic sidebar scroll to active item when sidebar is scrollable
+
 = 2.4.2 - 28 Nov, 2023 =
 
 * changed tested WP version to 6.4
