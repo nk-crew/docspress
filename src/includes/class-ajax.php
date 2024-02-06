@@ -346,9 +346,21 @@ class DocsPress_Ajax {
             )
         );
 
+        $terms = get_terms(
+            array(
+                'taxonomy'   => 'docs_category',
+                'hide_empty' => false,
+            )
+        );
+
         $arranged = $this->build_tree( $docs->posts );
 
-        wp_send_json_success( $arranged );
+        wp_send_json_success(
+            array(
+                'docs'  => $arranged,
+                'terms' => $terms,
+            )
+        );
     }
 
     /**

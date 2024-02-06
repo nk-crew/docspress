@@ -52,29 +52,33 @@ Vue.directive('sortable', {
  * Get categorized docs.
  *
  * @param {array} docs docs list.
+ * @param {array} terms terms list.
  *
  * @return {object} categorized docs list.
  */
-function getCategorizedDocs(docs) {
+function getCategorizedDocs(docs, terms) {
   const data = Object.assign([], docs);
 
   const categorized = {
-    // eslint-disable-next-line quote-props
-    0: {
+    [`_0`]: {
       name: '',
       docs: [],
     },
   };
 
-  data.forEach((doc) => {
-    if (!categorized[`${doc.post.cat_id}`]) {
-      categorized[`${doc.post.cat_id}`] = {
-        name: doc.post.cat_name,
-        docs: [],
-      };
-    }
+  terms.forEach((term) => {
+    categorized[`_${term.term_id}`] = {
+      name: term.name,
+      docs: [],
+    };
+  });
 
-    categorized[doc.post.cat_id].docs.push(doc);
+  data.forEach((doc) => {
+    if (categorized[`_${doc.post.cat_id}`]) {
+      categorized[`_${doc.post.cat_id}`].docs.push(doc);
+    } else {
+      categorized[`_0`].docs.push(doc);
+    }
   });
 
   return categorized;
@@ -129,8 +133,9 @@ new Vue({
         dom.find('.spinner').remove();
         dom.find('.no-docspress').removeClass('not-loaded');
 
-        self.docs = Object.assign([], data);
-        self.categorized = getCategorizedDocs(data);
+        self.terms = Object.assign([], data.terms);
+        self.docs = Object.assign([], data.docs);
+        self.categorized = getCategorizedDocs(data.docs, self.terms);
       }
     );
   },
@@ -171,7 +176,7 @@ new Vue({
               }
 
               that.docs.unshift(fetchedData.data);
-              that.categorized = getCategorizedDocs(that.docs);
+              that.categorized = getCategorizedDocs(that.docs, that.terms);
             })
             .fail(that.onError);
         },
@@ -207,7 +212,7 @@ new Vue({
               }
 
               that.docs.unshift(fetchedData.data);
-              that.categorized = getCategorizedDocs(that.docs);
+              that.categorized = getCategorizedDocs(that.docs, that.terms);
             })
             .fail(that.onError);
         },
@@ -428,7 +433,7 @@ new Vue({
           }
 
           that.docs = removeDoc(that.docs, postId);
-          that.categorized = getCategorizedDocs(that.docs);
+          that.categorized = getCategorizedDocs(that.docs, that.terms);
         })
         .fail(that.onError);
     },
