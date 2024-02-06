@@ -454,7 +454,7 @@ class DocsPress {
         $HTML.innerHTML = responseHtml;
         const title = $HTML.querySelector('title').textContent || document.title;
         const editHref = $HTML.querySelector('#wp-admin-bar-edit .ab-item')?.getAttribute('href');
-        const newDocContent = $HTML.querySelector('.docspress-single-ajax').innerHTML;
+        const newDocContent = $HTML.querySelector('.docspress-single-ajax')?.innerHTML;
 
         if (!newDocContent) {
           window.location = href;
