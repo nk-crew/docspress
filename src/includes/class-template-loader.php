@@ -29,7 +29,25 @@ class DocsPress_Template_Loader {
     public static function init() {
         self::$docs_archive_id = docspress()->get_option( 'docs_page_id', 'docspress_settings', false );
 
+        add_filter( 'template_include', array( __CLASS__, 'wp_head' ), 1 );
         add_filter( 'template_include', array( __CLASS__, 'template_loader' ) );
+    }
+
+    /**
+     * A simple fix for archive template max num pages.
+     * Primarily it is used to prevent Yoast to displaying paged meta tags rel="next" and rel="prev"
+     *
+     * @param string $template - template name.
+     * @return string
+     */
+    public static function wp_head( $template ) {
+        if ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) {
+            global $wp_query;
+
+            $wp_query->max_num_pages = 0;
+        }
+
+        return $template;
     }
 
     /**
@@ -133,7 +151,7 @@ class DocsPress_Template_Loader {
             if ( ! self::has_block_template( 'single-docs' ) ) {
                 $default_file = 'single.php';
             }
-        } elseif ( ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) ) {
+        } elseif ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) {
             docspress()->is_archive = true;
 
             if ( ! self::has_block_template( 'archive-docs' ) ) {

@@ -295,7 +295,7 @@ class DocsPress_Ajax {
      * @param integer $parent_id - post id.
      * @param boolean $force_delete - force delete.
      */
-    public function remove_child_docs( $parent_id = 0, $force_delete = false ) {
+    public function remove_child_docs( $parent_id , $force_delete = false ) {
         $childrens = get_children( array( 'post_parent' => $parent_id ) );
 
         if ( $childrens ) {

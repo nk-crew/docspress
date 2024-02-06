@@ -352,7 +352,11 @@ class DocsPress {
         $rewrite = array(
             'slug'       => $docs_page ? get_post_field( 'post_name', $docs_page ) : 'docs',
             'with_front' => false,
-            'pages'      => true,
+
+            // Since our archive is custom made and we output all available docs here,
+            // we don't need to add pages support. This also solves issue with created
+            // meta tags for next page like /page/2 .
+            'pages'      => false,
             'feeds'      => true,
         );
 
