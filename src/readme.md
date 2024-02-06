@@ -66,6 +66,12 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.4.4 - 7 Feb, 2024 =
+
+* added support for custom ordered categories (using 3rd-party plugin for custom taxonomies order)
+* fixed AJAX stuck when clicking on Documentation archive link
+* fixed docs archive page displaying next and prev links in meta tags in Yoast plugin
+
 = 2.4.3 - 26 Dec, 2023 =
 
 * added automatic sidebar scroll to active item when sidebar is scrollable
