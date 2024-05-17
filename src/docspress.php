@@ -491,7 +491,7 @@ class DocsPress {
      * Looks at the theme directory first
      *
      * @param string $name template file name.
-     * @param string $data template data.
+     * @param array  $data template data.
      */
     public function get_template_part( $name, $data = array() ) {
         $name = (string) $name;
