@@ -14,17 +14,28 @@ class DocsPress {
 
     self.$singleAjax = document.querySelector('.docspress-single-ajax');
 
-    self.initSearch();
-    self.initDocSearch();
-    self.initAnchors();
-    self.initFeedbacks();
-    self.initSidebarScroll();
-    self.initAjax();
+    self.initEarlier();
+
+    on(document, 'ready', () => {
+      self.init();
+    });
   }
 
   // eslint-disable-next-line class-methods-use-this
   stripHash(href) {
     return href.replace(/#.*/, '');
+  }
+
+  initEarlier() {
+    this.initSidebarScroll();
+  }
+
+  init() {
+    this.initSearch();
+    this.initDocSearch();
+    this.initAnchors();
+    this.initFeedbacks();
+    this.initAjax();
   }
 
   initSearch() {
@@ -502,7 +513,5 @@ class DocsPress {
   }
 }
 
-on(document, 'ready', () => {
-  // eslint-disable-next-line no-new
-  new DocsPress();
-});
+// eslint-disable-next-line no-new
+new DocsPress();
