@@ -168,19 +168,24 @@ class DocsPress {
       return;
     }
 
-    const currentItem = sidebar.querySelector('.current_page_item');
+    const item = sidebar.querySelector('.current_page_item');
 
-    if (!currentItem) {
+    if (!item) {
       return;
     }
 
-    const sidebarHeight = sidebar.clientHeight;
-    const itemOffsetTop = currentItem.offsetTop;
-    const itemHeight = currentItem.clientHeight;
-    const a = itemOffsetTop - sidebarHeight + itemHeight;
+    const link = item.querySelector(':scope > a');
+    const linkTop = link.getBoundingClientRect().top;
+    const sidebarTop = sidebar.getBoundingClientRect().top;
+    const sidebarScrollTop = sidebar.scrollTop;
 
-    if (sidebar.scrollTop > itemOffsetTop || sidebar.scrollTop < a) {
-      sidebar.scrollTop = itemOffsetTop - sidebarHeight / 2 + itemHeight / 2;
+    const sidebarHeight = sidebar.clientHeight;
+    const linkOffsetTop = linkTop + sidebarScrollTop - sidebarTop;
+    const linkHeight = link.clientHeight;
+    const a = linkOffsetTop - sidebarHeight + linkHeight;
+
+    if (sidebar.scrollTop > linkOffsetTop || sidebar.scrollTop < a) {
+      sidebar.scrollTop = linkOffsetTop - sidebarHeight / 2 + linkHeight / 2;
     }
   }
 
