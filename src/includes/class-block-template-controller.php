@@ -54,6 +54,9 @@ class DocsPress_Block_Template_Controller {
      * Initialization method.
      */
     protected function init() {
+        if ( ! function_exists( 'get_plugins' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
         add_action( 'template_redirect', array( $this, 'render_block_template' ) );
         add_filter( 'pre_get_block_file_template', array( $this, 'maybe_return_blocks_template' ), 10, 3 );
         add_filter( 'get_block_templates', array( $this, 'add_block_templates' ), 10, 3 );
@@ -153,6 +156,7 @@ class DocsPress_Block_Template_Controller {
             $this->get_block_templates_from_db( array( $slug ), $template_type ),
             $template_type
         );
+
         return ( is_array( $available_templates ) && count( $available_templates ) > 0 )
             ? DocsPress_Block_Template_Utils::gutenberg_build_template_result_from_file( $available_templates[0], $available_templates[0]->type )
             : $template;
