@@ -150,7 +150,7 @@ class DocsPress_Block_Template_Utils {
 
         // We are checking 'docspress' to maintain legacy templates which are saved to the DB,
         // prior to updating to use the correct slug.
-        if ( 'docspress/docspress' === $theme || 'docspress' === strtolower( $theme ) ) {
+        if ( self::PLUGIN_SLUG === $theme || 'docspress' === strtolower( $theme ) ) {
             $template->origin = 'plugin';
         }
 
@@ -177,7 +177,7 @@ class DocsPress_Block_Template_Utils {
         $template_content  = file_get_contents( $template_file->path );
         $template          = new \WP_Block_Template();
         $template->id      = $template_is_from_theme ? $theme_name . '//' . $template_file->slug : self::PLUGIN_SLUG . '//' . $template_file->slug;
-        $template->theme   = $template_is_from_theme ? $theme_name : 'docspress/docspress';
+        $template->theme   = $template_is_from_theme ? $theme_name : self::PLUGIN_SLUG;
         $template->content = self::gutenberg_inject_theme_attribute_in_content( $template_content );
         // Plugin was agreed as a valid source value despite existing inline docs at the time of creating: https://github.com/WordPress/gutenberg/issues/36597#issuecomment-976232909.
         $template->source         = $template_file->source ? $template_file->source : 'plugin';
@@ -211,7 +211,7 @@ class DocsPress_Block_Template_Utils {
             'id'          => $template_is_from_theme ? $theme_name . '//' . $template_slug : self::PLUGIN_SLUG . '//' . $template_slug,
             'path'        => $template_file,
             'type'        => $template_type,
-            'theme'       => $template_is_from_theme ? $theme_name : 'docspress/docspress',
+            'theme'       => $template_is_from_theme ? $theme_name : self::PLUGIN_SLUG,
             // Plugin was agreed as a valid source value despite existing inline docs at the time of creating: https://github.com/WordPress/gutenberg/issues/36597#issuecomment-976232909.
             'source'      => $template_is_from_theme ? 'theme' : 'plugin',
             'title'       => self::convert_slug_to_title( $template_slug ),
