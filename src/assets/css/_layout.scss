@@ -36,6 +36,8 @@
 
 // DocSearch.
 .docspress-docsearch {
+  // Fix first loading search bar jump.
+  min-height: 42px;
   padding-right: 10px;
 
   > .DocSearch {
