@@ -154,6 +154,19 @@ class DocsPress_Block_Template_Utils {
             $template->origin = 'plugin';
         }
 
+        /*
+        * Run the block hooks algorithm introduced in WP 6.4 on the template content.
+        */
+        if ( function_exists( 'inject_ignored_hooked_blocks_metadata_attributes' ) ) {
+            $hooked_blocks = get_hooked_blocks();
+            if ( ! empty( $hooked_blocks ) || has_filter( 'hooked_block_types' ) ) {
+                $before_block_visitor = make_before_block_visitor( $hooked_blocks, $template );
+                $after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template );
+                $blocks               = parse_blocks( $template->content );
+                $template->content    = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
+            }
+        }
+
         return $template;
     }
 
@@ -190,6 +203,22 @@ class DocsPress_Block_Template_Utils {
         $template->is_custom      = false; // Templates loaded from the filesystem aren't custom, ones that have been edited and loaded from the DB are.
         $template->post_types     = array(); // Don't appear in any Edit Post template selector dropdown.
         $template->area           = 'uncategorized';
+
+        /*
+        * Run the block hooks algorithm introduced in WP 6.4 on the template content.
+        */
+        if ( function_exists( 'inject_ignored_hooked_blocks_metadata_attributes' ) ) {
+            $before_block_visitor = '_inject_theme_attribute_in_template_part_block';
+            $after_block_visitor  = null;
+            $hooked_blocks        = get_hooked_blocks();
+            if ( ! empty( $hooked_blocks ) || has_filter( 'hooked_block_types' ) ) {
+                $before_block_visitor = make_before_block_visitor( $hooked_blocks, $template );
+                $after_block_visitor  = make_after_block_visitor( $hooked_blocks, $template );
+            }
+            $blocks            = parse_blocks( $template->content );
+            $template->content = traverse_and_serialize_blocks( $blocks, $before_block_visitor, $after_block_visitor );
+        }
+
         return $template;
     }
 
@@ -236,6 +265,7 @@ class DocsPress_Block_Template_Utils {
                 $path_list[] = $path;
             }
         }
+
         return $path_list;
     }
 
