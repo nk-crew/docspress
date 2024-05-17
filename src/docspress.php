@@ -417,6 +417,17 @@ class DocsPress {
     public function register_post_meta() {
         register_meta(
             'post',
+            'nav_title',
+            array(
+                'object_subtype' => 'docs',
+                'type'           => 'string',
+                'single'         => true,
+                'show_in_rest'   => true,
+                'auth_callback'  => array( __CLASS__, 'rest_auth' ),
+            )
+        );
+        register_meta(
+            'post',
             'positive',
             array(
                 'object_subtype' => 'docs',

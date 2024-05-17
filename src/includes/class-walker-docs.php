@@ -38,6 +38,24 @@ class DocsPress_Walker_Docs extends Walker_Page {
     public static $current_term = '';
 
     /**
+     * Replace the title to the custom one from meta data.
+     *
+     * @param string $title - title.
+     * @param int    $post_id - post ID.
+     *
+     * @return string
+     */
+    public function replace_title( $title, $post_id ) {
+        $custom_title = (string) get_post_meta( $post_id, 'nav_title', true );
+
+        if ( $custom_title ) {
+            $title = $custom_title;
+        }
+
+        return $title;
+    }
+
+    /**
      * Elements walk.
      *
      * @param array   $elements - elements in walker.
@@ -48,6 +66,8 @@ class DocsPress_Walker_Docs extends Walker_Page {
      */
     public function walk( $elements, $max_depth, ...$args ) {
         self::$show_parents = docspress()->get_option( 'sidebar_show_nav_parents', 'docspress_single', false );
+
+        add_filter( 'the_title', array( $this, 'replace_title' ), 10, 2 );
 
         // Order by terms.
         if ( self::$show_parents ) {
@@ -98,7 +118,11 @@ class DocsPress_Walker_Docs extends Walker_Page {
             }
         }
 
-        return parent::walk( $elements, $max_depth, ...$args );
+        $result = parent::walk( $elements, $max_depth, ...$args );
+
+        remove_filter( 'the_title', array( $this, 'replace_title' ) );
+
+        return $result;
     }
 
     /**
