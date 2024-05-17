@@ -201,7 +201,7 @@ class DocsPress_Block_Template_Controller {
                 $template = DocsPress_Block_Template_Utils::gutenberg_build_template_result_from_file( $template_file, $template_type );
             } else {
                 $template_file->title = DocsPress_Block_Template_Utils::convert_slug_to_title( $template_file->slug );
-                $template_file->theme = 'docspress' === $template_file->theme ? 'DocsPress' : $template_file->theme;
+                $template_file->theme = 'docspress' === $template_file->theme ? 'docspress/docspress' : $template_file->theme;
                 $query_result[]       = $template_file;
                 continue;
             }

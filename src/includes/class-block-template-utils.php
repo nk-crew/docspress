@@ -35,7 +35,7 @@ class DocsPress_Block_Template_Utils {
      *
      * @var string
      */
-    const PLUGIN_SLUG = 'docspress';
+    const PLUGIN_SLUG = 'docspress/docspress';
 
     /**
      * Returns an array containing the references of
@@ -150,7 +150,7 @@ class DocsPress_Block_Template_Utils {
 
         // We are checking 'docspress' to maintain legacy templates which are saved to the DB,
         // prior to updating to use the correct slug.
-        if ( self::PLUGIN_SLUG === $theme || 'docspress' === strtolower( $theme ) ) {
+        if ( 'docspress/docspress' === $theme || 'docspress' === strtolower( $theme ) ) {
             $template->origin = 'plugin';
         }
 
