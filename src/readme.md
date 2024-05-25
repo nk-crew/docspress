@@ -3,7 +3,7 @@
 * Contributors: nko
 * Tags: documentation, document, help, knowledge base, export
 * Requires at least: 6.2.0
-* Tested up to: 6.4
+* Tested up to: 6.5
 * Requires PHP: 7.2
 * Stable tag: @@plugin_version
 * License: GPLv2 or later
@@ -66,23 +66,32 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
-= 2.4.4 - 7 Feb, 2024 =
+= 2.5.0 - May 25, 2024 =
+
+* added post meta for documentation articles to set a custom title displayed in the sidebar navigation
+* fixed sidebar scroll to active item wrong calculation
+* fixed first loading DocSearch jump
+* fixed FSE templates editing and saving JS errors
+* fixed FSE templates in WordPress 6.4 new block hooks
+* changed the initSidebarScroll method to run earlier without waiting for the document 'ready' event
+
+= 2.4.4 - Feb 7, 2024 =
 
 * added support for custom ordered categories (using 3rd-party plugin for custom taxonomies order)
 * fixed AJAX stuck when clicking on Documentation archive link
 * fixed docs archive page displaying next and prev links in meta tags in Yoast plugin
 
-= 2.4.3 - 26 Dec, 2023 =
+= 2.4.3 - Dec 26, 2023 =
 
 * added automatic sidebar scroll to active item when sidebar is scrollable
 
-= 2.4.2 - 28 Nov, 2023 =
+= 2.4.2 - Nov 28, 2023 =
 
 * changed tested WP version to 6.4
 * changed minimal WP version to 6.2
 * fixed `docspress_ajax_loaded` usage error because of jQuery used
 
-= 2.4.0 - 28 Nov, 2023 =
+= 2.4.0 - Nov 28, 2023 =
 
 * added blocks version to v3 - allows to enable blocks iframe editor
 * added output attributes with useBlockProps and get_block_wrapper_attributes in blocks
@@ -92,12 +101,12 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 * remove possibility to add FSE blocks multiple times
 * removed jQuery dependency on frontend
 
-= 2.3.1 - 6 May, 2023 =
+= 2.3.1 - May 6, 2023 =
 
 * added support for DocSearch
 * added support for navigation category titles when enabled "Display Parent Links" setting
 
-= 2.3.0 - 1 Jul, 2022 =
+= 2.3.0 - Jul 1, 2022 =
 
 * added support for FSE themes
 * added CSS variables support
@@ -106,42 +115,42 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 * changed required PHP version to 7.2
 * removed IE support
 
-= 2.2.7 - 24 Dec, 2021 =
+= 2.2.7 - Dec 24, 2021 =
 
 * improved feedback email template
 * improved feedback mailing function (better reply to and subject lines)
 
-= 2.2.6 - 24 Dec, 2021 =
+= 2.2.6 - Dec 24, 2021 =
 
 * fixed docs suggestion email Reply-To field (should refer to feedback sender email)
 
-= 2.2.5 - 20 Aug, 2021 =
+= 2.2.5 - Aug 20, 2021 =
 
 * fixed private docs displaying for admins
 
-= 2.2.4 - 16 Jul, 2021 =
+= 2.2.4 - Jul 16, 2021 =
 
 * tested up to WP 5.8
 
-= 2.2.3 - 4 Mar, 2021 =
+= 2.2.3 - Mar 4, 2021 =
 
 * removed usage of deprecated jQuery ready event
 * tested up to WordPress 5.7
 * changed GitHub repo url
 
-= 2.2.2 - 19 Oct, 2020 =
+= 2.2.2 - Oct 19, 2020 =
 
 * improved admin UI
 * improved thumbnail size for admin documentation
 * updated vendor scripts
 * fixed bug when trying to delete documentation, but deleted another documentation
 
-= 2.2.1 - 10 Aug, 2020 =
+= 2.2.1 - Aug 10, 2020 =
 
 * added RTL support
 * fixed email template long words break
 
-= 2.2.0 - 23 Mar, 2020 =
+= 2.2.0 - Mar 23, 2020 =
 
 * improved feedback suggestion email template
 * enqueue assets on DocsPress pages only
