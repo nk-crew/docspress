@@ -10,6 +10,13 @@
  */
 class DocsPress_Settings {
     /**
+     * Settings API
+     *
+     * @var DocsPress_Settings_API
+     */
+    public $settings_api;
+
+    /**
      * Construct
      */
     public function __construct() {

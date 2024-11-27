@@ -64,6 +64,55 @@ body {
     public $max_delta = 1;
 
     /**
+     * Site URL.
+     *
+     * @var string
+     */
+    public $wp_site_url;
+
+    /**
+     * Content URL.
+     *
+     * @var string
+     */
+    public $wp_content_url;
+
+    /**
+     * Content name.
+     *
+     * @var string
+     */
+    public $wp_content_name;
+
+    /**
+     * Root URL.
+     *
+     * @var string
+     */
+    public $wp_root_url;
+
+    /**
+     * Root dir.
+     *
+     * @var string
+     */
+    public $wp_root_dir;
+
+    /**
+     * Export path.
+     *
+     * @var string
+     */
+    public $export_path;
+
+    /**
+     * Export URL.
+     *
+     * @var string
+     */
+    public $export_url;
+
+    /**
      * Construct.
      */
     public function __construct() {
