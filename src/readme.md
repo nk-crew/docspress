@@ -3,7 +3,7 @@
 * Contributors: nko
 * Tags: documentation, document, help, knowledge base, export
 * Requires at least: 6.2.0
-* Tested up to: 6.5
+* Tested up to: 6.7
 * Requires PHP: 7.2
 * Stable tag: @@plugin_version
 * License: GPLv2 or later
@@ -65,6 +65,13 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 4. Documentations Admin Classic UI
 
 ## Changelog
+
+= 2.5.1 - Nov 28, 2024 =
+
+* fixed PHP 8 warnings
+* fixed warning from comments output in block themes
+* fixed text domain loading - move to init action
+* check compatibility with WordPress 6.7
 
 = 2.5.0 - May 25, 2024 =
 
