@@ -106,7 +106,7 @@ class DocsPress {
         $this->add_image_sizes();
 
         // load textdomain.
-        load_plugin_textdomain( '@@text_domain', false, basename( dirname( __FILE__ ) ) . '/languages' );
+        add_action( 'init', array( $this, 'load_textdomain' ) );
 
         // custom post type register.
         add_action( 'init', array( $this, 'register_post_type' ) );
@@ -322,6 +322,13 @@ class DocsPress {
             '
             );
         }
+    }
+
+    /**
+     * Load plugin textdomain.
+     */
+    public function load_textdomain() {
+        load_plugin_textdomain( '@@text_domain', false, basename( dirname( __FILE__ ) ) . '/languages' );
     }
 
     /**
