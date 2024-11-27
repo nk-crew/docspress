@@ -39,10 +39,12 @@ function PageOptions() {
           onChange={(val) => {
             setMeta({ nav_title: val });
           }}
+          __next40pxDefaultSize
+          __nextHasNoMarginBottom
         />
       </PanelRow>
       <PanelRow className="docspress-helpfullnes-metabox">
-        <BaseControl label={__('Helpfulness', '@@text_domain')}>
+        <BaseControl label={__('Helpfulness', '@@text_domain')} __nextHasNoMarginBottom>
           <div className="docspress-helpfullnes-metabox-inner">
             <TextControl
               type="number"
@@ -52,6 +54,8 @@ function PageOptions() {
                 setMeta({ positive: val });
               }}
               min={0}
+              __next40pxDefaultSize
+              __nextHasNoMarginBottom
             />
             <TextControl
               type="number"
@@ -61,6 +65,8 @@ function PageOptions() {
                 setMeta({ negative: val });
               }}
               min={0}
+              __next40pxDefaultSize
+              __nextHasNoMarginBottom
             />
           </div>
         </BaseControl>
