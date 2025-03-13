@@ -66,6 +66,10 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.5.2 - Mar 13, 2025 =
+
+* fixed export function in PHP 8+
+
 = 2.5.1 - Nov 28, 2024 =
 
 * fixed PHP 8 warnings
