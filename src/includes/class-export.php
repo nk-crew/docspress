@@ -718,6 +718,9 @@ LOD;
      * @return boolean
      */
     public function rimraf_dir( $dir ) {
+        if ( ! is_dir( $dir ) ) {
+            return true;
+        }
         $files = array_diff( scandir( $dir ), array( '.', '..' ) );
         foreach ( $files as $file ) {
             ( is_dir( "$dir/$file" ) ) ? $this->rimraf_dir( "$dir/$file" ) : unlink( "$dir/$file" ); // phpcs:ignore
