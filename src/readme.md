@@ -3,7 +3,7 @@
 * Contributors: nko
 * Tags: documentation, document, help, knowledge base, export
 * Requires at least: 6.2.0
-* Tested up to: 6.7
+* Tested up to: 6.8
 * Requires PHP: 7.2
 * Stable tag: @@plugin_version
 * License: GPLv2 or later
@@ -65,6 +65,10 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 4. Documentations Admin Classic UI
 
 ## Changelog
+
+= 2.5.3 - May 21, 2025 =
+
+* fixed XSS vulnerability - subscribers could previously execute AJAX functions to export docs
 
 = 2.5.2 - Mar 13, 2025 =
 
