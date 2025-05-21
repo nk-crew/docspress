@@ -267,7 +267,7 @@ new Vue({
         let delta = 0;
 
         const evtSource = new window.EventSource(
-          ajaxurl + '?action=docspress_export_doc&doc_id=' + doc.post.id
+          `${ajaxurl}?action=docspress_export_doc&doc_id=${doc.post.id}&_wpnonce=${adminVars.nonce}`
         );
 
         evtSource.onmessage = function (message) {

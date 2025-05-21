@@ -134,6 +134,10 @@ class DocsPress_Ajax {
         $title      = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
         $clone_from = isset( $_POST['clone_from'] ) ? absint( $_POST['clone_from'] ) : 0;
 
+        if ( ! current_user_can( 'edit_doc', $clone_from ) ) {
+            wp_send_json_error( __( 'You are not allowed to clone this item.', '@@text_domain' ) );
+        }
+
         $result = array();
 
         if ( $clone_from ) {
@@ -274,7 +278,7 @@ class DocsPress_Ajax {
         $force_delete = false;
         $post_id      = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 
-        if ( ! current_user_can( 'delete_post', $post_id ) ) {
+        if ( ! current_user_can( 'delete_doc', $post_id ) ) {
             wp_send_json_error( __( 'You are not allowed to delete this item.', '@@text_domain' ) );
         }
 
@@ -314,8 +318,14 @@ class DocsPress_Ajax {
      * @return void
      */
     public function export_doc() {
+        check_ajax_referer( 'docspress-admin-nonce' );
+
         // phpcs:ignore
         $doc_id = isset( $_GET['doc_id'] ) ? absint( $_GET['doc_id'] ) : 0;
+
+        if ( ! current_user_can( 'edit_doc', $doc_id ) ) {
+            wp_send_json_error( __( 'You are not allowed to export this item.', '@@text_domain' ) );
+        }
 
         if ( $doc_id ) {
             include_once dirname( __FILE__ ) . '/class-export.php';
