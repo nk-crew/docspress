@@ -109,6 +109,7 @@ class DocsPress {
         add_action( 'init', array( $this, 'load_textdomain' ) );
 
         // custom post type register.
+        add_action( 'init', array( $this, 'add_role_caps' ) );
         add_action( 'init', array( $this, 'register_post_type' ) );
         add_action( 'init', array( $this, 'register_post_meta' ) );
 
@@ -123,41 +124,6 @@ class DocsPress {
      * Activation hook.
      */
     public function activation_hook() {
-        $author = get_role( 'author' );
-        $admin  = get_role( 'administrator' );
-
-        /* Add docspress manager role */
-        $docspress_manager = add_role( 'docspress_manager', __( 'DocsPress Manager', '@@text_domain' ), $author->capabilities );
-
-        $full_cap = array(
-            'read_doc',
-            'read_private_doc',
-            'read_private_docs',
-            'edit_doc',
-            'edit_docs',
-            'edit_others_docs',
-            'edit_private_docs',
-            'edit_published_docs',
-            'delete_doc',
-            'delete_docs',
-            'delete_others_docs',
-            'delete_private_docs',
-            'delete_published_docs',
-            'publish_docs',
-        );
-
-        /**
-         * Add full capacities to admin and docs manager roles
-         */
-        foreach ( $full_cap as $cap ) {
-            if ( null !== $admin ) {
-                $admin->add_cap( $cap );
-            }
-            if ( null !== $docspress_manager ) {
-                $docspress_manager->add_cap( $cap );
-            }
-        }
-
         // Create Docs page if not created.
         $settings = get_option( 'docspress_settings', array() );
         if ( ! $settings || ! $settings['docs_page_id'] ) {
@@ -329,6 +295,62 @@ class DocsPress {
      */
     public function load_textdomain() {
         load_plugin_textdomain( '@@text_domain', false, basename( dirname( __FILE__ ) ) . '/languages' );
+    }
+
+    /**
+     * Add capabilities to roles
+     */
+    public function add_role_caps() {
+        if ( ! is_blog_installed() ) {
+            return;
+        }
+
+        global $wp_version;
+
+        $check_string = 'Plugin: @@plugin_version WP: ' . $wp_version;
+
+        if ( get_option( 'docspress_updated_caps' ) === $check_string ) {
+            return;
+        }
+
+        $wp_roles = wp_roles();
+
+        if ( ! isset( $wp_roles ) || empty( $wp_roles ) || ! $wp_roles ) {
+            return;
+        }
+
+        $author = get_role( 'author' );
+        $admin  = get_role( 'administrator' );
+
+        /* Add docspress manager role */
+        $docspress_manager = add_role( 'docspress_manager', __( 'DocsPress Manager', '@@text_domain' ), $author->capabilities );
+
+        $docspress_cap = array(
+            'read_doc',
+            'read_private_doc',
+            'read_private_docs',
+            'edit_doc',
+            'edit_docs',
+            'edit_others_docs',
+            'edit_private_docs',
+            'edit_published_docs',
+            'delete_doc',
+            'delete_docs',
+            'delete_others_docs',
+            'delete_private_docs',
+            'delete_published_docs',
+            'publish_docs',
+        );
+
+        /**
+         * Add full capacities to admin and docs manager roles
+         */
+        foreach ( $docspress_cap as $cap ) {
+            $wp_roles->add_cap( 'docspress_manager', $cap );
+            $wp_roles->add_cap( 'administrator', $cap );
+        }
+
+        update_option( 'docspress_updated_caps', $check_string );
     }
 
     /**
