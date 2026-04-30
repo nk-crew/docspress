@@ -1,10 +1,16 @@
 {
+  "name": "nk-crew/docspress",
+  "description": "Online documentation engine for WordPress.",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": ">=7.4"
+  },
   "require-dev": {
-    "wp-coding-standards/wpcs": "^2.3.0",
-    "phpcompatibility/phpcompatibility-wp": "^2.1.4",
-    "wp-cli/i18n-command": "^2.4.2",
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
-    "php-stubs/wordpress-stubs": "^6.1"
+    "wp-coding-standards/wpcs": "^3.3",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "wp-cli/i18n-command": "^2.7",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.2",
+    "php-stubs/wordpress-stubs": "^6.9"
   },
   "scripts": {
     "phpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",

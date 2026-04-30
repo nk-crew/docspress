@@ -85,11 +85,9 @@ class DocsPress_Gutenberg {
     /**
      * Render single doc block.
      *
-     * @param array $attributes - block attributes.
-     *
      * @return string
      */
-    public function gutenberg_single_block_render_callback( $attributes ) {
+    public function gutenberg_single_block_render_callback() {
         ob_start();
 
         docspress()->get_template_part( 'single/page' );
@@ -107,11 +105,9 @@ class DocsPress_Gutenberg {
     /**
      * Render archive doc block.
      *
-     * @param array $attributes - block attributes.
-     *
      * @return string
      */
-    public function gutenberg_archive_block_render_callback( $attributes ) {
+    public function gutenberg_archive_block_render_callback() {
         ob_start();
 
         docspress()->get_template_part( 'archive/title' );

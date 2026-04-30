@@ -353,7 +353,7 @@
                                     <?php
                                     // translators: %1$s - user name.
                                     // translators: %2$s - user IP address.
-                                    echo sprintf( esc_html__( '%1$s (IP: %2$s)', '@@text_domain' ), esc_html( $data['from'] ), esc_html( $data['ip_address'] ) );
+                                    printf( esc_html__( '%1$s (IP: %2$s)', '@@text_domain' ), esc_html( $data['from'] ), esc_html( $data['ip_address'] ) );
                                     ?>
                                 </td></tr>
                             </tbody></table>

@@ -73,14 +73,14 @@ class DocsPress {
 
     let actionUrl = $form.getAttribute('action');
     actionUrl +=
-      (-1 < actionUrl.indexOf('?') ? '&' : '?') +
+      (actionUrl.indexOf('?') > -1 ? '&' : '?') +
       new URLSearchParams(new FormData($form)).toString();
 
     self.xhrAjaxSearch = new XMLHttpRequest();
     self.xhrAjaxSearch.open('GET', actionUrl);
     self.xhrAjaxSearch.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     self.xhrAjaxSearch.onload = function () {
-      if (200 === self.xhrAjaxSearch.status) {
+      if (self.xhrAjaxSearch.status === 200) {
         const parser = new DOMParser();
         const data = parser.parseFromString(self.xhrAjaxSearch.responseText, 'text/html');
         const result = data.querySelector('.docspress-search-list').outerHTML;
@@ -111,7 +111,7 @@ class DocsPress {
 
   // eslint-disable-next-line class-methods-use-this
   initDocSearch() {
-    if ('undefined' === typeof window.docsearch) {
+    if (typeof window.docsearch === 'undefined') {
       return;
     }
 
@@ -375,7 +375,7 @@ class DocsPress {
     const $content = document.querySelector('.docspress-single');
     const { top } = $content.getBoundingClientRect();
 
-    if (0 > top && $content) {
+    if (top < 0 && $content) {
       $content.scrollIntoView();
     }
 
@@ -390,7 +390,7 @@ class DocsPress {
 
     // Middle click, cmd click, and ctrl click should open
     // links in a new tab as normal.
-    if (1 < e.which || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
+    if (e.which > 1 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
       return;
     }
 
@@ -401,14 +401,14 @@ class DocsPress {
 
     // Ignore case when a hash is being tacked on the current URL
     if (
-      -1 < link.href.indexOf('#') &&
+      link.href.indexOf('#') > -1 &&
       this.stripHash(link.href) === this.stripHash(window.location.href)
     ) {
       return;
     }
 
     // Ignore if local file protocol
-    if ('file:' === window.location.protocol) {
+    if (window.location.protocol === 'file:') {
       return;
     }
 
@@ -458,7 +458,7 @@ class DocsPress {
 
     xhr.open('GET', href);
     xhr.onload = function () {
-      if (200 === xhr.status) {
+      if (xhr.status === 200) {
         const responseHtml = xhr.responseText;
 
         if (!responseHtml) {
@@ -498,7 +498,7 @@ class DocsPress {
 
         self.$singleAjax.classList.remove('docspress-single-ajax-loading');
       } else {
-        if (0 !== xhr.status) {
+        if (xhr.status !== 0) {
           // eslint-disable-next-line no-console
           console.log('error', xhr);
         } else {

@@ -299,7 +299,7 @@ class DocsPress_Ajax {
      * @param integer $parent_id - post id.
      * @param boolean $force_delete - force delete.
      */
-    public function remove_child_docs( $parent_id , $force_delete = false ) {
+    public function remove_child_docs( $parent_id, $force_delete = false ) {
         $childrens = get_children( array( 'post_parent' => $parent_id ) );
 
         if ( $childrens ) {
@@ -328,7 +328,7 @@ class DocsPress_Ajax {
         }
 
         if ( $doc_id ) {
-            include_once dirname( __FILE__ ) . '/class-export.php';
+            include_once __DIR__ . '/class-export.php';
             $export_class = new DocsPress_Export();
             $export_class->run( $doc_id );
         }
@@ -508,11 +508,11 @@ class DocsPress_Ajax {
      * Build a tree of docs with parent-child relation
      *
      * @param  array   $docs - docs list.
-     * @param  integer $parent - post id.
+     * @param  integer $parent_id - post id.
      *
      * @return array
      */
-    public function build_tree( $docs, $parent = 0 ) {
+    public function build_tree( $docs, $parent_id = 0 ) {
         $result = array();
 
         if ( ! $docs ) {
@@ -520,7 +520,7 @@ class DocsPress_Ajax {
         }
 
         foreach ( $docs as $key => $doc ) {
-            if ( (int) $doc->post_parent === (int) $parent ) {
+            if ( (int) $doc->post_parent === (int) $parent_id ) {
                 unset( $docs[ $key ] );
 
                 $cat_id   = 0;

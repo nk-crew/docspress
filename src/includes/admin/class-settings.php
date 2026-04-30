@@ -87,7 +87,7 @@ class DocsPress_Settings {
      * @return array settings fields
      */
     public function get_settings_fields() {
-        include_once dirname( __FILE__ ) . '/../class-export.php';
+        include_once __DIR__ . '/../class-export.php';
         $export_class = new DocsPress_Export();
 
         $settings_fields = array(
@@ -335,5 +335,4 @@ class DocsPress_Settings {
         </script>
         <?php
     }
-
 }

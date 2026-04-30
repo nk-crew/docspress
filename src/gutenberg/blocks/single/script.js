@@ -9,7 +9,7 @@ const { pagenow } = window;
 registerBlockType(metadata.name, {
   supports: {
     ...metadata.supports,
-    inserter: pagenow && 'site-editor' === pagenow,
+    inserter: pagenow && pagenow === 'site-editor',
   },
   icon: 'media-document',
   edit() {

@@ -37,13 +37,15 @@
     -->
 
     <!-- Include sniffs for PHP cross-version compatibility. -->
-    <config name="testVersion" value="7.2-"/>
+    <config name="testVersion" value="7.4-"/>
     <rule ref="PHPCompatibilityWP"/>
 
     <!-- Include the WordPress ruleset, with select exclusions. -->
     <rule ref="WordPress">
         <!-- Don't ask to use string in text-domain -->
         <exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain" />
+        <!-- The main plugin file intentionally exposes the docspress() accessor after the class declaration. -->
+        <exclude name="Universal.Files.SeparateFunctionsFromOO.Mixed" />
 
         <!-- Disallow tabs -->
         <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed" />
@@ -61,8 +63,8 @@
     #############################################################################
     -->
 
-    <!-- Set the minimum supported WP version to WP 4.9. -->
-    <config name="minimum_supported_wp_version" value="4.9"/>
+    <!-- Set the minimum supported WP version to the plugin requirement. -->
+    <config name="minimum_supported_wp_version" value="6.2"/>
 
     <!-- Prevent error about filename with Class -->
     <rule ref="WordPress.Files.FileName">
@@ -78,6 +80,15 @@
             <property name="text_domain" type="array">
                 <!-- This placeholder domain will be replaced automatically on each release. -->
                 <element value="@@text_domain"/>
+            </property>
+        </properties>
+    </rule>
+
+    <rule ref="WordPress.WP.Capabilities">
+        <properties>
+            <property name="custom_capabilities" type="array">
+                <element value="edit_doc"/>
+                <element value="delete_doc"/>
             </property>
         </properties>
     </rule>

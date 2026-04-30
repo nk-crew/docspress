@@ -2,6 +2,7 @@
 const { jQuery: $, ajaxurl, Swal, Vue, docspress_admin_vars: adminVars } = window;
 
 const __ = adminVars.__;
+const { createApp } = Vue;
 
 const swalConfig = {
   customClass: 'docspress-swal',
@@ -14,39 +15,6 @@ const swalConfig = {
     backdrop: '',
   },
 };
-
-Vue.directive('sortable', {
-  bind: function (el) {
-    const $el = $(el);
-
-    $el.sortable({
-      stop: function (event, ui) {
-        const ids = [];
-
-        $(ui.item.closest('ul'))
-          .children('li')
-          .each(function (index, li) {
-            ids.push($(li).data('id'));
-          });
-
-        $.post(ajaxurl, {
-          action: 'docspress_sortable_docs',
-          ids: ids,
-          _wpnonce: adminVars.nonce,
-        });
-      },
-      cursor: 'move',
-    });
-    $el.on('mousedown', function () {
-      // set fixed height to prevent scroll jump
-      // when dragging from bottom
-      $(this).css('min-height', $(this).height());
-    });
-    $el.on('mouseup', function () {
-      $(this).css('min-height', '');
-    });
-  },
-});
 
 /**
  * Get categorized docs.
@@ -104,13 +72,15 @@ function removeDoc(docs, id) {
   return docs;
 }
 
-new Vue({
-  el: '#docspress-app',
-  data: {
-    editurl: '',
-    viewurl: '',
-    docs: [],
-    categorized: [],
+const app = createApp({
+  data() {
+    return {
+      editurl: '',
+      viewurl: '',
+      docs: [],
+      terms: [],
+      categorized: [],
+    };
   },
 
   mounted() {
@@ -449,3 +419,38 @@ new Vue({
     },
   },
 });
+
+app.directive('sortable', {
+  beforeMount: function (el) {
+    const $el = $(el);
+
+    $el.sortable({
+      stop: function (event, ui) {
+        const ids = [];
+
+        $(ui.item.closest('ul'))
+          .children('li')
+          .each(function (index, li) {
+            ids.push($(li).data('id'));
+          });
+
+        $.post(ajaxurl, {
+          action: 'docspress_sortable_docs',
+          ids: ids,
+          _wpnonce: adminVars.nonce,
+        });
+      },
+      cursor: 'move',
+    });
+    $el.on('mousedown', function () {
+      // set fixed height to prevent scroll jump
+      // when dragging from bottom
+      $(this).css('min-height', $(this).height());
+    });
+    $el.on('mouseup', function () {
+      $(this).css('min-height', '');
+    });
+  },
+});
+
+app.mount('#docspress-app');

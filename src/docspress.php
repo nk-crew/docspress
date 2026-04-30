@@ -249,7 +249,7 @@ class DocsPress {
         }
 
         if ( docspress()->get_option( 'show_anchor_links', 'docspress_single', true ) ) {
-            wp_register_script( 'anchor-js', docspress()->plugin_url . 'assets/vendor/anchor-js/anchor.min.js', array(), '4.2.2', true );
+            wp_register_script( 'anchor-js', docspress()->plugin_url . 'assets/vendor/anchor-js/anchor.min.js', array(), '5.0.0', true );
             $js_deps[] = 'anchor-js';
         }
 
@@ -294,7 +294,7 @@ class DocsPress {
      * Load plugin textdomain.
      */
     public function load_textdomain() {
-        load_plugin_textdomain( '@@text_domain', false, basename( dirname( __FILE__ ) ) . '/languages' );
+        load_plugin_textdomain( '@@text_domain', false, basename( __DIR__ ) . '/languages' );
     }
 
     /**
@@ -500,11 +500,11 @@ class DocsPress {
      *
      * @param string $option settings field name.
      * @param string $section the section name this field belongs to.
-     * @param string $default default text if it's not found.
+     * @param string $default_value default text if it's not found.
      *
      * @return mixed
      */
-    public function get_option( $option, $section, $default = '' ) {
+    public function get_option( $option, $section, $default_value = '' ) {
 
         $options = get_option( $section );
 
@@ -512,7 +512,7 @@ class DocsPress {
             return 'off' === $options[ $option ] ? false : ( 'on' === $options[ $option ] ? true : $options[ $option ] );
         }
 
-        return $default;
+        return $default_value;
     }
 
     /**
@@ -707,7 +707,6 @@ class DocsPress {
         // phpcs:ignore
         return (int) $wpdb->get_var( $prev_query );
     }
-
 } // DocsPress
 
 /**

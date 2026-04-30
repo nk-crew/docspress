@@ -61,9 +61,9 @@ class DocsPress_Admin {
             return;
         }
 
-        wp_enqueue_script( 'vue', docspress()->plugin_url . 'assets/vendor/vue/dist/vue.min.js', array(), '2.6.12', true );
-        wp_enqueue_script( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert2/dist/sweetalert2.min.js', array( 'jquery' ), '10.6.1', true );
-        wp_enqueue_style( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert2/dist/sweetalert2.min.css', array(), '10.6.1' );
+        wp_enqueue_script( 'vue', docspress()->plugin_url . 'assets/vendor/vue/dist/vue.global.prod.js', array(), '3.5.33', true );
+        wp_enqueue_script( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert2/dist/sweetalert2.min.js', array( 'jquery' ), '11.26.24', true );
+        wp_enqueue_style( 'sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert2/dist/sweetalert2.min.css', array(), '11.26.24' );
 
         wp_enqueue_script( 'docspress-admin', docspress()->plugin_url . 'assets/admin/js/script.min.js', array( 'jquery', 'jquery-ui-sortable', 'wp-util' ), '@@plugin_version', true );
         wp_localize_script(
@@ -190,7 +190,7 @@ class DocsPress_Admin {
      * @return void
      */
     public function page_index() {
-        include dirname( __FILE__ ) . '/template-vue.php';
+        include __DIR__ . '/template-vue.php';
     }
 
     /**
@@ -214,7 +214,6 @@ class DocsPress_Admin {
 
         return $footer_text;
     }
-
 }
 
 return new DocsPress_Admin();

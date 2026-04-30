@@ -7,6 +7,6 @@ module.exports = {
         pragma: 'wp.element.createElement',
       },
     ],
-    ['@babel/plugin-proposal-object-rest-spread'],
+    ['@babel/plugin-transform-object-rest-spread'],
   ],
 };

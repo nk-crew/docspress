@@ -326,7 +326,7 @@ class DocsPress_Block_Template_Utils {
         // or the stylesheet directory for child themes.
         $possible_paths = array_reduce(
             $possible_templates_dir,
-            function( $carry, $item ) use ( $template_filename ) {
+            function ( $carry, $item ) use ( $template_filename ) {
                 $filepath = DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . $template_filename;
 
                 $carry[] = get_stylesheet_directory() . $filepath;
@@ -354,7 +354,7 @@ class DocsPress_Block_Template_Utils {
      * @return boolean
      */
     public static function theme_has_template( $template_name ) {
-        return ! ! self::get_theme_template_path( $template_name, 'wp_template' );
+        return (bool) self::get_theme_template_path( $template_name, 'wp_template' );
     }
 
     /**
@@ -364,7 +364,7 @@ class DocsPress_Block_Template_Utils {
      * @return boolean
      */
     public static function theme_has_template_part( $template_name ) {
-        return ! ! self::get_theme_template_path( $template_name, 'wp_template_part' );
+        return (bool) self::get_theme_template_path( $template_name, 'wp_template_part' );
     }
 
     /**
@@ -402,7 +402,6 @@ class DocsPress_Block_Template_Utils {
         }
 
         return null;
-
     }
 
     /**
