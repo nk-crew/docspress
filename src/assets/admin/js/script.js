@@ -80,34 +80,39 @@ const app = createApp({
       docs: [],
       terms: [],
       categorized: [],
+      isLoading: true,
     };
   },
 
   mounted() {
     const self = this;
-    const dom = $(self.$el);
+
+    const onInitialLoadError = function (error) {
+      self.isLoading = false;
+      self.onError(error);
+    };
 
     this.editurl = adminVars.editurl;
     this.viewurl = adminVars.viewurl;
 
     self.docs = [];
 
-    $.get(
-      ajaxurl,
-      {
+    $.ajax({
+      url: ajaxurl,
+      method: 'GET',
+      dataType: 'json',
+      data: {
         action: 'docspress_admin_get_docs',
         _wpnonce: adminVars.nonce,
       },
-      function ({ data }) {
-        dom.find('.docspress').removeClass('not-loaded').addClass('loaded');
-        dom.find('.spinner').remove();
-        dom.find('.no-docspress').removeClass('not-loaded');
-
+    })
+      .done(function ({ data }) {
+        self.isLoading = false;
         self.terms = Object.assign([], data.terms);
         self.docs = Object.assign([], data.docs);
         self.categorized = getCategorizedDocs(data.docs, self.terms);
-      }
-    );
+      })
+      .fail(onInitialLoadError);
   },
 
   methods: {
