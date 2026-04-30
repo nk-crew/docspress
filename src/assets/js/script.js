@@ -373,10 +373,13 @@ class DocsPress {
 
     // scroll to top of doc.
     const $content = document.querySelector('.docspress-single');
-    const { top } = $content.getBoundingClientRect();
 
-    if (top < 0 && $content) {
+    if ($content) {
+      const { top } = $content.getBoundingClientRect();
+
+      if (top < 0) {
       $content.scrollIntoView();
+      }
     }
 
     // init new anchors.

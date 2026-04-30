@@ -85,9 +85,14 @@ class DocsPress_Gutenberg {
     /**
      * Render single doc block.
      *
+      * @param array         $_attributes Block attributes.
+      * @param string        $_content Block content.
+     * @param WP_Block|null $_block Block instance.
      * @return string
      */
-    public function gutenberg_single_block_render_callback() {
+    public function gutenberg_single_block_render_callback( $_attributes = array(), $_content = '', $_block = null ) {
+        unset( $_attributes, $_content, $_block );
+
         ob_start();
 
         docspress()->get_template_part( 'single/page' );
@@ -105,9 +110,14 @@ class DocsPress_Gutenberg {
     /**
      * Render archive doc block.
      *
+      * @param array         $_attributes Block attributes.
+      * @param string        $_content Block content.
+     * @param WP_Block|null $_block Block instance.
      * @return string
      */
-    public function gutenberg_archive_block_render_callback() {
+    public function gutenberg_archive_block_render_callback( $_attributes = array(), $_content = '', $_block = null ) {
+        unset( $_attributes, $_content, $_block );
+
         ob_start();
 
         docspress()->get_template_part( 'archive/title' );

@@ -190,7 +190,7 @@
     <div v-cloak class="no-docspress" v-show="!isLoading && !docs.length">
         <?php
         // translators: %s - link.
-        printf( esc_html__( 'No documentations has been found. Perhaps %s?', '@@text_domain' ), '<a href="#" v-on:click.prevent="addDoc">' . esc_html__( 'create one', '@@text_domain' ) . '</a>' );
+        printf( esc_html__( 'No documentation has been found. Perhaps %s?', '@@text_domain' ), '<a href="#" v-on:click.prevent="addDoc">' . esc_html__( 'create one', '@@text_domain' ) . '</a>' );
         ?>
     </div>
 
