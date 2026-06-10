@@ -97,7 +97,7 @@ class DocsPress_Suggestion {
             'Return-Path: ' . $admin_email,
             'Reply-To: ' . $reply_to,
             // Disable auto email response in SupportOS.
-            "X-Auto-Response-Suppress: All",
+            'X-Auto-Response-Suppress: All',
         );
 
         // Prepare message.

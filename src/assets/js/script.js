@@ -378,7 +378,7 @@ class DocsPress {
       const { top } = $content.getBoundingClientRect();
 
       if (top < 0) {
-      $content.scrollIntoView();
+        $content.scrollIntoView();
       }
     }
 

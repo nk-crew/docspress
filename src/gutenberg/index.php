@@ -85,8 +85,8 @@ class DocsPress_Gutenberg {
     /**
      * Render single doc block.
      *
-      * @param array         $_attributes Block attributes.
-      * @param string        $_content Block content.
+     * @param array         $_attributes Block attributes.
+     * @param string        $_content Block content.
      * @param WP_Block|null $_block Block instance.
      * @return string
      */
@@ -110,8 +110,8 @@ class DocsPress_Gutenberg {
     /**
      * Render archive doc block.
      *
-      * @param array         $_attributes Block attributes.
-      * @param string        $_content Block content.
+     * @param array         $_attributes Block attributes.
+     * @param string        $_content Block content.
      * @param WP_Block|null $_block Block instance.
      * @return string
      */
