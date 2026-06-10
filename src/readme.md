@@ -66,6 +66,14 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.5.4 - Jun 10, 2026 =
+
+* tested up to WordPress 7.0
+* changed required PHP version to 7.4
+* migrated admin DocsPress app to Vue 3
+* updated SweetAlert2, anchor-js, and build toolchain dependencies
+* minor changes
+
 = 2.5.3 - May 21, 2025 =
 
 * fixed XSS vulnerability - subscribers could previously execute AJAX functions to export docs
