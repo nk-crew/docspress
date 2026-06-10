@@ -41,7 +41,7 @@ class DocsPress_Template_Loader {
      * @return string
      */
     public static function wp_head( $template ) {
-        if ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) {
+        if ( is_post_type_archive( 'docs' ) || ( self::$docs_archive_id && is_page( self::$docs_archive_id ) ) ) {
             global $wp_query;
 
             $wp_query->max_num_pages = 0;
@@ -151,7 +151,7 @@ class DocsPress_Template_Loader {
             if ( ! self::has_block_template( 'single-docs' ) ) {
                 $default_file = 'single.php';
             }
-        } elseif ( is_post_type_archive( 'docs' ) || self::$docs_archive_id && is_page( self::$docs_archive_id ) ) {
+        } elseif ( is_post_type_archive( 'docs' ) || ( self::$docs_archive_id && is_page( self::$docs_archive_id ) ) ) {
             docspress()->is_archive = true;
 
             if ( ! self::has_block_template( 'archive-docs' ) ) {

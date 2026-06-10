@@ -26,7 +26,7 @@ cfg.copy_files_src = [
   '{src}/**/*',
   '!{src}/**/*.{js,scss}',
   '{src}/**/vendor/**/*.{js,scss}',
-  './node_modules/*vue/dist/vue.min.js',
+  './node_modules/*vue/dist/vue.global.prod.js',
   './node_modules/*sweetalert2/dist/sweetalert2.min.js',
   './node_modules/*sweetalert2/dist/sweetalert2.min.css',
   './node_modules/*anchor-js/anchor.min.js',

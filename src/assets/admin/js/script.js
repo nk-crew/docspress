@@ -2,6 +2,7 @@
 const { jQuery: $, ajaxurl, Swal, Vue, docspress_admin_vars: adminVars } = window;
 
 const __ = adminVars.__;
+const { createApp } = Vue;
 
 const swalConfig = {
   customClass: 'docspress-swal',
@@ -14,39 +15,6 @@ const swalConfig = {
     backdrop: '',
   },
 };
-
-Vue.directive('sortable', {
-  bind: function (el) {
-    const $el = $(el);
-
-    $el.sortable({
-      stop: function (event, ui) {
-        const ids = [];
-
-        $(ui.item.closest('ul'))
-          .children('li')
-          .each(function (index, li) {
-            ids.push($(li).data('id'));
-          });
-
-        $.post(ajaxurl, {
-          action: 'docspress_sortable_docs',
-          ids: ids,
-          _wpnonce: adminVars.nonce,
-        });
-      },
-      cursor: 'move',
-    });
-    $el.on('mousedown', function () {
-      // set fixed height to prevent scroll jump
-      // when dragging from bottom
-      $(this).css('min-height', $(this).height());
-    });
-    $el.on('mouseup', function () {
-      $(this).css('min-height', '');
-    });
-  },
-});
 
 /**
  * Get categorized docs.
@@ -104,40 +72,47 @@ function removeDoc(docs, id) {
   return docs;
 }
 
-new Vue({
-  el: '#docspress-app',
-  data: {
-    editurl: '',
-    viewurl: '',
-    docs: [],
-    categorized: [],
+const app = createApp({
+  data() {
+    return {
+      editurl: '',
+      viewurl: '',
+      docs: [],
+      terms: [],
+      categorized: [],
+      isLoading: true,
+    };
   },
 
   mounted() {
     const self = this;
-    const dom = $(self.$el);
+
+    const onInitialLoadError = function (error) {
+      self.isLoading = false;
+      self.onError(error);
+    };
 
     this.editurl = adminVars.editurl;
     this.viewurl = adminVars.viewurl;
 
     self.docs = [];
 
-    $.get(
-      ajaxurl,
-      {
+    $.ajax({
+      url: ajaxurl,
+      method: 'GET',
+      dataType: 'json',
+      data: {
         action: 'docspress_admin_get_docs',
         _wpnonce: adminVars.nonce,
       },
-      function ({ data }) {
-        dom.find('.docspress').removeClass('not-loaded').addClass('loaded');
-        dom.find('.spinner').remove();
-        dom.find('.no-docspress').removeClass('not-loaded');
-
+    })
+      .done(function ({ data }) {
+        self.isLoading = false;
         self.terms = Object.assign([], data.terms);
         self.docs = Object.assign([], data.docs);
         self.categorized = getCategorizedDocs(data.docs, self.terms);
-      }
-    );
+      })
+      .fail(onInitialLoadError);
   },
 
   methods: {
@@ -449,3 +424,38 @@ new Vue({
     },
   },
 });
+
+app.directive('sortable', {
+  beforeMount: function (el) {
+    const $el = $(el);
+
+    $el.sortable({
+      stop: function (event, ui) {
+        const ids = [];
+
+        $(ui.item.closest('ul'))
+          .children('li')
+          .each(function (index, li) {
+            ids.push($(li).data('id'));
+          });
+
+        $.post(ajaxurl, {
+          action: 'docspress_sortable_docs',
+          ids: ids,
+          _wpnonce: adminVars.nonce,
+        });
+      },
+      cursor: 'move',
+    });
+    $el.on('mousedown', function () {
+      // set fixed height to prevent scroll jump
+      // when dragging from bottom
+      $(this).css('min-height', $(this).height());
+    });
+    $el.on('mouseup', function () {
+      $(this).css('min-height', '');
+    });
+  },
+});
+
+app.mount('#docspress-app');

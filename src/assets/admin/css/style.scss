@@ -2,14 +2,14 @@
   overflow: hidden;
 }
 
+[v-cloak] {
+  display: none;
+}
+
 .no-docspress {
   padding: 60px;
   color: #777;
   text-align: center;
-
-  &.not-loaded {
-    display: none;
-  }
 
   &::before {
     display: block;
@@ -45,10 +45,6 @@
       overflow: hidden;
       list-style: none;
     }
-  }
-
-  &.not-loaded {
-    display: none;
   }
 
   &,

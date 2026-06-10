@@ -18,9 +18,9 @@
 
     <!-- <pre>{{ $data | json }}</pre> -->
 
-    <span class="spinner is-active" style="float: none;"></span>
+    <span v-show="isLoading" class="spinner is-active" style="float: none;"></span>
 
-    <div class="docspress not-loaded">
+    <div v-cloak class="docspress" v-show="!isLoading">
         <div class="docspress-cat" v-for="(cat, index) in categorized" :data-id="cat.name">
             <h3 v-if="cat.name">{{ cat.name }}</h3>
 
@@ -187,10 +187,10 @@
         </div>
     </div>
 
-    <div class="no-docspress not-loaded" v-show="!docs.length">
+    <div v-cloak class="no-docspress" v-show="!isLoading && !docs.length">
         <?php
         // translators: %s - link.
-        printf( esc_html__( 'No documentations has been found. Perhaps %s?', '@@text_domain' ), '<a href="#" v-on:click.prevent="addDoc">' . esc_html__( 'create one', '@@text_domain' ) . '</a>' );
+        printf( esc_html__( 'No documentation has been found. Perhaps %s?', '@@text_domain' ), '<a href="#" v-on:click.prevent="addDoc">' . esc_html__( 'create one', '@@text_domain' ) . '</a>' );
         ?>
     </div>
 

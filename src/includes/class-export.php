@@ -384,10 +384,10 @@ body {
      * Build tree.
      *
      * @param array  $docs - all documents array.
-     * @param int    $parent - parent doc id.
+     * @param int    $parent_id - parent doc id.
      * @param string $name_pre - name of parent doc.
      */
-    public function build_tree( $docs, $parent = 0, $name_pre = '' ) {
+    public function build_tree( $docs, $parent_id = 0, $name_pre = '' ) {
         $result = array();
 
         if ( ! $docs ) {
@@ -396,7 +396,7 @@ body {
 
         $i = 1;
         foreach ( $docs as $key => $doc ) {
-            if ( (int) $doc->post_parent === (int) $parent ) {
+            if ( (int) $doc->post_parent === (int) $parent_id ) {
                 $name_pre_cur = $name_pre . ( $i++ ) . '.';
 
                 unset( $docs[ $key ] );

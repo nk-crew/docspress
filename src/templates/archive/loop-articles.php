@@ -50,7 +50,7 @@ if ( $top_articles->have_posts() ) : ?>
             if ( $count >= $articles_number ) {
                 break;
             }
-            $count++;
+            ++$count;
             ?>
 
             <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>

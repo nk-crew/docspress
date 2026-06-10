@@ -240,13 +240,13 @@ class DocsPress_Block_Template_Controller {
 
         // Get the slugs of all templates that have been customised and saved in the database.
         $customised_template_slugs = array_map(
-            function( $template ) {
+            function ( $template ) {
                 return $template->slug;
             },
             array_values(
                 array_filter(
                     $templates,
-                    function( $template ) {
+                    function ( $template ) {
                         // This template has been customised and saved as a post.
                         return 'custom' === $template->source;
                     }
@@ -261,7 +261,7 @@ class DocsPress_Block_Template_Controller {
         return array_values(
             array_filter(
                 $templates,
-                function( $template ) use ( $customised_template_slugs ) {
+                function ( $template ) use ( $customised_template_slugs ) {
                     // This template has been customised and saved as a post, so return it.
                     return ! ( 'theme' === $template->source && in_array( $template->slug, $customised_template_slugs, true ) );
                 }
@@ -303,7 +303,7 @@ class DocsPress_Block_Template_Controller {
         $saved_docs_templates = $check_query->posts;
 
         return array_map(
-            function( $saved_docs_templates ) {
+            function ( $saved_docs_templates ) {
                 return DocsPress_Block_Template_Utils::gutenberg_build_template_result_from_post( $saved_docs_templates );
             },
             $saved_docs_templates
@@ -341,8 +341,7 @@ class DocsPress_Block_Template_Controller {
                     array_filter(
                         $already_found_templates,
                         function ( $template ) use ( $template_slug ) {
-                            $template_obj = (object) $template; //phpcs:ignore WordPress.CodeAnalysis.AssignmentInCondition.Found
-                            return $template_obj->slug === $template_slug;
+                            return ( (object) $template )->slug === $template_slug;
                         }
                     )
                 ) > 0 ) {
@@ -377,7 +376,6 @@ class DocsPress_Block_Template_Controller {
         $templates_from_docs = $this->get_block_templates_from_docspress( $slugs, $templates_from_db, $template_type );
         $templates           = array_merge( $templates_from_db, $templates_from_docs );
         return $templates;
-
     }
 
     /**
@@ -435,6 +433,5 @@ class DocsPress_Block_Template_Controller {
             add_filter( 'docspress_has_block_template', '__return_true', 10, 0 );
         }
     }
-
 }
 new DocsPress_Block_Template_Controller();
