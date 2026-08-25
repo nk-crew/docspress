@@ -302,13 +302,13 @@ class DocsPress_Settings {
 
                     $('tr.docsearch_app_id, tr.docsearch_api_key, tr.docsearch_index_name')[ $(this).val() === 'docsearch' ? 'show' : 'hide' ]();
 
-                }).change();
+                }).trigger('change');
 
                 $('input[name="docspress_single[show_feedback_buttons]"]:checkbox').on( 'change', function() {
 
                     $('tr.show_feedback_buttons_likes')[ $(this).is(':checked' ) ? 'show' : 'hide' ]();
 
-                }).change();
+                }).trigger('change');
 
                 $('input[name="docspress_single[show_feedback_suggestion]"]:checkbox, input[name="docspress_single[show_feedback_buttons]"]:checkbox').on( 'change', function() {
                     const isCheckedFeedback = $('input[name="docspress_single[show_feedback_buttons]"]').is(':checked' );
@@ -318,19 +318,19 @@ class DocsPress_Settings {
 
                     $('tr.show_feedback_suggestion_email')[ isCheckedFeedback && isCheckedSuggestion ? 'show' : 'hide' ]();
 
-                }).change();
+                }).trigger('change');
 
                 $('input[name="docspress_single[ajax]"]:checkbox').on( 'change', function() {
 
                     $('tr.ajax_custom_js')[ $(this).is(':checked' ) ? 'show' : 'hide' ]();
 
-                }).change();
+                }).trigger('change');
 
                 $('input[name="docspress_archive[show_articles]"]:checkbox').on( 'change', function() {
 
                     $('tr.articles_number')[ $(this).is(':checked' ) ? 'show' : 'hide' ]();
 
-                }).change();
+                }).trigger('change');
             });
         </script>
         <?php

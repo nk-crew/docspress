@@ -3,7 +3,7 @@
 * Contributors: nko
 * Tags: documentation, document, help, knowledge base, export
 * Requires at least: 6.2.0
-* Tested up to: 7.0
+* Tested up to: 7.1
 * Requires PHP: 7.4
 * Stable tag: @@plugin_version
 * License: GPLv2 or later
