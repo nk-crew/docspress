@@ -645,7 +645,7 @@ LOD;
         $regexp_array = explode( "\n", docspress()->get_option( 'clean_html', 'docspress_export', $this->clean_html_regexp ) );
         foreach ( $regexp_array as $reg ) {
             $reg = trim( $reg );
-            if ( $reg && preg_match( $reg, null ) !== false ) {
+            if ( $reg && preg_match( $reg, '' ) !== false ) {
                 $html = preg_replace( $reg, '', $html );
             }
         }
