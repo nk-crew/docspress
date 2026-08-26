@@ -66,6 +66,12 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
+= 2.5.5 - Aug 26, 2026 =
+
+* added WordPress 7.1 compatibility
+* fixed a fatal error on PHP 8 when a settings section added by another plugin carried a description
+* fixed a PHP notice logged on every HTML export
+
 = 2.5.4 - Jun 10, 2026 =
 
 * tested up to WordPress 7.0
