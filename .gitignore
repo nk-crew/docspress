@@ -10,3 +10,4 @@
 npm-debug.log
 .phpcs.xml
 phpcs.xml
+.specs/
