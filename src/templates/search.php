@@ -16,7 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 docspress()->get_template_part( 'global/wrap-start' );
 
 // phpcs:ignore
-$keys = implode( '|', explode( ' ', get_search_query() ) );
+$keys = implode(
+    '|',
+    array_map(
+        function ( $key ) {
+            return preg_quote( $key, '/' );
+        },
+        array_filter( explode( ' ', get_search_query() ), 'strlen' )
+    )
+);
 
 ?>
 <header class="page-header">

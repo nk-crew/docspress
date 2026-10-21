@@ -49,6 +49,25 @@ class DocsPress_Ajax {
     }
 
     /**
+     * Limit a requested doc status to the ones the current user may set.
+     *
+     * @param string $status - requested status.
+     *
+     * @return string
+     */
+    public function allowed_status( $status ) {
+        if ( ! in_array( $status, array( 'publish', 'private', 'pending', 'draft' ), true ) ) {
+            return 'draft';
+        }
+
+        if ( ( 'publish' === $status || 'private' === $status ) && ! current_user_can( $this->get_post_type_object()->cap->publish_posts ) ) {
+            return 'pending';
+        }
+
+        return $status;
+    }
+
+    /**
      * Get post data to use in Vue.
      *
      * @param object $post - post data.
@@ -90,14 +109,20 @@ class DocsPress_Ajax {
     public function create_doc() {
         check_ajax_referer( 'docspress-admin-nonce' );
 
+        if ( ! current_user_can( $this->get_post_type_object()->cap->edit_posts ) ) {
+            wp_send_json_error( __( 'You are not allowed to create this item.', '@@text_domain' ) );
+        }
+
         $title  = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
         $status = isset( $_POST['status'] ) ? sanitize_text_field( wp_unslash( $_POST['status'] ) ) : 'publish';
         $parent = isset( $_POST['parent'] ) ? absint( $_POST['parent'] ) : 0;
         $order  = isset( $_POST['order'] ) ? absint( $_POST['order'] ) : 0;
 
-        if ( ! current_user_can( $this->get_post_type_object()->cap->publish_posts ) ) {
-            $status = 'pending';
+        if ( $parent && 'docs' !== get_post_type( $parent ) ) {
+            wp_send_json_error( __( 'You are not allowed to create this item.', '@@text_domain' ) );
         }
+
+        $status = $this->allowed_status( $status );
 
         $post_id = wp_insert_post(
             array(
@@ -134,7 +159,11 @@ class DocsPress_Ajax {
         $title      = isset( $_POST['title'] ) ? sanitize_text_field( wp_unslash( $_POST['title'] ) ) : '';
         $clone_from = isset( $_POST['clone_from'] ) ? absint( $_POST['clone_from'] ) : 0;
 
-        if ( ! current_user_can( 'edit_doc', $clone_from ) ) {
+        if (
+            ! current_user_can( $this->get_post_type_object()->cap->edit_posts ) ||
+            'docs' !== get_post_type( $clone_from ) ||
+            ! current_user_can( 'edit_doc', $clone_from )
+        ) {
             wp_send_json_error( __( 'You are not allowed to clone this item.', '@@text_domain' ) );
         }
 
@@ -153,7 +182,7 @@ class DocsPress_Ajax {
                 array(
                     'post_title'            => $title,
                     'post_type'             => 'docs',
-                    'post_status'           => 'publish',
+                    'post_status'           => $this->allowed_status( 'publish' ),
                     'post_content'          => $clone_from_post->post_content,
                     'post_content_filtered' => $clone_from_post->post_content_filtered,
                     'post_excerpt'          => $clone_from_post->post_excerpt,
@@ -226,7 +255,7 @@ class DocsPress_Ajax {
                 array(
                     'post_title'            => $clone_from_post->post_title,
                     'post_type'             => $clone_from_post->post_type,
-                    'post_status'           => $clone_from_post->post_status,
+                    'post_status'           => $this->allowed_status( $clone_from_post->post_status ),
                     'post_content'          => $clone_from_post->post_content,
                     'post_content_filtered' => $clone_from_post->post_content_filtered,
                     'post_excerpt'          => $clone_from_post->post_excerpt,
@@ -275,41 +304,47 @@ class DocsPress_Ajax {
     public function remove_doc() {
         check_ajax_referer( 'docspress-admin-nonce' );
 
-        $force_delete = false;
-        $post_id      = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+        $post_id = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+        $ids     = 'docs' === get_post_type( $post_id ) ? $this->get_child_doc_ids( $post_id ) : array();
 
-        if ( ! current_user_can( 'delete_doc', $post_id ) ) {
-            wp_send_json_error( __( 'You are not allowed to delete this item.', '@@text_domain' ) );
+        // Children come first, so they are trashed before their parents.
+        $ids[] = $post_id;
+
+        foreach ( $ids as $id ) {
+            if ( ! current_user_can( 'delete_doc', $id ) || 'docs' !== get_post_type( $id ) ) {
+                wp_send_json_error( __( 'You are not allowed to delete this item.', '@@text_domain' ) );
+            }
         }
 
-        if ( $post_id ) {
-            // delete childrens first if found.
-            $this->remove_child_docs( $post_id, $force_delete );
-
-            // delete main doc.
-            wp_delete_post( $post_id, $force_delete );
+        foreach ( $ids as $id ) {
+            wp_trash_post( $id );
         }
 
         wp_send_json_success();
     }
 
     /**
-     * Remove child docs
+     * Get IDs of all nested child docs, deepest first.
      *
      * @param integer $parent_id - post id.
-     * @param boolean $force_delete - force delete.
+     *
+     * @return array
      */
-    public function remove_child_docs( $parent_id, $force_delete = false ) {
-        $childrens = get_children( array( 'post_parent' => $parent_id ) );
+    public function get_child_doc_ids( $parent_id ) {
+        $ids       = array();
+        $childrens = get_children(
+            array(
+                'post_parent' => $parent_id,
+                'post_type'   => 'docs',
+            )
+        );
 
-        if ( $childrens ) {
-            foreach ( $childrens as $child_post ) {
-                // recursively delete.
-                $this->remove_child_docs( $child_post->ID, $force_delete );
-
-                wp_delete_post( $child_post->ID, $force_delete );
-            }
+        foreach ( $childrens as $child_post ) {
+            $ids   = array_merge( $ids, $this->get_child_doc_ids( $child_post->ID ) );
+            $ids[] = $child_post->ID;
         }
+
+        return $ids;
     }
 
     /**
@@ -344,6 +379,10 @@ class DocsPress_Ajax {
     public function get_docs() {
         check_ajax_referer( 'docspress-admin-nonce' );
 
+        if ( ! current_user_can( $this->get_post_type_object()->cap->edit_posts ) ) {
+            wp_send_json_error( __( 'You are not allowed to view these items.', '@@text_domain' ) );
+        }
+
         $docs = new WP_Query(
             array(
                 'post_type'      => 'docs',
@@ -363,7 +402,14 @@ class DocsPress_Ajax {
             )
         );
 
-        $arranged = $this->build_tree( $docs->posts );
+        $readable = array();
+        foreach ( $docs->posts as $doc ) {
+            if ( 'publish' === $doc->post_status || current_user_can( 'read_post', $doc->ID ) ) {
+                $readable[] = $doc;
+            }
+        }
+
+        $arranged = $this->build_tree( $readable );
 
         wp_send_json_success(
             array(
@@ -390,13 +436,18 @@ class DocsPress_Ajax {
                 $id = explode( '|', $data );
 
                 if ( isset( $id[0] ) ) {
-                    $previous[ (string) $id[0] ] = isset( $id[1] ) ? $id[1] : 'unknown';
+                    // Only the two feedback meta keys may come back from the cookie.
+                    $previous[ (string) $id[0] ] = isset( $id[1] ) && in_array( $id[1], array( 'positive', 'negative' ), true ) ? $id[1] : 'unknown';
                 }
             }
         }
 
-        $post_id = isset( $_POST['post_id'] ) ? (string) sanitize_text_field( wp_unslash( $_POST['post_id'] ) ) : 0;
+        $post_id = isset( $_POST['post_id'] ) ? (string) absint( $_POST['post_id'] ) : '0';
         $type    = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : false;
+
+        if ( 'docs' !== get_post_type( (int) $post_id ) || 'publish' !== get_post_status( (int) $post_id ) ) {
+            wp_send_json_error( __( 'Sorry, something went wrong on the server side!', '@@text_domain' ) );
+        }
 
         if ( $type && ! in_array( $type, array( 'positive', 'negative' ), true ) ) {
             $type = false;
@@ -488,10 +539,14 @@ class DocsPress_Ajax {
     public function sort_docs() {
         check_ajax_referer( 'docspress-admin-nonce' );
 
-        $doc_ids = isset( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
+        $doc_ids = isset( $_POST['ids'] ) && is_array( $_POST['ids'] ) ? array_map( 'absint', $_POST['ids'] ) : array();
 
         if ( $doc_ids ) {
             foreach ( $doc_ids as $order => $id ) {
+                if ( 'docs' !== get_post_type( $id ) || ! current_user_can( 'edit_post', $id ) ) {
+                    continue;
+                }
+
                 wp_update_post(
                     array(
                         'ID'         => $id,

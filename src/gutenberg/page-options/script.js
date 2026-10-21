@@ -5,7 +5,10 @@ const { __ } = wp.i18n;
 
 const { registerPlugin } = wp.plugins;
 
-const { PluginDocumentSettingPanel } = wp.editPost || {};
+// wp.editor has the panel since WP 6.6, wp.editPost keeps it for older versions.
+const { PluginDocumentSettingPanel } = wp.editor?.PluginDocumentSettingPanel
+  ? wp.editor
+  : wp.editPost || {};
 
 const { useSelect } = wp.data;
 
