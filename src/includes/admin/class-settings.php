@@ -225,12 +225,13 @@ class DocsPress_Settings {
             ),
             'docspress_export' => array(
                 array(
-                    'name'    => 'custom_css',
-                    'label'   => __( 'Custom CSS', '@@text_domain' ),
-                    'desc'    => __( 'Added in exported HTML files', '@@text_domain' ),
-                    'type'    => 'textarea',
-                    'size'    => 'large',
-                    'default' => $export_class->custom_css,
+                    'name'            => 'custom_css',
+                    'label'           => __( 'Custom CSS', '@@text_domain' ),
+                    'desc'            => __( 'Added in exported HTML files', '@@text_domain' ),
+                    'type'            => 'textarea',
+                    'size'            => 'large',
+                    'default'         => $export_class->custom_css,
+                    'unfiltered_html' => true,
                 ),
                 array(
                     'name'            => 'custom_js',

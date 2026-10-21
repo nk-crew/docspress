@@ -65,6 +65,9 @@ class DocsPress_Admin {
         wp_enqueue_script( 'docspress-sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert2/dist/sweetalert2.min.js', array( 'jquery' ), '11.26.24', true );
         wp_enqueue_style( 'docspress-sweetalert', docspress()->plugin_url . 'assets/vendor/sweetalert2/dist/sweetalert2.min.css', array(), '11.26.24' );
 
+        // wp_trash_post() deletes permanently when trash is disabled.
+        $delete_permanently = ! EMPTY_TRASH_DAYS;
+
         wp_enqueue_script( 'docspress-admin', docspress()->plugin_url . 'assets/admin/js/script.min.js', array( 'jquery', 'jquery-ui-sortable', 'wp-util', 'docspress-vue', 'docspress-sweetalert' ), '@@plugin_version', true );
         wp_localize_script(
             'docspress-admin',
@@ -79,14 +82,14 @@ class DocsPress_Admin {
                     // translators: %s - copy.
                     'clone_default_title'       => __( '%s Copy', '@@text_domain' ),
                     'remove_doc_title'          => __( 'Are you sure?', '@@text_domain' ),
-                    'remove_doc_text'           => __( 'Are you sure to move the entire documentation to trash? Sections and articles inside this doc will be moved to trash too!', '@@text_domain' ),
-                    'remove_doc_button_yes'     => __( 'Yes, move to trash!', '@@text_domain' ),
+                    'remove_doc_text'           => $delete_permanently ? __( 'Are you sure to permanently delete the entire documentation? Sections and articles inside this doc will be permanently deleted too!', '@@text_domain' ) : __( 'Are you sure to move the entire documentation to trash? Sections and articles inside this doc will be moved to trash too!', '@@text_domain' ),
+                    'remove_doc_button_yes'     => $delete_permanently ? __( 'Yes, delete permanently!', '@@text_domain' ) : __( 'Yes, move to trash!', '@@text_domain' ),
                     'remove_section_title'      => __( 'Are you sure?', '@@text_domain' ),
-                    'remove_section_text'       => __( 'Are you sure to move the entire section to trash? Articles inside this section will be moved to trash too!', '@@text_domain' ),
-                    'remove_section_button_yes' => __( 'Yes, move to trash!', '@@text_domain' ),
+                    'remove_section_text'       => $delete_permanently ? __( 'Are you sure to permanently delete the entire section? Articles inside this section will be permanently deleted too!', '@@text_domain' ) : __( 'Are you sure to move the entire section to trash? Articles inside this section will be moved to trash too!', '@@text_domain' ),
+                    'remove_section_button_yes' => $delete_permanently ? __( 'Yes, delete permanently!', '@@text_domain' ) : __( 'Yes, move to trash!', '@@text_domain' ),
                     'remove_article_title'      => __( 'Are you sure?', '@@text_domain' ),
-                    'remove_article_text'       => __( 'Are you sure to move the article to trash?', '@@text_domain' ),
-                    'remove_article_button_yes' => __( 'Yes, move to trash!', '@@text_domain' ),
+                    'remove_article_text'       => $delete_permanently ? __( 'Are you sure to permanently delete the article?', '@@text_domain' ) : __( 'Are you sure to move the article to trash?', '@@text_domain' ),
+                    'remove_article_button_yes' => $delete_permanently ? __( 'Yes, delete permanently!', '@@text_domain' ) : __( 'Yes, move to trash!', '@@text_domain' ),
                     'post_deleted_text'         => __( 'This post has been deleted', '@@text_domain' ),
                     'export_doc_text'           => __( 'This process may take a while depending on your documentation size.', '@@text_domain' ),
                     // translators: %s - export.
@@ -121,10 +124,12 @@ class DocsPress_Admin {
      * @return void
      */
     public function admin_menu() {
+        $capability = get_post_type_object( 'docs' )->cap->edit_posts;
+
         add_menu_page(
             __( 'DocsPress', '@@text_domain' ),
             __( 'DocsPress', '@@text_domain' ),
-            'publish_posts',
+            $capability,
             '@@text_domain',
             array( $this, 'page_index' ),
             'dashicons-media-document',
@@ -134,7 +139,7 @@ class DocsPress_Admin {
             '@@text_domain',
             __( 'Documentations', '@@text_domain' ),
             __( 'Documentations', '@@text_domain' ),
-            'publish_posts',
+            $capability,
             '@@text_domain',
             array( $this, 'page_index' )
         );
@@ -142,7 +147,7 @@ class DocsPress_Admin {
             '@@text_domain',
             __( 'Categories', '@@text_domain' ),
             __( 'Categories', '@@text_domain' ),
-            'publish_posts',
+            $capability,
             'edit-tags.php?taxonomy=docs_category&post_type=docs'
         );
     }

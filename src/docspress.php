@@ -452,7 +452,7 @@ class DocsPress {
                 'type'              => 'string',
                 'single'            => true,
                 'show_in_rest'      => true,
-                'sanitize_callback' => 'sanitize_text_field',
+                'sanitize_callback' => 'wp_strip_all_tags',
                 'auth_callback'     => array( __CLASS__, 'rest_auth' ),
             )
         );

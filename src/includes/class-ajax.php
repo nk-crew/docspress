@@ -182,7 +182,7 @@ class DocsPress_Ajax {
                 array(
                     'post_title'            => $title,
                     'post_type'             => 'docs',
-                    'post_status'           => $this->allowed_status( 'publish' ),
+                    'post_status'           => $this->allowed_status( $clone_from_post->post_status ),
                     'post_content'          => $clone_from_post->post_content,
                     'post_content_filtered' => $clone_from_post->post_content_filtered,
                     'post_excerpt'          => $clone_from_post->post_excerpt,
@@ -445,7 +445,10 @@ class DocsPress_Ajax {
         $post_id = isset( $_POST['post_id'] ) ? (string) absint( $_POST['post_id'] ) : '0';
         $type    = isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : false;
 
-        if ( 'docs' !== get_post_type( (int) $post_id ) || 'publish' !== get_post_status( (int) $post_id ) ) {
+        if (
+            'docs' !== get_post_type( (int) $post_id ) ||
+            ( 'publish' !== get_post_status( (int) $post_id ) && ! current_user_can( 'read_post', (int) $post_id ) )
+        ) {
             wp_send_json_error( __( 'Sorry, something went wrong on the server side!', '@@text_domain' ) );
         }
 
