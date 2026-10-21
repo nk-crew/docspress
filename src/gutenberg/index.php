@@ -144,7 +144,7 @@ class DocsPress_Gutenberg {
         wp_enqueue_script(
             'docspress-page-options',
             docspress()->plugin_url . 'gutenberg/page-options/script.min.js',
-            array( 'wp-i18n', 'wp-plugins', 'wp-components', 'wp-edit-post', 'wp-core-data' ),
+            array( 'wp-i18n', 'wp-plugins', 'wp-components', 'wp-editor', 'wp-edit-post', 'wp-core-data' ),
             '@@plugin_version',
             false
         );

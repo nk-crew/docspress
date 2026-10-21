@@ -49,7 +49,7 @@ class DocsPress_Walker_Docs extends Walker_Page {
         $custom_title = (string) get_post_meta( $post_id, 'nav_title', true );
 
         if ( $custom_title ) {
-            $title = $custom_title;
+            $title = esc_html( $custom_title );
         }
 
         return $title;

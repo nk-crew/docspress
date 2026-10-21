@@ -448,11 +448,12 @@ class DocsPress {
             'post',
             'nav_title',
             array(
-                'object_subtype' => 'docs',
-                'type'           => 'string',
-                'single'         => true,
-                'show_in_rest'   => true,
-                'auth_callback'  => array( __CLASS__, 'rest_auth' ),
+                'object_subtype'    => 'docs',
+                'type'              => 'string',
+                'single'            => true,
+                'show_in_rest'      => true,
+                'sanitize_callback' => 'wp_strip_all_tags',
+                'auth_callback'     => array( __CLASS__, 'rest_auth' ),
             )
         );
         register_meta(

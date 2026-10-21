@@ -424,6 +424,25 @@ if ( ! class_exists( 'DocsPress_Settings_API' ) ) :
                 return $options;
             }
 
+            // Fields marked unfiltered_html hold raw script: keep the stored value for users who may not save it.
+            if ( ! current_user_can( 'unfiltered_html' ) ) {
+                foreach ( $this->settings_fields as $section => $fields ) {
+                    foreach ( $fields as $field ) {
+                        if ( empty( $field['unfiltered_html'] ) || ! array_key_exists( $field['name'], $options ) ) {
+                            continue;
+                        }
+
+                        $stored = get_option( $section );
+
+                        if ( is_array( $stored ) && isset( $stored[ $field['name'] ] ) ) {
+                            $options[ $field['name'] ] = $stored[ $field['name'] ];
+                        } else {
+                            unset( $options[ $field['name'] ] );
+                        }
+                    }
+                }
+            }
+
             foreach ( $options as $option_slug => $option_value ) {
                 $sanitize_callback = $this->get_sanitize_callback( $option_slug );
 

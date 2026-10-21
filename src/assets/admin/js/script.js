@@ -72,6 +72,17 @@ function removeDoc(docs, id) {
   return docs;
 }
 
+/**
+ * Message of a wp_send_json_error() response.
+ *
+ * @param {*} data response data.
+ *
+ * @return {string} message to show.
+ */
+function getResponseError(data) {
+  return typeof data === 'string' && data ? data : 'Request failed';
+}
+
 const app = createApp({
   data() {
     return {
@@ -106,8 +117,18 @@ const app = createApp({
         _wpnonce: adminVars.nonce,
       },
     })
-      .done(function ({ data }) {
+      .done(function ({ success, data }) {
         self.isLoading = false;
+
+        if (!success) {
+          Swal.fire({
+            icon: 'error',
+            text: getResponseError(data),
+            ...swalConfig,
+          });
+          return;
+        }
+
         self.terms = Object.assign([], data.terms);
         self.docs = Object.assign([], data.docs);
         self.categorized = getCategorizedDocs(data.docs, self.terms);
@@ -145,15 +166,17 @@ const app = createApp({
             parent: 0,
             _wpnonce: adminVars.nonce,
           })
-            .done((fetchedData) => {
+            .fail(that.onError)
+            .then((fetchedData) => {
               if (!fetchedData || !fetchedData.success || !fetchedData.data) {
+                // Keeps the dialog open with the server's message.
+                Swal.showValidationMessage(getResponseError(fetchedData && fetchedData.data));
                 return false;
               }
 
               that.docs.unshift(fetchedData.data);
               that.categorized = getCategorizedDocs(that.docs, that.terms);
-            })
-            .fail(that.onError);
+            });
         },
         ...swalConfig,
       });
@@ -181,15 +204,17 @@ const app = createApp({
             clone_from: doc.post.id,
             _wpnonce: adminVars.nonce,
           })
-            .done((fetchedData) => {
+            .fail(that.onError)
+            .then((fetchedData) => {
               if (!fetchedData || !fetchedData.success || !fetchedData.data) {
+                // Keeps the dialog open with the server's message.
+                Swal.showValidationMessage(getResponseError(fetchedData && fetchedData.data));
                 return false;
               }
 
               that.docs.unshift(fetchedData.data);
               that.categorized = getCategorizedDocs(that.docs, that.terms);
-            })
-            .fail(that.onError);
+            });
         },
         ...swalConfig,
       });
@@ -402,15 +427,17 @@ const app = createApp({
         id: postId,
         _wpnonce: adminVars.nonce,
       })
-        .done((fetchedData) => {
+        .fail(that.onError)
+        .then((fetchedData) => {
           if (!fetchedData || !fetchedData.success) {
+            // Keeps the dialog open with the server's message.
+            Swal.showValidationMessage(getResponseError(fetchedData && fetchedData.data));
             return false;
           }
 
           that.docs = removeDoc(that.docs, postId);
           that.categorized = getCategorizedDocs(that.docs, that.terms);
-        })
-        .fail(that.onError);
+        });
     },
 
     toggleCollapse: function (event) {
