@@ -147,7 +147,7 @@ class DocsPress_Admin {
             '@@text_domain',
             __( 'Categories', '@@text_domain' ),
             __( 'Categories', '@@text_domain' ),
-            $capability,
+            get_taxonomy( 'docs_category' )->cap->manage_terms,
             'edit-tags.php?taxonomy=docs_category&post_type=docs'
         );
     }
