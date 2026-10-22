@@ -3,7 +3,7 @@
   "description": "Online documentation engine for WordPress.",
   "license": "GPL-2.0-or-later",
   "require": {
-    "php": ">=7.4"
+    "php": ">=8.3"
   },
   "require-dev": {
     "wp-coding-standards/wpcs": "^3.3",
@@ -19,7 +19,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.4.0"
+      "php": "8.3.0"
     },
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
