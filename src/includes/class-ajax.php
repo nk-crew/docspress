@@ -542,6 +542,8 @@ class DocsPress_Ajax {
             );
 
             if ( ! $is_sent ) {
+                // Nothing went out, so the attempt does not use up the limits.
+                $this->count_suggestion( -1 );
                 $response = __( 'Sorry, something went wrong with the mail server, your suggestions were not sent!', '@@text_domain' );
                 wp_send_json_error( $response );
                 return;
@@ -558,6 +560,19 @@ class DocsPress_Ajax {
      * @return bool - false when a limit is already reached.
      */
     public function suggestion_allowed() {
+        return $this->count_suggestion( 1 );
+    }
+
+    /**
+     * Add a step to the per-client and the daily suggestion counters.
+     *
+     * @param int $step - 1 to reserve a suggestion, -1 to give it back.
+     *
+     * @return bool - false when a reservation is refused by a limit.
+     */
+    private function count_suggestion( $step ) {
+        global $wpdb;
+
         $limits = apply_filters(
             'docspress_suggestion_limits',
             array(
@@ -572,19 +587,27 @@ class DocsPress_Ajax {
         $client = 'docspress_suggestion_' . substr( wp_hash( $ip ), 0, 32 );
         $day    = 'docspress_suggestions_' . gmdate( 'Ymd', $now );
 
+        // Overlapping requests would read the same counts and all pass, so they take turns on the daily counter.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        if ( '1' !== (string) $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $day ) ) ) {
+            return false;
+        }
+
         // Each counter is array( count, window start ); a transient refresh keeps the window's original end.
         $client_hits = get_transient( $client );
         $client_hits = is_array( $client_hits ) ? $client_hits : array( 0, $now );
         $day_count   = (int) get_transient( $day );
+        $allowed     = $step < 0 || ( $client_hits[0] < (int) $limits['per_client'] && $day_count < (int) $limits['per_day'] );
 
-        if ( $client_hits[0] >= (int) $limits['per_client'] || $day_count >= (int) $limits['per_day'] ) {
-            return false;
+        if ( $allowed ) {
+            set_transient( $client, array( max( 0, $client_hits[0] + $step ), $client_hits[1] ), max( 1, $client_hits[1] + (int) $limits['client_window'] - $now ) );
+            set_transient( $day, max( 0, $day_count + $step ), DAY_IN_SECONDS );
         }
 
-        set_transient( $client, array( $client_hits[0] + 1, $client_hits[1] ), max( 1, $client_hits[1] + (int) $limits['client_window'] - $now ) );
-        set_transient( $day, $day_count + 1, DAY_IN_SECONDS );
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $day ) );
 
-        return true;
+        return $allowed;
     }
 
     /**
