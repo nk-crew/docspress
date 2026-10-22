@@ -322,6 +322,8 @@ class DocsPress {
       from: formData.from,
       suggestion: formData.suggestion,
       feedback_type: formData.feedback_type,
+      // Theme overrides of the form template may lack the honeypot field.
+      docspress_website: formData.docspress_website || '',
       action: 'docspress_ajax_feedback_suggestion',
       _wpnonce: window.docspress_vars.nonce,
     };
