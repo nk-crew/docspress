@@ -49,6 +49,10 @@ if ( is_user_logged_in() ) {
 
         <input name="from" type="text" value="<?php echo esc_attr( $from ); ?>" placeholder="<?php echo esc_attr__( 'Your Name or Email (Optional)', '@@text_domain' ); ?>">
 
+        <div aria-hidden="true" style="position: absolute; left: -9999px;">
+            <input name="docspress_website" type="text" value="" tabindex="-1" autocomplete="off">
+        </div>
+
         <button class="docspress-btn docspress-btn-md"><?php echo esc_attr__( 'Send', '@@text_domain' ); ?></button>
 
         <input type="hidden" name="id" value="<?php echo esc_attr( get_the_ID() ); ?>">

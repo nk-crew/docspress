@@ -507,13 +507,31 @@ class DocsPress_Ajax {
             return;
         }
 
-        $post_id       = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
-        $post          = $post_id ? get_post( $post_id ) : false;
-        $feedback_type = isset( $_POST['feedback_type'] ) ? sanitize_text_field( wp_unslash( $_POST['feedback_type'] ) ) : '';
-        $suggestion    = isset( $_POST['suggestion'] ) ? nl2br( htmlspecialchars( wp_unslash( $_POST['suggestion'] ) ) ) : ''; // phpcs:ignore
-        $from          = isset( $_POST['from'] ) && ! empty( $_POST['from'] ) ? sanitize_text_field( wp_unslash( $_POST['from'] ) ) : '';
+        // Honeypot: bots that fill the hidden field get the usual success reply and no email.
+        if ( ! empty( $_POST['docspress_website'] ) ) {
+            wp_send_json_success( __( 'Thank you for suggestions!', '@@text_domain' ) );
+        }
 
-        if ( $post && $feedback_type && $suggestion ) {
+        $post_id = isset( $_POST['post_id'] ) ? absint( $_POST['post_id'] ) : 0;
+
+        if (
+            'docs' !== get_post_type( $post_id ) ||
+            ( 'publish' !== get_post_status( $post_id ) && ! current_user_can( 'read_post', $post_id ) )
+        ) {
+            wp_send_json_error( __( 'Sorry, something went wrong on the server side!', '@@text_domain' ) );
+        }
+
+        $post          = get_post( $post_id );
+        $feedback_type = isset( $_POST['feedback_type'] ) ? sanitize_text_field( wp_unslash( $_POST['feedback_type'] ) ) : '';
+        $feedback_type = in_array( $feedback_type, array( 'positive', 'negative' ), true ) ? $feedback_type : '';
+        $suggestion    = isset( $_POST['suggestion'] ) ? nl2br( htmlspecialchars( mb_substr( wp_unslash( $_POST['suggestion'] ), 0, 5000 ) ) ) : ''; // phpcs:ignore
+        $from          = isset( $_POST['from'] ) && ! empty( $_POST['from'] ) ? mb_substr( sanitize_text_field( wp_unslash( $_POST['from'] ) ), 0, 200 ) : '';
+
+        if ( $feedback_type && $suggestion ) {
+            if ( ! $this->suggestion_allowed() ) {
+                wp_send_json_error( __( 'Too many suggestions, please try again later.', '@@text_domain' ) );
+            }
+
             $is_sent = DocsPress_Suggestion::send(
                 array(
                     'post'          => $post,
@@ -524,6 +542,8 @@ class DocsPress_Ajax {
             );
 
             if ( ! $is_sent ) {
+                // Nothing went out, so the attempt does not use up the limits.
+                $this->count_suggestion( -1 );
                 $response = __( 'Sorry, something went wrong with the mail server, your suggestions were not sent!', '@@text_domain' );
                 wp_send_json_error( $response );
                 return;
@@ -532,6 +552,62 @@ class DocsPress_Ajax {
 
         $response = __( 'Thank you for suggestions!', '@@text_domain' );
         wp_send_json_success( $response );
+    }
+
+    /**
+     * Count a suggestion email against the per-client and the site-wide daily limits.
+     *
+     * @return bool - false when a limit is already reached.
+     */
+    public function suggestion_allowed() {
+        return $this->count_suggestion( 1 );
+    }
+
+    /**
+     * Add a step to the per-client and the daily suggestion counters.
+     *
+     * @param int $step - 1 to reserve a suggestion, -1 to give it back.
+     *
+     * @return bool - false when a reservation is refused by a limit.
+     */
+    private function count_suggestion( $step ) {
+        global $wpdb;
+
+        $limits = apply_filters(
+            'docspress_suggestion_limits',
+            array(
+                'per_client'    => 3,
+                'client_window' => 10 * MINUTE_IN_SECONDS,
+                'per_day'       => 50,
+            )
+        );
+
+        $now    = time();
+        $ip     = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+        $client = 'docspress_suggestion_' . substr( wp_hash( $ip ), 0, 32 );
+        $day    = 'docspress_suggestions_' . gmdate( 'Ymd', $now );
+
+        // Overlapping requests would read the same counts and all pass, so they take turns on the daily counter.
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        if ( '1' !== (string) $wpdb->get_var( $wpdb->prepare( 'SELECT GET_LOCK( %s, 5 )', $day ) ) ) {
+            return false;
+        }
+
+        // Each counter is array( count, window start ); a transient refresh keeps the window's original end.
+        $client_hits = get_transient( $client );
+        $client_hits = is_array( $client_hits ) ? $client_hits : array( 0, $now );
+        $day_count   = (int) get_transient( $day );
+        $allowed     = $step < 0 || ( $client_hits[0] < (int) $limits['per_client'] && $day_count < (int) $limits['per_day'] );
+
+        if ( $allowed ) {
+            set_transient( $client, array( max( 0, $client_hits[0] + $step ), $client_hits[1] ), max( 1, $client_hits[1] + (int) $limits['client_window'] - $now ) );
+            set_transient( $day, max( 0, $day_count + $step ), DAY_IN_SECONDS );
+        }
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+        $wpdb->query( $wpdb->prepare( 'SELECT RELEASE_LOCK( %s )', $day ) );
+
+        return $allowed;
     }
 
     /**
