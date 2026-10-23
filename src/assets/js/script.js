@@ -280,10 +280,11 @@ class DocsPress {
       body: new URLSearchParams(data),
     })
       .then((response) => response.json())
+      .catch(() => false)
       .then((resp) => {
-        $wrap.innerHTML = `<div>${resp.data}</div>`;
+        $wrap.innerHTML = `<div>${self.getResponseMessage(resp)}</div>`;
 
-        if (resp.success && $suggestionForm) {
+        if (resp && resp.success && $suggestionForm) {
           $suggestionForm.style.display = 'block';
           $suggestionForm.innerHTML += `<input type="hidden" name="feedback_type" value="${feedbackType}">`;
         }
@@ -292,6 +293,12 @@ class DocsPress {
 
         self.pendingAjax = false;
       });
+  }
+
+  // A stale nonce makes check_ajax_referer() answer -1, which has no message to show.
+  // eslint-disable-next-line class-methods-use-this
+  getResponseMessage(resp) {
+    return resp && resp.data ? resp.data : window.docspress_vars.error_message;
   }
 
   onFeedbackSuggestionSend(e) {
@@ -337,8 +344,9 @@ class DocsPress {
       body: new URLSearchParams(data),
     })
       .then((response) => response.json())
+      .catch(() => false)
       .then((resp) => {
-        wrap.innerHTML = `<div>${resp.data}</div>`;
+        wrap.innerHTML = `<div>${self.getResponseMessage(resp)}</div>`;
         wrap.classList.remove('docspress-single-feedback-suggestion-loading');
         self.pendingAjax = false;
       });
