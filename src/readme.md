@@ -3,7 +3,7 @@
 * Contributors: nko
 * Tags: documentation, document, help, knowledge base, export
 * Requires at least: 6.2.0
-* Tested up to: 7.1
+* Tested up to: 7.2
 * Requires PHP: 8.3
 * Stable tag: @@plugin_version
 * License: GPLv2 or later
@@ -76,6 +76,7 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 * fixed suggestion emails being sent on every request: a visitor can send 3 per 10 minutes and the site receives at most 50 per day
 * fixed HTML in a doc's navigation title being printed on the page
 * fixed admin dialogs closing silently when an action is refused
+* fixed 'undefined' shown after a feedback vote or suggestion on a page whose security token expired; a reload message is shown instead
 
 = 2.5.5 - Aug 26, 2026 =
 
