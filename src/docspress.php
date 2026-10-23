@@ -265,8 +265,9 @@ class DocsPress {
             'docspress',
             'docspress_vars',
             array(
-                'ajaxurl' => admin_url( 'admin-ajax.php' ),
-                'nonce'   => wp_create_nonce( 'docspress-ajax' ),
+                'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+                'nonce'         => wp_create_nonce( 'docspress-ajax' ),
+                'error_message' => __( 'Something went wrong, please reload the page.', '@@text_domain' ),
             )
         );
 
