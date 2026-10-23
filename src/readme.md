@@ -68,6 +68,7 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 = 2.6.0 - Oct 22, 2026 =
 
+* added WordPress 7.2 compatibility
 * changed required PHP version to 8.3
 * changed removing a doc in the DocsPress admin to move it and its child docs to the trash; it used to delete them and their attachments permanently
 * changed the DocsPress admin menu and its actions (sorting, creating, cloning, removing docs) to check the user's docs capabilities
