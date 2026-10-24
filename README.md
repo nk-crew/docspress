@@ -8,7 +8,7 @@
 
 | Prerequisite              | How to check  | How to install                                  |
 | ------------------------- | ------------- | ----------------------------------------------- |
-| PHP >= 7.4                | `php -v`      | [php.net](https://php.net/manual/en/install.php) |
+| PHP >= 8.3                | `php -v`      | [php.net](https://php.net/manual/en/install.php) |
 | Node.js >= 20.x           | `node -v`     | [nodejs.org](https://nodejs.org/)                |
 | Composer >= 1.0.0	        | `composer -V` | [getcomposer.org](https://getcomposer.org)       |
 

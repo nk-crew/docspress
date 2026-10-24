@@ -3,8 +3,8 @@
 * Contributors: nko
 * Tags: documentation, document, help, knowledge base, export
 * Requires at least: 6.2.0
-* Tested up to: 7.1
-* Requires PHP: 7.4
+* Tested up to: 7.2
+* Requires PHP: 8.3
 * Stable tag: @@plugin_version
 * License: GPLv2 or later
 * License URI: <http://www.gnu.org/licenses/gpl-2.0.html>
@@ -65,6 +65,19 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 4. Documentations Admin Classic UI
 
 ## Changelog
+
+= 2.6.0 - Oct 24, 2026 =
+
+* added WordPress 7.2 compatibility
+* changed required PHP version to 8.3
+* changed removing a doc in the DocsPress admin to move it and its child docs to the trash instead of deleting them permanently
+* changed custom JS and export custom CSS settings to be saved only by users allowed to post unfiltered HTML
+* security fix: the DocsPress admin menu and its actions did not check the user's docs permissions
+* security fix: feedback votes from visitors could change other data stored on a post
+* limited suggestion emails to 3 per visitor every 10 minutes and 50 per site a day
+* fixed HTML in a doc's navigation title being printed on the page
+* fixed admin dialogs closing without a message when an action is refused
+* fixed 'undefined' shown after a feedback vote or suggestion on a page left open for a long time; a reload message is shown instead
 
 = 2.5.5 - Aug 26, 2026 =
 
