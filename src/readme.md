@@ -66,18 +66,18 @@ If you need to initialize some JS after ajax loaded, you may use **DocsPress > S
 
 ## Changelog
 
-= 2.6.0 - Oct 22, 2026 =
+= 2.6.0 - Oct 24, 2026 =
 
 * added WordPress 7.2 compatibility
 * changed required PHP version to 8.3
-* changed removing a doc in the DocsPress admin to move it and its child docs to the trash; it used to delete them and their attachments permanently
-* changed the DocsPress admin menu and its actions (sorting, creating, cloning, removing docs) to check the user's docs capabilities
+* changed removing a doc in the DocsPress admin to move it and its child docs to the trash instead of deleting them permanently
 * changed custom JS and export custom CSS settings to be saved only by users allowed to post unfiltered HTML
-* fixed feedback votes from visitors changing other data stored on a post
-* fixed suggestion emails being sent on every request: a visitor can send 3 per 10 minutes and the site receives at most 50 per day
+* security fix: the DocsPress admin menu and its actions did not check the user's docs permissions
+* security fix: feedback votes from visitors could change other data stored on a post
+* limited suggestion emails to 3 per visitor every 10 minutes and 50 per site a day
 * fixed HTML in a doc's navigation title being printed on the page
-* fixed admin dialogs closing silently when an action is refused
-* fixed 'undefined' shown after a feedback vote or suggestion on a page whose security token expired; a reload message is shown instead
+* fixed admin dialogs closing without a message when an action is refused
+* fixed 'undefined' shown after a feedback vote or suggestion on a page left open for a long time; a reload message is shown instead
 
 = 2.5.5 - Aug 26, 2026 =
 
