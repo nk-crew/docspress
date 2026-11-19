@@ -43,7 +43,7 @@
     "postcss-scss": "^4.0.9",
     "prettier-config-nk": "^1.1.1",
     "stylelint-config-nk": "^1.1.4",
-    "wpeg": "^1.2.8"
+    "wpeg": "^2.0.0"
   },
   "dependencies": {
     "anchor-js": "^5.0.0",
