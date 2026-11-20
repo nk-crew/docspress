@@ -102,8 +102,7 @@ body.admin-bar .docspress-single-sidebar-wrap {
 }
 
 @media screen and (max-width: 800px) {
-  .docspress-single-sidebar,
-  .docspress-single-content {
+  .docspress-single-sidebar {
     min-width: 100%;
     max-width: 100%;
   }

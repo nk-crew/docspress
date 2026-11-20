@@ -45,3 +45,11 @@
     }
   }
 }
+
+@media screen and (max-width: 800px) {
+  .docspress-single-content {
+    box-sizing: border-box;
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
