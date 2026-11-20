@@ -11,3 +11,8 @@
   border-top: var(--docspress--comments--border-top);
   box-shadow: var(--docspress--comments--box-shadow);
 }
+
+.docspress-single .comment-form-comment textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+}
