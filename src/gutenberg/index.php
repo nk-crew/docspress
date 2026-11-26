@@ -93,6 +93,10 @@ class DocsPress_Gutenberg {
     public function gutenberg_single_block_render_callback( $_attributes = array(), $_content = '', $_block = null ) {
         unset( $_attributes, $_content, $_block );
 
+        if ( ! is_singular( 'docs' ) || doing_filter( 'the_content' ) ) {
+            return '';
+        }
+
         ob_start();
 
         docspress()->get_template_part( 'single/page' );
