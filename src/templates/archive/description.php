@@ -13,11 +13,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( docspress()->get_docs_page_content() ) : ?>
+$docspress_description = docspress()->get_docs_page_content();
+
+if ( $docspress_description ) : ?>
     <div class="docspress-archive-description">
         <?php
         // phpcs:ignore
-        echo docspress()->get_docs_page_content();
+        echo $docspress_description;
         ?>
     </div>
     <?php

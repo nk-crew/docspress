@@ -620,11 +620,24 @@ class DocsPress {
      * @return string
      */
     public function get_docs_page_content() {
+        if ( doing_filter( 'the_content' ) ) {
+            return '';
+        }
+
         $content      = '';
         $docs_page_id = docspress()->get_option( 'docs_page_id', 'docspress_settings' );
+        $docs_page    = $docs_page_id ? get_post( $docs_page_id ) : null;
 
-        if ( $docs_page_id ) {
-            $content = get_post_field( 'post_content', $docs_page_id );
+        if ( $docs_page ) {
+            $previous_post   = $GLOBALS['post'] ?? null;
+            $GLOBALS['post'] = $docs_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+
+            try {
+                $content = apply_filters( 'the_content', get_the_content( null, false, $docs_page ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+                $content = str_replace( ']]>', ']]&gt;', $content );
+            } finally {
+                $GLOBALS['post'] = $previous_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+            }
         }
 
         return apply_filters( 'docspress_page_content', $content );
