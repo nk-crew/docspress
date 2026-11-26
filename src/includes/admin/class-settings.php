@@ -95,7 +95,7 @@ class DocsPress_Settings {
                 array(
                     'name'    => 'docs_page_id',
                     'label'   => __( 'Documentation Archive Page', '@@text_domain' ),
-                    'desc'    => __( 'Page to display documentations list. <br> If you see the 404 error, please go to Settings > Permalinks and press "Save Changes" button.', '@@text_domain' ),
+                    'desc'    => __( 'The documentation archive replaces the selected page. Only the page content appears above the list. <br> If you see the 404 error, please go to Settings > Permalinks and press "Save Changes" button.', '@@text_domain' ),
                     'type'    => 'select',
                     'options' => $this->get_pages(),
                 ),
