@@ -310,7 +310,7 @@ class DocsPress {
 
         global $wp_version;
 
-        $check_string = 'Plugin: @@plugin_version WP: ' . $wp_version;
+        $check_string = 'Plugin: @@plugin_version WP: ' . $wp_version . ' Caps: 2';
 
         if ( get_option( 'docspress_updated_caps' ) === $check_string ) {
             return;
@@ -323,10 +323,9 @@ class DocsPress {
         }
 
         $author = get_role( 'author' );
-        $admin  = get_role( 'administrator' );
-
-        /* Add docspress manager role */
-        $docspress_manager = add_role( 'docspress_manager', __( 'DocsPress Manager', '@@text_domain' ), $author->capabilities );
+        if ( $author ) {
+            add_role( 'docspress_manager', __( 'DocsPress Manager', '@@text_domain' ), $author->capabilities );
+        }
 
         $docspress_cap = array(
             'read_doc',
@@ -345,12 +344,10 @@ class DocsPress {
             'publish_docs',
         );
 
-        /**
-         * Add full capacities to admin and docs manager roles
-         */
         foreach ( $docspress_cap as $cap ) {
             $wp_roles->add_cap( 'docspress_manager', $cap );
             $wp_roles->add_cap( 'administrator', $cap );
+            $wp_roles->add_cap( 'editor', $cap );
         }
 
         update_option( 'docspress_updated_caps', $check_string );
