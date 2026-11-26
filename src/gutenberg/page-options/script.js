@@ -37,7 +37,7 @@ function PageOptions() {
           type="text"
           label={__('Nav Title', '@@text_domain')}
           help={__('Optional custom title to display in the docs navigation.', '@@text_domain')}
-          value={meta?.nav_title || null}
+          value={meta?.nav_title || ''}
           placeholder={postTitle}
           onChange={(val) => {
             setMeta({ nav_title: val });
@@ -50,7 +50,7 @@ function PageOptions() {
             <TextControl
               type="number"
               label={__('👍 Positive', '@@text_domain')}
-              value={meta?.positive || null}
+              value={meta?.positive || ''}
               onChange={(val) => {
                 setMeta({ positive: val });
               }}
@@ -59,7 +59,7 @@ function PageOptions() {
             <TextControl
               type="number"
               label={__('👎 Negative', '@@text_domain')}
-              value={meta?.negative || null}
+              value={meta?.negative || ''}
               onChange={(val) => {
                 setMeta({ negative: val });
               }}
