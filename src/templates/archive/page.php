@@ -40,14 +40,14 @@ if ( ! defined( 'ABSPATH' ) ) {
                             // phpcs:ignore
                             $current_term = $terms[0]->name;
                             ?>
-                            <li class="docspress-archive-list-category">
+                            <li class="docspress-archive-list-category docspress-archive-list-category-<?php echo esc_attr( sanitize_html_class( $terms[0]->slug, $terms[0]->term_id ) ); ?>">
                                 <?php echo esc_html( $terms[0]->name ); ?>
                             </li>
                             <?php
                         }
 
                         ?>
-                        <li class="docspress-archive-list-item">
+                        <li class="docspress-archive-list-item docspress-archive-list-item-<?php echo esc_attr( sanitize_html_class( get_post_field( 'post_name' ), get_the_ID() ) ); ?>">
                             <?php docspress()->get_template_part( 'archive/loop-title' ); ?>
                             <?php docspress()->get_template_part( 'archive/loop-articles' ); ?>
                         </li>
