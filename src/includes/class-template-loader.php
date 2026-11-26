@@ -31,6 +31,84 @@ class DocsPress_Template_Loader {
 
         add_filter( 'template_include', array( __CLASS__, 'wp_head' ), 1 );
         add_filter( 'template_include', array( __CLASS__, 'template_loader' ) );
+        add_action( 'rest_api_init', array( __CLASS__, 'register_search_route' ) );
+    }
+
+    /**
+     * Register the live documentation search route.
+     */
+    public static function register_search_route() {
+        register_rest_route(
+            'docspress/v1',
+            '/search',
+            array(
+                'methods'             => WP_REST_Server::READABLE,
+                'callback'            => array( __CLASS__, 'render_live_search' ),
+                'permission_callback' => '__return_true',
+                'args'                => array(
+                    's'        => array(
+                        'type'              => 'string',
+                        'required'          => true,
+                        'validate_callback' => static function ( $value ) {
+                            return is_string( $value ) && '' !== trim( $value ) && strlen( wp_slash( $value ) ) <= 1600;
+                        },
+                    ),
+                    'child_of' => array(
+                        'type'    => 'integer',
+                        'minimum' => 0,
+                        'default' => 0,
+                    ),
+                ),
+            )
+        );
+    }
+
+    /**
+     * Render the results list for live search.
+     *
+     * @param WP_REST_Request $request Search request.
+     * @return string Search results HTML.
+     */
+    public static function render_live_search( $request ) {
+        $query = new WP_Query( self::get_search_args( $request['s'], $request['child_of'] ) );
+
+        ob_start();
+        docspress()->get_template_part( 'search/list', array( 'query' => $query ) );
+        wp_reset_postdata();
+
+        return ob_get_clean();
+    }
+
+    /**
+     * Build the shared documentation search query.
+     *
+     * @param string $search Search terms.
+     * @param int    $root_id Root document ID.
+     * @return array Search query arguments.
+     */
+    private static function get_search_args( $search, $root_id ) {
+        $args = array(
+            'post_type' => 'docs',
+            's'         => wp_slash( $search ),
+            'orderby'   => array(
+                'menu_order' => 'ASC',
+                'date'       => 'DESC',
+            ),
+        );
+
+        if ( $root_id ) {
+            $children = get_pages(
+                array(
+                    'child_of'  => $root_id,
+                    'post_type' => 'docs',
+                    'depth'     => -1,
+                )
+            );
+
+            $args['post__in'] = array_merge( array( $root_id ), wp_list_pluck( (array) $children, 'ID' ) );
+        }
+
+        return $args;
     }
 
     /**
@@ -174,30 +252,9 @@ class DocsPress_Template_Loader {
             if ( ! is_admin() && is_search() ) {
                 $default_file = 'search.php';
 
-                unset( $args['posts_per_page'] );
-                unset( $args['post_parent'] );
-
-                $args['s'] = get_search_query();
-
-                // phpcs:ignore
-                $parent = isset( $_GET['child_of'] ) ? sanitize_text_field( wp_unslash( $_GET['child_of'] ) ) : false;
-                $parent = intval( $parent );
-
-                // we need to get all docs IDs and the use it in WP_Query as we need get also all childrens.
-                if ( $parent ) {
-                    $post__in      = array( $parent => $parent );
-                    $children_docs = get_pages(
-                        array(
-                            'child_of'  => $parent,
-                            'post_type' => 'docs',
-                            'depth'     => -1,
-                        )
-                    );
-                    if ( $children_docs ) {
-                        $post__in = array_merge( $post__in, wp_list_pluck( $children_docs, 'ID' ) );
-                    }
-                    $args['post__in'] = $post__in;
-                }
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                $parent = isset( $_GET['child_of'] ) && is_scalar( $_GET['child_of'] ) ? (int) $_GET['child_of'] : 0;
+                $args   = self::get_search_args( get_search_query( false ), $parent );
             }
 
             // make order by term.

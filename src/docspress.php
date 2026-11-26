@@ -266,6 +266,8 @@ class DocsPress {
             'docspress_vars',
             array(
                 'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+                'search_url'    => rest_url( 'docspress/v1/search' ),
+                'search_nonce'  => is_user_logged_in() ? wp_create_nonce( 'wp_rest' ) : '',
                 'nonce'         => wp_create_nonce( 'docspress-ajax' ),
                 'error_message' => __( 'Something went wrong, please reload the page.', '@@text_domain' ),
             )
