@@ -5,6 +5,7 @@ class DocsPress {
     const self = this;
 
     self.cache = {};
+    self.pendingStylesheets = new WeakMap();
     self.pendingAjax = false;
     self.xhrAjaxSearch = false;
 
@@ -370,8 +371,87 @@ class DocsPress {
     return this.cache[key];
   }
 
-  renderDoc(href) {
+  loadDocStyles(html, href) {
+    const selector = 'link[rel="stylesheet"][href], style[id]';
+    const page = new DOMParser().parseFromString(html, 'text/html');
+    const inPage = (asset) => !asset.closest('.docspress-single-ajax');
+    const existingAssets = Array.from(document.querySelectorAll(selector)).filter(inPage);
+    const pending = [];
+    const updates = [];
+    let nextAsset = null;
+
+    Array.from(page.querySelectorAll(selector))
+      .filter(inPage)
+      .reverse()
+      .forEach((asset) => {
+        const isStylesheet = asset.tagName === 'LINK';
+        if (isStylesheet) {
+          asset.href = new URL(asset.getAttribute('href'), href).href;
+        }
+
+        const existing = existingAssets.find(
+          (element) =>
+            element.tagName === asset.tagName &&
+            (isStylesheet
+              ? element.href === asset.href && element.media === asset.media
+              : element.id === asset.id)
+        );
+
+        if (existing) {
+          if (!isStylesheet && existing.textContent !== asset.textContent) {
+            updates.push([existing, asset.textContent]);
+          }
+
+          const loading = this.pendingStylesheets.get(existing);
+          if (loading) {
+            pending.push(loading);
+          }
+          nextAsset = existing;
+          return;
+        }
+
+        if (
+          isStylesheet &&
+          !asset.disabled &&
+          (!asset.media || window.matchMedia(asset.media).matches)
+        ) {
+          const loading = new Promise((resolve) => {
+            asset.addEventListener('load', resolve, { once: true });
+            asset.addEventListener('error', resolve, { once: true });
+          });
+          this.pendingStylesheets.set(asset, loading);
+          pending.push(loading);
+        }
+
+        if (nextAsset) {
+          nextAsset.before(asset);
+        } else {
+          document.head.appendChild(asset);
+        }
+        existingAssets.push(asset);
+        nextAsset = asset;
+      });
+
+    return { loading: Promise.all(pending), updates };
+  }
+
+  async renderDoc(href, updateHistory = false) {
     const cached = this.getCache(href);
+    if (!cached) {
+      return;
+    }
+
+    const navigation = Symbol(href);
+    this.navigation = navigation;
+    const { loading, updates } = this.loadDocStyles(cached.html, cached.responseUrl || href);
+    await loading;
+    if (this.navigation !== navigation) {
+      return;
+    }
+
+    updates.forEach(([style, content]) => {
+      style.textContent = content;
+    });
 
     // replace content.
     this.$singleAjax.innerHTML = cached.doc;
@@ -396,6 +476,11 @@ class DocsPress {
     this.initAnchors();
 
     trigger(document, 'docspress_ajax_loaded', { data: cached });
+
+    if (updateHistory) {
+      window.history.pushState(null, cached.title, href);
+    }
+    this.$singleAjax.classList.remove('docspress-single-ajax-loading');
   }
 
   onDocLinksClick(e) {
@@ -444,33 +529,32 @@ class DocsPress {
       return;
     }
 
-    // return cached version
-    const cached = self.getCache(href);
-    if (cached) {
-      // render doc
-      self.renderDoc(href);
+    if (self.xhr) {
+      self.xhr.abort();
+    }
 
-      // push state for new page
-      window.history.pushState(null, cached.title, href);
+    if (self.getCache(href)) {
+      self.renderDoc(href, true);
       return;
     }
 
-    // stop previous request
-    if (self.xhr && self.xhr.abort) {
-      self.xhr.abort();
-      self.xhr = {};
-    }
-
-    // new ajax request
     const xhr = new XMLHttpRequest();
+    self.xhr = xhr;
+    self.navigation = xhr;
 
-    self.$singleAjax.classList.add('docspress-single-ajax-loading');
-    self.$singleAjax
-      .querySelector('.docspress-single-content')
-      .appendChild(self.$preloader.cloneNode(true));
+    if (!self.$singleAjax.classList.contains('docspress-single-ajax-loading')) {
+      self.$singleAjax.classList.add('docspress-single-ajax-loading');
+      self.$singleAjax
+        .querySelector('.docspress-single-content')
+        .appendChild(self.$preloader.cloneNode(true));
+    }
 
     xhr.open('GET', href);
     xhr.onload = function () {
+      if (self.navigation !== xhr) {
+        return;
+      }
+
       if (xhr.status === 200) {
         const responseHtml = xhr.responseText;
 
@@ -497,19 +581,13 @@ class DocsPress {
           title,
           doc: newDocContent,
           html: responseHtml,
+          responseUrl: xhr.responseURL,
         });
 
-        // render
-        self.renderDoc(href);
+        self.renderDoc(href, true);
 
-        // push state for new page
-        window.history.pushState(null, title, href);
-
-        // clear
         $HTML.remove();
         $HTML = null;
-
-        self.$singleAjax.classList.remove('docspress-single-ajax-loading');
       } else {
         if (xhr.status !== 0) {
           // eslint-disable-next-line no-console
