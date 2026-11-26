@@ -201,7 +201,7 @@ class DocsPress_Template_Loader {
             }
 
             // make order by term.
-            if ( 'archive.php' === $default_file || self::has_block_template( 'archive-docs' ) ) {
+            if ( 'search.php' !== $default_file ) {
                 $categories = get_terms(
                     array(
                         'taxonomy'   => 'docs_category',
