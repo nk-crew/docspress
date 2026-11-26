@@ -45,7 +45,8 @@ class DocsPress {
 
     on(document, 'submit', '.docspress-search-form', (e) => {
       e.preventDefault();
-      self.prepareSearchResults(e.delegateTarget);
+      clearTimeout(timeout);
+      self.prepareSearchResults(e.delegateTarget, true);
     });
     on(document, 'input', '.docspress-search-form', (e) => {
       e.preventDefault();
@@ -57,8 +58,11 @@ class DocsPress {
     });
   }
 
-  prepareSearchResults($form) {
+  prepareSearchResults($form, submit = false) {
     const self = this;
+    const searchField = $form.querySelector('.docspress-search-field');
+    const query = searchField?.value;
+    const $resultEl = $form.parentElement.querySelector(':scope > .docspress-search-form-result');
 
     // abort if any request is in process already
     if (self.xhrAjaxSearch) {
@@ -66,8 +70,10 @@ class DocsPress {
     }
 
     // if empty search field.
-    if (!$form.querySelector('.docspress-search-field')?.value) {
-      $form.nextElementSibling.querySelector('.docspress-search-form-result').innerHTML = '';
+    if (!query) {
+      if ($resultEl) {
+        $resultEl.innerHTML = '';
+      }
       $form.classList.remove('docspress-search-form-existence');
       return;
     }
@@ -84,16 +90,16 @@ class DocsPress {
       if (self.xhrAjaxSearch.status === 200) {
         const parser = new DOMParser();
         const data = parser.parseFromString(self.xhrAjaxSearch.responseText, 'text/html');
-        const result = data.querySelector('.docspress-search-list').outerHTML;
+        const result = data.querySelector('.docspress-search-list');
 
-        const $resultEl = $form.parentElement.querySelector(
-          ':scope > .docspress-search-form-result'
-        );
         if ($resultEl) {
-          $resultEl.innerHTML = result;
+          $resultEl.innerHTML = result?.outerHTML || '';
         }
+        $form.classList.toggle('docspress-search-form-existence', !!result);
 
-        $form.classList.add('docspress-search-form-existence');
+        if (!result && submit && $form.isConnected && searchField.value === query) {
+          HTMLFormElement.prototype.submit.call($form);
+        }
       } else {
         // eslint-disable-next-line no-console
         console.log('Error:', self.xhrAjaxSearch.status);
