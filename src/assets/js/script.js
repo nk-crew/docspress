@@ -43,11 +43,6 @@ class DocsPress {
     const self = this;
     let timeout = false;
 
-    on(document, 'submit', '.docspress-search-form', (e) => {
-      e.preventDefault();
-      clearTimeout(timeout);
-      self.prepareSearchResults(e.delegateTarget, true);
-    });
     on(document, 'input', '.docspress-search-form', (e) => {
       e.preventDefault();
 
@@ -58,7 +53,7 @@ class DocsPress {
     });
   }
 
-  prepareSearchResults($form, submit = false) {
+  prepareSearchResults($form) {
     const self = this;
     const searchField = $form.querySelector('.docspress-search-field');
     const query = searchField?.value;
@@ -78,28 +73,40 @@ class DocsPress {
       return;
     }
 
-    let actionUrl = $form.getAttribute('action');
-    actionUrl +=
-      (actionUrl.indexOf('?') > -1 ? '&' : '?') +
-      new URLSearchParams(new FormData($form)).toString();
+    const { search_url: searchUrl, search_nonce: searchNonce } = window.docspress_vars;
+    const url = new URL(searchUrl);
+    const parent = new FormData($form).get('child_of');
+
+    url.searchParams.set('s', query);
+    if (parent) {
+      url.searchParams.set('child_of', parent);
+    }
 
     self.xhrAjaxSearch = new XMLHttpRequest();
-    self.xhrAjaxSearch.open('GET', actionUrl);
-    self.xhrAjaxSearch.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    self.xhrAjaxSearch.open('GET', url);
+    self.xhrAjaxSearch.responseType = 'json';
+    if (searchNonce) {
+      self.xhrAjaxSearch.setRequestHeader('X-WP-Nonce', searchNonce);
+    }
+
     self.xhrAjaxSearch.onload = function () {
+      if (!$form.isConnected || searchField.value !== query) {
+        return;
+      }
+
       if (self.xhrAjaxSearch.status === 200) {
+        const { response } = self.xhrAjaxSearch;
         const parser = new DOMParser();
-        const data = parser.parseFromString(self.xhrAjaxSearch.responseText, 'text/html');
+        const data = parser.parseFromString(
+          typeof response === 'string' ? response : '',
+          'text/html'
+        );
         const result = data.querySelector('.docspress-search-list');
 
         if ($resultEl) {
           $resultEl.innerHTML = result?.outerHTML || '';
         }
         $form.classList.toggle('docspress-search-form-existence', !!result);
-
-        if (!result && submit && $form.isConnected && searchField.value === query) {
-          HTMLFormElement.prototype.submit.call($form);
-        }
       } else {
         // eslint-disable-next-line no-console
         console.log('Error:', self.xhrAjaxSearch.status);

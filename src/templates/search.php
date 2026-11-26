@@ -15,17 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 docspress()->get_template_part( 'global/wrap-start' );
 
-// phpcs:ignore
-$keys = implode(
-    '|',
-    array_map(
-        function ( $key ) {
-            return preg_quote( $key, '/' );
-        },
-        array_filter( explode( ' ', get_search_query() ), 'strlen' )
-    )
-);
-
 ?>
 <header class="page-header">
     <h1 class="page-title">
@@ -40,32 +29,7 @@ $keys = implode(
 
     <div class="entry-content">
         <div class="docspress-search">
-            <ul class="docspress-search-list">
-                <?php
-                if ( have_posts() ) :
-                    while ( have_posts() ) :
-                        the_post();
-                        // highlight search terms in title.
-                        // phpcs:disable
-                        $title   = wp_trim_words( get_the_title(), 10 );
-                        $title   = preg_replace( '/(' . $keys . ')/iu', '<mark>\0</mark>', $title );
-                        $excerpt = wp_trim_words( get_the_excerpt(), 10 );
-                        $excerpt = preg_replace( '/(' . $keys . ')/iu', '<mark>\0</mark>', $excerpt );
-                        // phpcs:enable
-                        ?>
-                        <li class="docspress-search-list-item">
-                            <a href="<?php the_permalink(); ?>">
-                                <span class="docspress-search-list-item-title">
-                                    <strong><?php echo wp_kses( $title, array( 'mark' => array() ) ); ?></strong>
-                                </span>
-                                <span class="docspress-search-list-item-excerpt"><?php echo wp_kses( $excerpt, array( 'mark' => array() ) ); ?></span>
-                            </a>
-                        </li>
-                        <?php
-                    endwhile;
-                endif;
-                ?>
-            </ul>
+            <?php docspress()->get_template_part( 'search/list', array( 'query' => $GLOBALS['wp_query'] ) ); ?>
         </div>
 
         <?php
