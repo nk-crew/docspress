@@ -295,7 +295,6 @@ const app = createApp({
                 icon: 'success',
                 showCancelButton: true,
                 showConfirmButton: false,
-                closeOnCancel: false,
                 cancelButtonText: __.exported_doc_cancel,
                 ...swalConfig,
               });
